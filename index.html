@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Il Mio Programma</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0a0a0f;--surface:#13131a;--surface2:#1c1c27;--accent:#c8f135;--accent2:#7b5ea7;--text:#e8e8f0;--text-muted:#6b6b80;--border:#2a2a38;--red:#ff4d6d;--orange:#ff9f1c;--green:#34d399;--blue:#60a5fa}
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+  .header{padding:48px 20px 24px;position:relative;overflow:hidden}
+  .header::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(200,241,53,.10) 0%,transparent 70%);pointer-events:none}
+  .header-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px}
+  .header-title{font-family:'Bebas Neue',sans-serif;font-size:52px;line-height:.9;letter-spacing:1px}
+  .header-title span{color:var(--accent)}
+  .header-sub{margin-top:12px;font-size:13px;color:var(--text-muted);line-height:1.5}
+  .tabs{display:flex;gap:8px;padding:0 20px 24px;overflow-x:auto;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex-shrink:0;padding:10px 20px;border-radius:100px;border:1.5px solid var(--border);background:transparent;color:var(--text-muted);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s}
+  .tab.active{background:var(--accent);border-color:var(--accent);color:#0a0a0f;font-weight:600}
+  .day-view{display:none;padding:0 20px 60px}
+  .day-view.active{display:block}
+  .day-header{margin-bottom:20px;padding:20px;background:var(--surface);border-radius:16px;border:1px solid var(--border)}
+  .day-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;color:var(--accent)}
+  .day-meta{font-size:12px;color:var(--text-muted);margin-top:4px}
+  .section-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted);padding:20px 0 10px;display:flex;align-items:center;gap:10px}
+  .section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+  .exercise-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;margin-bottom:10px;overflow:hidden;transition:border-color .2s}
+  .exercise-card.open{border-color:rgba(200,241,53,.3)}
+  .exercise-header{display:flex;align-items:center;padding:16px;cursor:pointer;gap:14px;user-select:none}
+  .exercise-icon{width:44px;height:44px;border-radius:12px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+  .exercise-info{flex:1;min-width:0}
+  .exercise-name{font-size:15px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .exercise-meta{font-size:12px;color:var(--text-muted);margin-top:3px}
+  .tag{display:inline-block;padding:2px 8px;border-radius:100px;font-size:11px;margin-right:4px;background:var(--surface2)}
+  .tag.superset{background:rgba(123,94,167,.2);color:var(--accent2)}
+  .tag.giant{background:rgba(52,211,153,.15);color:var(--green)}
+  .tag.warm{background:rgba(255,159,28,.15);color:var(--orange)}
+  .tag.core{background:rgba(255,77,109,.15);color:var(--red)}
+  .tag.bar{background:rgba(96,165,250,.15);color:var(--blue)}
+  .chevron{width:26px;height:26px;border-radius:50%;background:var(--surface2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s;font-size:11px;color:var(--text-muted)}
+  .exercise-card.open .chevron{transform:rotate(180deg)}
+  .exercise-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+  .exercise-content{padding:16px 16px 20px;border-top:1px solid var(--border)}
+  .exercise-desc{font-size:13.5px;line-height:1.75;color:#b0b0c0}
+  .exercise-desc strong{color:var(--text)}
+  .sets-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+  .set-item{background:var(--surface2);border-radius:10px;padding:10px 8px;text-align:center}
+  .set-val{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--accent);letter-spacing:1px}
+  .set-lbl{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+  .tip-box{margin-top:14px;padding:10px 12px;background:rgba(200,241,53,.06);border-left:2px solid var(--accent);border-radius:0 8px 8px 0;font-size:12.5px;color:#a0a080;line-height:1.6}
+  .info-box{margin-top:14px;padding:10px 12px;background:rgba(96,165,250,.08);border-left:2px solid var(--blue);border-radius:0 8px 8px 0;font-size:12.5px;color:#8090c0;line-height:1.6}
+  .bar-box{margin-top:14px;padding:10px 12px;background:rgba(96,165,250,.06);border-left:2px solid var(--blue);border-radius:0 8px 8px 0;font-size:12.5px;color:#8090c0;line-height:1.6}
+  .prog-box{margin-top:14px;padding:10px 12px;background:rgba(52,211,153,.06);border-left:2px solid var(--green);border-radius:0 8px 8px 0;font-size:12.5px;color:#70c0a0;line-height:1.6}
+  .warmup-ref{padding:14px 16px;background:var(--surface);border:1px solid var(--border);border-radius:14px;font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:4px}
+  .warmup-ref span{color:var(--orange);font-weight:500}
+  .prog-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:12px}
+  .prog-title{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--accent);margin-bottom:14px;letter-spacing:1px}
+  .prog-step{display:flex;gap:12px;margin-bottom:12px}
+  .prog-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);margin-top:6px;flex-shrink:0}
+  .prog-step p{font-size:13.5px;color:var(--text-muted);line-height:1.55}
+  .prog-step strong{color:var(--text)}
+  /* FOOD */
+  .macro-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px}
+  .macro-item{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 8px;text-align:center}
+  .macro-val{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:1px}
+  .macro-val.kcal{color:var(--accent)}
+  .macro-val.prot{color:#60a5fa}
+  .macro-val.carb{color:var(--orange)}
+  .macro-val.fat{color:#f472b6}
+  .macro-lbl{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-top:3px}
+  .meal-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;margin-bottom:10px;overflow:hidden;transition:border-color .2s}
+  .meal-card.open{border-color:rgba(200,241,53,.3)}
+  .meal-header{display:flex;align-items:center;padding:16px;cursor:pointer;gap:14px;user-select:none}
+  .meal-icon{width:44px;height:44px;border-radius:12px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+  .meal-info{flex:1;min-width:0}
+  .meal-name{font-size:15px;font-weight:600;color:var(--text)}
+  .meal-kcal{font-size:12px;color:var(--text-muted);margin-top:2px}
+  .meal-kcal strong{color:var(--accent)}
+  .meal-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+  .meal-content{padding:16px 16px 20px;border-top:1px solid var(--border)}
+  .food-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+  .food-item:last-child{border-bottom:none;padding-bottom:0}
+  .food-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);margin-top:6px;flex-shrink:0}
+  .food-name{font-size:14px;color:var(--text);font-weight:500}
+  .food-qty{font-size:12px;color:var(--text-muted);margin-top:2px;line-height:1.5}
+  .meal-note{margin-top:14px;padding:10px 12px;background:rgba(200,241,53,.06);border-left:2px solid var(--accent);border-radius:0 8px 8px 0;font-size:12.5px;color:#a0a080;line-height:1.6}
+  .alt-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin:14px 0 6px}
+  .strategy-box{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 20px;margin-bottom:20px}
+  .strategy-title{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--accent);letter-spacing:1px;margin-bottom:10px}
+  .strategy-text{font-size:13.5px;color:var(--text-muted);line-height:1.65}
+  .strategy-text strong{color:var(--text)}
+  .recipe-card{background:var(--surface2);border-radius:12px;padding:14px;margin-bottom:8px}
+  .recipe-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px}
+  .recipe-desc{font-size:12.5px;color:var(--text-muted);line-height:1.6}
+  .recipe-desc strong{color:var(--accent)}
+  .day-pill{display:inline-block;padding:2px 10px;border-radius:100px;font-size:11px;font-weight:600;margin-bottom:10px}
+  .day-pill.allenamento{background:rgba(200,241,53,.12);color:var(--accent)}
+  .day-pill.riposo{background:rgba(123,94,167,.15);color:var(--accent2)}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <p class="header-label">Programma Settimanale</p>
+  <h1 class="header-title">WORK<span>OUT</span></h1>
+  <p class="header-sub">2 giorni forza · 1 mobilità · Calisthenics + Manubri + EZ Bar</p>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showDay('lun',this)">Lunedì</button>
+  <button class="tab" onclick="showDay('mer',this)">Mercoledì</button>
+  <button class="tab" onclick="showDay('ven',this)">Venerdì</button>
+  <button class="tab" onclick="showDay('food',this)">Alimentazione</button>
+  <button class="tab" onclick="showDay('prog',this)">Progressione</button>
+</div>
+
+<!-- ===== LUNEDÌ ===== -->
+<div class="day-view active" id="day-lun">
+  <div class="day-header">
+    <div class="day-title">LUNEDÌ</div>
+    <div class="day-meta">Upper Body · 40–50 min · Global</div>
+  </div>
+  <div class="section-label">Warm-up · 8 min</div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header">
+      <div class="exercise-icon">🐱</div>
+      <div class="exercise-info"><div class="exercise-name">Cat-Cow</div><div class="exercise-meta"><span class="tag warm">Warm-up</span> 20 rip lente</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc">A <strong>quattro zampe</strong>, mani sotto le spalle, ginocchia sotto i fianchi.<br><br><strong>Inspira</strong> → pancia verso il suolo, inarca la schiena.<br><strong>Espira</strong> → spingi la schiena verso il soffitto arrotondando tutta la colonna.<br><br>Movimento lento, <strong>vertebra per vertebra</strong>.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">20</div><div class="set-lbl">Rip</div></div>
+        <div class="set-item"><div class="set-val">1</div><div class="set-lbl">Serie</div></div>
+        <div class="set-item"><div class="set-val">Lento</div><div class="set-lbl">Ritmo</div></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header">
+      <div class="exercise-icon">🧵</div>
+      <div class="exercise-info"><div class="exercise-name">Thread the Needle</div><div class="exercise-meta"><span class="tag warm">Warm-up</span> 8 per lato</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc">A <strong>quattro zampe</strong>. Passa il braccio destro sotto il corpo verso sinistra fino ad appoggiare la spalla a terra. Senti la rotazione nella <strong>schiena media e alta</strong>. Tieni 3 secondi. Torna. Altro lato.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">8</div><div class="set-lbl">Per lato</div></div>
+        <div class="set-item"><div class="set-val">3s</div><div class="set-lbl">Hold</div></div>
+        <div class="set-item"><div class="set-val">Lento</div><div class="set-lbl">Ritmo</div></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header">
+      <div class="exercise-icon">🦢</div>
+      <div class="exercise-info"><div class="exercise-name">Chin Tucks + Wall Angels</div><div class="exercise-meta"><span class="tag warm">Warm-up</span> 10 + 8 per lato · postura collo</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc"><strong>Chin Tucks (10 rip):</strong> seduto o in piedi, schiena dritta. <strong>Doppio mento</strong> — ritira il mento verso il collo (non in basso). Tieni 3 secondi. Le orecchie sopra le spalle.<br><br><strong>Wall Angels (8 per lato, subito dopo):</strong> schiena al muro, braccia a "W". Scivola a "Y" e torna. Se le braccia si staccano dal muro, le spalle sono in avanti.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">10+8</div><div class="set-lbl">Rip</div></div>
+        <div class="set-item"><div class="set-val">3s</div><div class="set-lbl">Hold</div></div>
+        <div class="set-item"><div class="set-val">Lento</div><div class="set-lbl">Ritmo</div></div>
+      </div>
+      <div class="tip-box">💡 Corrige il collo in avanti. Fallo anche alla scrivania.</div>
+    </div></div>
+  </div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header">
+      <div class="exercise-icon">🔄</div>
+      <div class="exercise-info"><div class="exercise-name">Shoulder Dislocations</div><div class="exercise-meta"><span class="tag warm">Warm-up</span> 15 rip con asciugamano</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc">Asciugamano lungo, mani molto larghe. Braccia tese davanti, porta l'asciugamano in arco <strong>sopra la testa e dietro la schiena</strong> senza piegare i gomiti. Allarga le mani finché non fa male.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">15</div><div class="set-lbl">Rip</div></div>
+        <div class="set-item"><div class="set-val">1</div><div class="set-lbl">Serie</div></div>
+        <div class="set-item"><div class="set-val">Lento</div><div class="set-lbl">Ritmo</div></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header">
+      <div class="exercise-icon">🌍</div>
+      <div class="exercise-info"><div class="exercise-name">World's Greatest Stretch</div><div class="exercise-meta"><span class="tag warm">Warm-up</span> 5 per lato</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc"><strong>1.</strong> Affondo lungo avanti con il piede destro<br><strong>2.</strong> Gomito destro a terra vicino al piede<br><strong>3.</strong> Apri il braccio verso il soffitto ruotando il busto<br><strong>4.</strong> Torna. Altro lato.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">5</div><div class="set-lbl">Per lato</div></div>
+        <div class="set-item"><div class="set-val">1</div><div class="set-lbl">Serie</div></div>
+        <div class="set-item"><div class="set-val">Lento</div><div class="set-lbl">Ritmo</div></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header">
+      <div class="exercise-icon">🤸</div>
+      <div class="exercise-info"><div class="exercise-name">Forward Fold Progressivo</div><div class="exercise-meta"><span class="tag warm">Warm-up</span> 2 min · obiettivo punte</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc">Piedi uniti, scendi verso le punte. <strong>Non forzare mai</strong>. Ogni 20 secondi prova un centimetro più in basso. Fatto ogni sessione — in 4–8 settimane tocchi le punte.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">2 min</div><div class="set-lbl">Durata</div></div>
+        <div class="set-item"><div class="set-val">—</div><div class="set-lbl">Serie</div></div>
+        <div class="set-item"><div class="set-val">Graduale</div><div class="set-lbl">Ritmo</div></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="section-label">Forza · ordine ottimizzato</div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header">
+      <div class="exercise-icon">💪</div>
+      <div class="exercise-info"><div class="exercise-name">① Progressione Trazioni</div><div class="exercise-meta">4 serie · riposo 2 min · dorsali freschi</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc"><strong>Settimane 1–2:</strong> 3 negative (sali con sedia, scendi in 5s) + 5 scapular pull-ups (appenditi, spingi scapole giù e su senza piegare i gomiti)<br><br><strong>Settimane 3–4:</strong> 1 trazione vera + 2 negative + 5 scapular<br><br><strong>Mese 2:</strong> 2–3 trazioni vere + 2 negative</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">4</div><div class="set-lbl">Serie</div></div>
+        <div class="set-item"><div class="set-val">5s</div><div class="set-lbl">Negativa</div></div>
+        <div class="set-item"><div class="set-val">2 min</div><div class="set-lbl">Riposo</div></div>
+      </div>
+      <div class="tip-box">💡 Prima di tutto il resto — quando sei fresco le trazioni vengono meglio e costruisci più velocemente.</div>
+    </div></div>
+  </div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header">
+      <div class="exercise-icon">🔝</div>
+      <div class="exercise-info"><div class="exercise-name">② Australian Pull-ups (con anelli)</div><div class="exercise-meta">4 serie · 8–12 rip · dorsali + bicipiti</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc"><strong>Se compri gli anelli:</strong> appendili alla sbarra alta. Piedi a terra, corpo inclinato a 45°. Tira il petto verso gli anelli, scapole giù. Più il corpo è orizzontale, più difficile.<br><br><strong>Grip:</strong> usa l'impugnatura mista (pollice dentro) o chiudi il pugno forte. Se scivola, asciuga le mani.<br><br><strong>Senza anelli:</strong> salta questo esercizio, vai direttamente alle trazioni.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">4</div><div class="set-lbl">Serie</div></div>
+        <div class="set-item"><div class="set-val">8–12</div><div class="set-lbl">Rip</div></div>
+        <div class="set-item"><div class="set-val">60s</div><div class="set-lbl">Riposo</div></div>
+      </div>
+      <div class="tip-box">💡 Grip: se soffri, usa i chalk. Il grip si strengthen in 4-6 settimane.</div>
+      <div class="info-box">📈 Progressione: abbassa il corpo gradualmente quando riesci 3×10.</div>
+      <div class="bar-box">🔧 <strong>Alternativa con benda elastica:</strong> <strong>Band Assisted Pull-up</strong>: appenditi alla barra con la banda elastica messa sotto le ginocchia (o intorno alla vita). La banda ti aiuta a salire. Più è spessa, più aiuta. Inizia con una banda leggera — quando riesci 3×8, rimuovila.<br><br><strong>Se non hai la barra:</strong> <strong>Band Pull-apart</strong>: tieni la banda davanti al petto con braccia tese. Aprile lateralmente stringendo le scapole. 3×15. Non è un pull-up, ma rafforza i dorsali.</div>
+    </div></div>
+  </div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header">
+      <div class="exercise-icon">🔀</div>
+      <div class="exercise-info"><div class="exercise-name">③ Flessioni + Pike Push-up</div><div class="exercise-meta"><span class="tag superset">Superset</span> 4 serie · 90s riposo</div></div>
+      <div class="chevron">▼</div>
+    </div>
+
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc">
+        <strong>Flessioni:</strong> max rip pulite. Corpo in linea, controllo totale in discesa e spinta esplosiva in salita.<br><br>
+
+        <strong>Pike Push-up:</strong> posizione a V rovesciata, bacino alto. Piega i gomiti portando la testa verso il suolo tra le mani. Enfasi su spalle anteriori e forza verticale.<br><br>
+
+        <strong>Variante:</strong> <em>Dolphin Push-ups</em> → stessa posizione del plank sugli avambracci, spingi avanti e indietro caricando le spalle in modo più controllato.
+      </div>
+
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">4</div><div class="set-lbl">Serie</div></div>
+        <div class="set-item"><div class="set-val">Max + 6–10</div><div class="set-lbl">Rip</div></div>
+        <div class="set-item"><div class="set-val">90s</div><div class="set-lbl">Riposo</div></div>
+      </div>
+
+      <div class="tip-box">💡 Pike = spinta verticale. È il ponte verso le handstand push-up.</div>
+    </div></div>
+</div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header">
+      <div class="exercise-icon">🔀</div>
+      <div class="exercise-info"><div class="exercise-name">④ Curl + Reverse Curl</div><div class="exercise-meta"><span class="tag superset">Superset</span> 3 serie · 60s riposo</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc"><strong>Curl classico:</strong> 10 rip. Inizia con 4kg — è il tuo peso reale ora. Si sale gradualmente.<br><br>everse curl (10 rip, 6–8kg):</strong> curl con <strong>palmi verso il basso</strong>. Estensori avambracci.<br><br></div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">3</div><div class="set-lbl">Serie</div></div>
+        <div class="set-item"><div class="set-val">10+10</div><div class="set-lbl">Rip</div></div>
+        <div class="set-item"><div class="set-val">4–6kg</div><div class="set-lbl">Peso</div></div>
+      </div>
+      <div class="bar-box">🔧 <strong>Con EZ bar:</strong> impugnatura angolata, polsi in posizione naturale — meno stress rispetto al manubrio. Sostituisce i curl con manubri appena ce l'hai.</div>
+      <div class="info-box">📈 Scala: quando completi 3×10 senza cedere, passa al peso superiore.</div>
+    </div></div>
+  </div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header">
+      <div class="exercise-icon">🚣🏼</div>
+      <div class="exercise-info"><div class="exercise-name">⑤ (Opz.) Side-Raises/Rematore</div><div class="exercise-meta">3 serie · 15 rip · 4kg · deltoide mediale</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc">In piedi, manubri ai fianchi. Alza le braccia lateralmente fino a 90° con i gomiti leggermente piegati. <strong>2 secondi su, 2 secondi giù</strong>. Non inarcare la schiena, non usare il momentum.<br><br>Deltoide <strong>mediale</strong> — quello che dà larghezza alle spalle. Sostituisce completamente le pike push-up.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">3</div><div class="set-lbl">Serie</div></div>
+        <div class="set-item"><div class="set-val">15</div><div class="set-lbl">Rip</div></div>
+        <div class="set-item"><div class="set-val">4kg</div><div class="set-lbl">Peso</div></div>
+      </div>
+      <div class="tip-box">💡 4kg con tecnica corretta brucia. Non aumentare il peso finché non controlli perfettamente il movimento.</div>
+      <div class="bar-box">🔧 <strong>Rematore EZ bar:</strong> impugnatura angolata, polsi in posizione naturale — meno stress rispetto al manubrio. Busto inclinato in avanti (quasi parallelo al suolo), tira il bilanciere verso l’ombelico mantenendo le scapole attive. Progressione graduale fino a 30 kg: parti leggero per consolidare tecnica, poi aumenta il carico quando completi 4×10 pulite senza perdere controllo del core.</div>
+    </div></div>
+  </div>
+
+  <div class="section-label">Stretching · 5 min</div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header">
+      <div class="exercise-icon">🦀</div>
+      <div class="exercise-info"><div class="exercise-name">Crab Pose</div><div class="exercise-meta">3 × 20s hold</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc">Seduto, piedi a terra, mani dietro appoggiate. Spingi i fianchi verso l'alto fino a formare un <strong>rettangolo</strong>. Testa può cadere indietro. Apre petto, spalle e flessori anca — contrasta la postura da ufficio.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">3</div><div class="set-lbl">Serie</div></div>
+        <div class="set-item"><div class="set-val">20s</div><div class="set-lbl">Hold</div></div>
+        <div class="set-item"><div class="set-val">30s</div><div class="set-lbl">Riposo</div></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header">
+      <div class="exercise-icon">🧘</div>
+      <div class="exercise-info"><div class="exercise-name">Child Pose + Spinal Twist</div><div class="exercise-meta">1 min + 30s per lato</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc"><strong>Child Pose (1 min):</strong> in ginocchio sui talloni, braccia tese avanti a terra. Schiena si allunga completamente.<br><br><strong>Spinal Twist (30s per lato):</strong> sdraiato, porta il ginocchio destro sul lato sinistro, braccio destro aperto a terra, guarda a destra.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">1 min</div><div class="set-lbl">Child Pose</div></div>
+        <div class="set-item"><div class="set-val">30s</div><div class="set-lbl">Twist/lato</div></div>
+        <div class="set-item"><div class="set-val">Respira</div><div class="set-lbl">Profondo</div></div>
+      </div>
+    </div></div>
+  </div>
+</div>
+
+<!-- ===== MERCOLEDÌ ===== -->
+<div class="day-view" id="day-mer">
+  <div class="day-header">
+    <div class="day-title">MERCOLEDÌ</div>
+    <div class="day-meta">Mobilità Colonna + Anche · 30 min · quando riesci</div>
+  </div>
+  <div class="section-label">Mobilità · 30 min</div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header"><div class="exercise-icon">☀️</div>
+      <div class="exercise-info"><div class="exercise-name">Sun Salutation</div><div class="exercise-meta">3 cicli · 6 min</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc">In piedi → <strong>forward fold</strong> → plank → <strong>cobra</strong> (bacino a terra, schiena in estensione) → <strong>downward dog</strong> (V rovesciata, talloni verso il suolo) → torna in piedi. Respira 2–3 secondi in ogni posizione.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">3</div><div class="set-lbl">Cicli</div></div>
+        <div class="set-item"><div class="set-val">6 min</div><div class="set-lbl">Totale</div></div>
+        <div class="set-item"><div class="set-val">Respira</div><div class="set-lbl">Ogni pos.</div></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header"><div class="exercise-icon">🐻</div>
+      <div class="exercise-info"><div class="exercise-name">Bear Crawl to Squat</div><div class="exercise-meta">3 × 30s</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc">Posizione <strong>bear crawl</strong>: a quattro zampe, ginocchia 3–4cm da terra. <strong>Spostati avanti</strong> di 2-3 passi, poi scendi in <strong>squat profondo</strong>, resta 2 secondi, torna in crawl. Ripeti per 30 secondi. Bastano 2 metri. Basso impatto.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">3</div><div class="set-lbl">Serie</div></div>
+        <div class="set-item"><div class="set-val">30s</div><div class="set-lbl">Durata</div></div>
+        <div class="set-item"><div class="set-val">Fluido</div><div class="set-lbl">Ritmo</div></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header"><div class="exercise-icon">🦋</div>
+      <div class="exercise-info"><div class="exercise-name">90/90 Hip Stretch</div><div class="exercise-meta">2 min per lato</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc">Seduto, gamba destra davanti a 90°, gamba sinistra di lato a 90°. Inclinati in avanti con <strong>schiena dritta</strong>. Senti gluteo e anca. Direttamente collegato ai tuoi dolori alla schiena bassa.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">2 min</div><div class="set-lbl">Per lato</div></div>
+        <div class="set-item"><div class="set-val">—</div><div class="set-lbl">Serie</div></div>
+        <div class="set-item"><div class="set-val">Respira</div><div class="set-lbl">Profondo</div></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header"><div class="exercise-icon">🕊️</div>
+      <div class="exercise-info"><div class="exercise-name">Pigeon Pose</div><div class="exercise-meta">2 min per lato</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc">Da plank, porta il <strong>ginocchio destro verso la mano destra</strong>, abbassa il fianco. Gamba sinistra tesa indietro. Scendi quanto puoi <strong>senza dolore</strong>. Stretch più efficace per anche e schiena bassa.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">2 min</div><div class="set-lbl">Per lato</div></div>
+        <div class="set-item"><div class="set-val">—</div><div class="set-lbl">Serie</div></div>
+        <div class="set-item"><div class="set-val">No dolore</div><div class="set-lbl">Limite</div></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header"><div class="exercise-icon">🌉</div>
+      <div class="exercise-info"><div class="exercise-name">Thoracic Bridge</div><div class="exercise-meta">3 × 10</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc">Seduto, ginocchia piegate, <strong>mani dietro appoggiate</strong>. Spingi i fianchi verso l'alto, lascia la testa indietro aprendo il petto verso il soffitto. Tieni 2 secondi. La zona toracica che si chiude col PC.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">3</div><div class="set-lbl">Serie</div></div>
+        <div class="set-item"><div class="set-val">10</div><div class="set-lbl">Rip</div></div>
+        <div class="set-item"><div class="set-val">2s</div><div class="set-lbl">Hold</div></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header"><div class="exercise-icon">🤸</div>
+      <div class="exercise-info"><div class="exercise-name">Forward Fold Profondo</div><div class="exercise-meta">3 min · giorno chiave</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc">Come il lunedì ma <strong>3 minuti</strong>. Questo è il giorno chiave per toccare le punte. Ogni 30 secondi prova un millimetro più in basso.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">3 min</div><div class="set-lbl">Durata</div></div>
+        <div class="set-item"><div class="set-val">—</div><div class="set-lbl">Serie</div></div>
+        <div class="set-item"><div class="set-val">Graduale</div><div class="set-lbl">Ritmo</div></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header"><div class="exercise-icon">🪑</div>
+      <div class="exercise-info"><div class="exercise-name">Dip sulle Sedie/Anelli (Opz.)</div><div class="exercise-meta">Calisthenics bonus · tricipiti + petto</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc">Due sedie robuste parallele o anelli, mani sui bordi, gambe tese in avanti. Abbassa il corpo piegando i gomiti fino a 90°, risali. <strong>Gomiti vicini al corpo</strong>, non verso fuori.<br><br>Ottimo calisthenics per tricipiti e petto anteriore senza attrezzatura extra. Se è troppo difficile: gambe piegate a terra.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">3</div><div class="set-lbl">Serie</div></div>
+        <div class="set-item"><div class="set-val">8–12</div><div class="set-lbl">Rip</div></div>
+        <div class="set-item"><div class="set-val">90s</div><div class="set-lbl">Riposo</div></div>
+      </div>
+      <div class="tip-box">💡 Esercizio bonus nel mercoledì se hai voglia — non è obbligatorio. Questo giorno resta principalmente mobilità.</div>
+    </div></div>
+  </div>
+<div class="section-label">Core · 7 min</div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header">
+      <div class="exercise-icon">📏</div>
+      <div class="exercise-info"><div class="exercise-name">Plank + Side Dynamique</div><div class="exercise-meta"><span class="tag core">Core</span> 3 serie</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc">45s plank frontale → side plank dinamico: 12 rip per lato (su/giù senza toccare). Core contratto, fianchi stretti.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">3</div><div class="set-lbl">Serie</div></div>
+        <div class="set-item"><div class="set-val">45s+12</div><div class="set-lbl">Front+Side</div></div>
+        <div class="set-item"><div class="set-val">30s</div><div class="set-lbl">Riposo</div></div>
+      </div>
+      <div class="tip-box">Variante: <strong>Side Plank Raises to Arm Reach </strong> - In side plank, abbassa e solleva il bacino controllando il movimento. In fase alta, estendi il braccio verso l’alto per aumentare attivazione degli obliqui e stabilità della spalla.</div>
+    </div></div>
+  </div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header">
+      <div class="exercise-icon">🦎</div>
+      <div class="exercise-info"><div class="exercise-name">Prone Extensions + Superman</div><div class="exercise-meta"><span class="tag superset">Superset</span> 3 serie · schiena media-alta + lombare</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc"><strong>Prone Extensions (12 rip):</strong> sdraiato a pancia in giù, mani dietro la testa. Solleva il busto dal suolo. Controllato.<br><br><strong>Superman Hold (subito dopo, 15s):</strong> stessa posizione, gambe e braccia tese, solleva tutto. Tieni 15 secondi.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">3</div><div class="set-lbl">Serie</div></div>
+        <div class="set-item"><div class="set-val">12+15s</div><div class="set-lbl">Rip</div></div>
+        <div class="set-item"><div class="set-val">30s</div><div class="set-lbl">Riposo</div></div>
+      </div>
+      <div class="tip-box">💡 Per chi ha dolore alla schiena — più sicuro.</div>
+    </div></div>
+  </div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header">
+      <div class="exercise-icon">🌀</div>
+      <div class="exercise-info"><div class="exercise-name">Russian Twist + Half Wiper</div><div class="exercise-meta"><span class="tag superset">Superset</span> 3 serie · obliqui</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc"><strong>Russian Twist (20 rip totali):</strong> seduto a terra, gambe leggermente sollevate, busto inclinato a 45°. Ruota il busto destra e sinistra portando le mani (o un peso leggero) da un lato all'altro. Lento e controllato.<br><br></div>
+      <div class="exercise-desc">
+        <strong>Half Wiper (12–16 rip totali):</strong> sdraiato a terra, braccia aperte a croce per stabilità. Solleva le gambe piegate a 90° (ginocchia sopra i fianchi). Ruota lentamente le gambe verso destra senza staccare le spalle da terra, poi torna al centro e vai a sinistra.<br><br>
+        
+        Movimento controllato, <strong>core sempre contratto</strong>. Non lasciare che le gambe “cadano”: frena la discesa. Lavora sugli <strong>obliqui</strong> e sulla stabilità del bacino.
+      </div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">3</div><div class="set-lbl">Serie</div></div>
+        <div class="set-item"><div class="set-val">20+12</div><div class="set-lbl">Rip</div></div>
+        <div class="set-item"><div class="set-val">45s</div><div class="set-lbl">Riposo</div></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header">
+      <div class="exercise-icon">🦵</div>
+      <div class="exercise-info"><div class="exercise-name">Knee Raises alla Sbarra</div><div class="exercise-meta"><span class="tag core">Core</span> obiettivo progressivo</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc">Appeso alla barra, porta le <strong>ginocchia al petto</strong> lentamente. Prima di alzare le gambe: <strong>contrai il core</strong> per bloccare il dondolio. Controlla anche la discesa.<br><br>Se non riesci ancora: sostituisci con <strong>Hollow Body Hold</strong> — schiena a terra, gambe tese e sollevate 20cm, braccia dietro la testa, tieni la posizione 20–30s.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">3</div><div class="set-lbl">Serie</div></div>
+        <div class="set-item"><div class="set-val">5–8</div><div class="set-lbl">Rip (scala)</div></div>
+        <div class="set-item"><div class="set-val">60s</div><div class="set-lbl">Riposo</div></div>
+      </div>
+      <div class="prog-box">🎯 Obiettivo mese 2: 3×10 rip pulite senza dondolio.</div>
+    </div></div>
+  </div>
+</div>
+
+<!-- ===== VENERDÌ ===== -->
+<div class="day-view" id="day-ven">
+  <div class="day-header">
+    <div class="day-title">VENERDÌ</div>
+    <div class="day-meta">Definizione + Deltoidi completi + Finisher · 40–50 min</div>
+  </div>
+
+  <div class="section-label">Warm-up · 8 min</div>
+  <div class="warmup-ref"><span>Stesso del Lunedì</span> — Cat-Cow · Thread the Needle · Shoulder Dislocations · World's Greatest Stretch · Forward Fold · Chin Tucks + Wall Angels</div>
+
+  <div class="section-label">Forza · 25 min</div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header"><div class="exercise-icon">🔀</div>
+      <div class="exercise-info"><div class="exercise-name">Trazioni + Dead Hang</div><div class="exercise-meta"><span class="tag superset">Superset</span> 4 serie · 2 min riposo</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc"><strong>Trazioni/negative:</strong> stesso schema del lunedì.<br><br><strong>Subito — Dead Hang 20–30s:</strong> appenditi e rilassa tutto. Piega le ginocchia se tocchi terra. Decomprime la schiena, sviluppa il grip, allunga i dorsali.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">4</div><div class="set-lbl">Serie</div></div>
+        <div class="set-item"><div class="set-val">20–30s</div><div class="set-lbl">Dead Hang</div></div>
+        <div class="set-item"><div class="set-val">2 min</div><div class="set-lbl">Riposo</div></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+  <div class="exercise-header">
+    <div class="exercise-icon">🏋️</div>
+    <div class="exercise-info">
+      <div class="exercise-name">(Opz.) T Rotation + Mike Tyson Push-ups</div>
+      <div class="exercise-meta"><span class="tag superset">Superset</span> 4 serie · 90s riposo · spalle + tricipiti</div>
+    </div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="exercise-body"><div class="exercise-content">
+    
+    <div class="exercise-desc">
+      <strong>T Rotation Push-ups (8–10 rip per lato):</strong> flessione normale, poi ruota il busto aprendo un braccio verso il soffitto formando una "T". Core contratto, movimento controllato.<br><br>
+      
+      <strong>Mike Tyson Push-ups (subito dopo, 8–12 rip):</strong> parti in posizione push-up, poi spingi il corpo indietro verso i talloni e torna avanti in una traiettoria fluida. Più carico sulle <strong>spalle</strong> rispetto alle flessioni classiche.
+    </div>
+
+    <div class="sets-grid">
+      <div class="set-item"><div class="set-val">4</div><div class="set-lbl">Serie</div></div>
+      <div class="set-item"><div class="set-val">8–10</div><div class="set-lbl">T Rotation</div></div>
+      <div class="set-item"><div class="set-val">8–12</div><div class="set-lbl">Mike Tyson</div></div>
+    </div>
+
+    <div class="tip-box">💡 Mantieni il core sempre attivo: niente cedimenti nella zona lombare durante le rotazioni o la spinta.</div>
+    <div class="info-box">📈 Progressione: aumenta le ripetizioni o rallenta il tempo sotto tensione prima di passare a varianti più difficili.</div>
+    <div class="bar-box">🔧 <strong>Variante: Push-up to Pike Position</strong> Parti in posizione di push-up. Dopo una ripetizione, spingi i fianchi verso l’alto entrando in posizione pike (V rovesciata), poi ritorna in push-up. Alterna controllo e transizione: spinta orizzontale + verticale nello stesso movimento.</div>
+
+  </div></div>
+</div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+  <div class="exercise-header">
+    <div class="exercise-icon">💪🏽</div>
+    <div class="exercise-info">
+      <div class="exercise-name">Giant Set Chest</div>
+      <div class="exercise-meta"><span class="tag giant">Giant Set</span> 4 serie · no stop · 90s riposo</div>
+    </div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="exercise-body"><div class="exercise-content">
+
+    <div class="exercise-desc">
+      <strong>Chest Press (8–12 rip · 8–12kg):</strong> sdraiato a terra, manubri sopra il petto. Spingi verso l’alto fino a distendere le braccia, poi scendi controllato.<br><br>
+
+      <strong>Close Grip Chest Press (subito dopo, 8–10 rip · 6–10kg):</strong> manubri vicini tra loro sopra il petto, gomiti stretti. Maggior focus su <strong>tricipiti e petto interno</strong>.<br><br>
+
+      <strong>Chest Fly (subito dopo, 10–12 rip · 4–6kg):</strong> braccia leggermente piegate, apri lateralmente fino a sentire stretch nel petto, poi chiudi come ad abbracciare. Movimento controllato.<br><br>
+
+      <strong>Dumbbell Pullover (subito dopo, 8–10 rip · 8–12kg):</strong> manubrio tenuto con entrambe le mani sopra il petto. Scendi dietro la testa con braccia semi-tese, poi torna su. Lavora <strong>petto + dorsali</strong>.
+    </div>
+
+    <div class="sets-grid">
+      <div class="set-item"><div class="set-val">8–12</div><div class="set-lbl">Press</div></div>
+      <div class="set-item"><div class="set-val">10–12</div><div class="set-lbl">Fly</div></div>
+      <div class="set-item"><div class="set-val">8–10</div><div class="set-lbl">Pullover</div></div>
+    </div>
+      <div class="prog-box">🏹 Variante: Progressione - <strong>Flessioni Archer:</strong><br>1️⃣ <strong>Wide grip push-up</strong> — mani larghe, flessione normale. Abitua le braccia alla posizione.<br>2️⃣ <strong>Push-up con shift</strong> — scendi e spostati leggermente verso una mano, piccolo shift.<br>3️⃣ <strong>Archer completa</strong> — Flessione, mani più larghe del solito. Scendi verso la <strong>mano destra</strong> tenendo il braccio sinistro quasi teso di lato. Risali. Poi verso sinistra. Lavora i <strong>dorsali laterali</strong> che vuoi mostrare.</div>
+      <div class="bar-box">🔧 <strong>Diamond Push-ups (alternativa):</strong> mani sotto il petto, pollice e indice che formano un rombo. Gomiti vicini al corpo. Stressa tricipite interno e petto centrale. 3×8. Se le archer sono troppo hard, fai queste.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">4</div><div class="set-lbl">Serie</div></div>
+        <div class="set-item"><div class="set-val">6–8</div><div class="set-lbl">Per lato</div></div>
+        <div class="set-item"><div class="set-val">90s</div><div class="set-lbl">Riposo</div></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header"><div class="exercise-icon">🎯</div>
+      <div class="exercise-info"><div class="exercise-name">Giant Set Deltoidi</div><div class="exercise-meta"><span class="tag giant">Giant Set</span> 4 serie · tutti e 3 i capi</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc">3 esercizi senza pausa. Riposo 90s dopo ogni giant set completo.<br><br><strong>1. Alzate laterali (12 rip, 4–6kg):</strong> braccia semi-tese, arriva a 90°, lento. Deltoide <strong>mediale</strong> — larghezza.<br><br><strong>2. Alzate posteriori (12 rip, 4kg):</strong> busto inclinato a 45° in avanti, braccia si aprono verso dietro e lateralmente come ali. Deltoide <strong>posteriore</strong> — profondità e salute delle spalle.<br><br><strong>3. Alzate frontali (10 rip, 4–6kg):</strong> braccia tese davanti, arriva a 90°. Deltoide <strong>anteriore</strong>.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">4</div><div class="set-lbl">Serie</div></div>
+        <div class="set-item"><div class="set-val">12+12+10</div><div class="set-lbl">Rip</div></div>
+        <div class="set-item"><div class="set-val">90s</div><div class="set-lbl">Riposo</div></div>
+      </div>
+      <div class="tip-box">💡 Il posteriore è quello che ignoravi — rinforzarlo aiuta anche i dolori alle spalle. Non saltarlo mai.</div>
+    </div></div>
+  </div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header"><div class="exercise-icon">🔀</div>
+      <div class="exercise-info"><div class="exercise-name">Hammer Curl + Wrist Curl</div><div class="exercise-meta"><span class="tag superset">Superset</span> 3 serie · avambracci</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc"><strong>Hammer curl (subito dopo):</strong> 10 rip, manubrio verticale con <strong>pollice verso l'alto</strong>. Costruisce gli avambracci.<strong>Subito — Wrist curl (15 rip, 6kg):</strong> seduto, avambracci sulle cosce, polsi oltre il ginocchio, arriccia i polsi verso l'alto. Flessori avambracci.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">3</div><div class="set-lbl">Serie</div></div>
+        <div class="set-item"><div class="set-val">10+15</div><div class="set-lbl">Rip</div></div>
+        <div class="set-item"><div class="set-val">6–8kg</div><div class="set-lbl">Peso</div></div>
+      </div>
+      <div class="bar-box">🔧 <strong>Con EZ bar:</strong> reverse curl con impugnatura angolata — molto più comodo per i polsi.<br><br><strong>Pronation/Supination:</strong> manubrio, gomito a 90°. Ruota la palma su/giù. Rafforza l'avambraccio in rotazione.<br><br><strong>Finger Curls:</strong> manubrio a testa in giù, stringi forte. Grip puro. Puoi farli ovunque — alla scrivania.</div>
+    </div></div>
+  </div>
+
+  <div class="section-label">Finisher · 8–10 min</div>
+
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-header"><div class="exercise-icon">🪢</div>
+      <div class="exercise-info"><div class="exercise-name">Jump Rope</div><div class="exercise-meta">Intervalli progressivi · brucia grasso</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="exercise-body"><div class="exercise-content">
+      <div class="exercise-desc"><strong>Settimane 1–2:</strong> 30s salto → 30s pausa × 8<br><strong>Mese 2:</strong> 45s → 20s × 10<br><strong>Mese 3:</strong> 60s → 15s × 10<br><br>Atterraggi <strong>morbidi</strong> — ginocchia sensibili.</div>
+      <div class="sets-grid">
+        <div class="set-item"><div class="set-val">8×</div><div class="set-lbl">Intervalli</div></div>
+        <div class="set-item"><div class="set-val">30s</div><div class="set-lbl">Lavoro</div></div>
+        <div class="set-item"><div class="set-val">30s</div><div class="set-lbl">Riposo</div></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="section-label">Stretching · 5 min</div>
+  <div class="warmup-ref"><span>Stesso del Lunedì</span> — Forward Fold · Crab Pose · Child Pose · Spinal Twist</div>
+</div>
+
+<!-- ===== ALIMENTAZIONE ===== -->
+<div class="day-view" id="day-food">
+  <div class="day-header">
+    <div class="day-title">ALIMENTAZIONE</div>
+    <div class="day-meta">Deficit controllato · ingredienti reali · piatti concreti</div>
+  </div>
+
+  <div class="strategy-box">
+    <div class="strategy-title">STRATEGIA</div>
+    <div class="strategy-text"><strong>Deficit leggero (~300 kcal sotto il mantenimento).</strong> Si tagliano i carboidrati, mai le proteine. Il pranzo in mensa nei giorni che ci vai è già ok — non cambiare niente lì. Il lavoro si fa su colazione, snack pre-allenamento e cena.<br><br><strong>Prima di cambiare tutto:</strong> traccia quello che mangi per 7 giorni con Cronometer (gratuito). Solo osservazione, nessuna modifica. Poi agisci sui dati reali — senza dati il deficit è solo una speranza.</div>
+  </div>
+
+  <div class="macro-bar">
+    <div class="macro-item"><div class="macro-val kcal">~2000</div><div class="macro-lbl">Kcal</div></div>
+    <div class="macro-item"><div class="macro-val prot">150g</div><div class="macro-lbl">Proteine</div></div>
+    <div class="macro-item"><div class="macro-val carb">200g</div><div class="macro-lbl">Carbo</div></div>
+    <div class="macro-item"><div class="macro-val fat">65g</div><div class="macro-lbl">Grassi</div></div>
+  </div>
+
+  <div class="meal-card" onclick="toggleMeal(this)">
+    <div class="meal-header">
+      <div class="meal-icon">🌅</div>
+      <div class="meal-info"><div class="meal-name">Colazione</div><div class="meal-kcal"><strong>~450 kcal</strong> · 25–30g proteine</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="meal-body"><div class="meal-content">
+      <div class="food-item"><div class="food-dot"></div><div><div class="food-name">Latte + avena</div><div class="food-qty">200ml latte + 50g avena — base che già fai, tienila</div></div></div>
+      <div class="food-item"><div class="food-dot"></div><div><div class="food-name">Yogurt greco</div><div class="food-qty">150g — aggiungilo all'avena. Raddoppia le proteine della colazione.</div></div></div>
+      <div class="food-item"><div class="food-dot"></div><div><div class="food-name">Cioccolato fondente 85%+</div><div class="food-qty">2 quadratini — ok. Ma fondente, non al latte.</div></div></div>
+      <div class="food-item"><div class="food-dot"></div><div><div class="food-name">Caffè</div><div class="food-qty">Senza zucchero — bevilo tranquillo.</div></div></div>
+      <div class="meal-note">✅ Questa colazione è già buona. Unica modifica: aggiungi lo yogurt greco se non lo fai già.</div>
+    </div></div>
+  </div>
+
+  <div class="meal-card" onclick="toggleMeal(this)">
+    <div class="meal-header">
+      <div class="meal-icon">🍝</div>
+      <div class="meal-info"><div class="meal-name">Pranzo — giorni in mensa (3–5/settimana)</div><div class="meal-kcal"><strong>~650 kcal</strong> · già ok</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="meal-body"><div class="meal-content">
+      <div class="food-item"><div class="food-dot"></div><div><div class="food-name">Primo + secondo + contorno</div><div class="food-qty">Continua così. Molto pesce e verdura è ottimo.</div></div></div>
+      <div class="food-item"><div class="food-dot"></div><div><div class="food-name">Unica regola</div><div class="food-qty">Porzione di primo: un mestolo, non due. Il resto invariato.</div></div></div>
+      <div class="food-item"><div class="food-dot"></div><div><div class="food-name">Pizza o dolcetto ogni tanto</div><div class="food-qty">Non rovinano niente. Non ossessionarti.</div></div></div>
+      <div class="meal-note">✅ Non cambiare niente al pranzo in mensa.</div>
+    </div></div>
+  </div>
+
+  <div class="meal-card" onclick="toggleMeal(this)">
+    <div class="meal-header">
+      <div class="meal-icon">🏠</div>
+      <div class="meal-info"><div class="meal-name">Pranzo — giorni a casa</div><div class="meal-kcal"><strong>~600 kcal</strong> · veloce e proteico</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="meal-body"><div class="meal-content">
+      <div class="recipe-card">
+        <div class="recipe-title">🍚 Riso + petto di pollo + zucchine</div>
+        <div class="recipe-desc">150 g riso cotto · 200 g petto di pollo grigliato · 1 zucchina saltata in padella · olio EVO · succo di limone. Tutto in ciotola. Pronto in 15 min. <strong>46g prot · 70g carb · 12g grassi · ~650 kcal</strong></div>
+      </div>
+      <div class="recipe-card">
+        <div class="recipe-title">🐟 Pasta integrale + tonno + pomodorini</div>
+        <div class="recipe-desc">80 g pasta integrale · 160 g tonno in acqua · 150 g pomodorini · olive nere · basilico · filo di olio EVO. Condisci a freddo, niente cottura extra. <strong>42g prot · 65g carb · 10g grassi · ~580 kcal</strong></div>
+      </div>
+      <div class="recipe-card">
+        <div class="recipe-title">🥚 Frittata di uova + fagioli cannellini + pane integrale</div>
+        <div class="recipe-desc">4 uova intere · 150 g fagioli cannellini (barattolo) con rosmarino e aglio · 1 fetta pane integrale. Frittata in padella antiaderente, fagioli riscaldati a parte. <strong>40g prot · 42g carb · 24g grassi · ~600 kcal</strong></div>
+      </div>
+      <div class="recipe-card">
+        <div class="recipe-title">🐠 Salmone al forno + patate + insalata</div>
+        <div class="recipe-desc">200 g filetto di salmone · 200 g patate a dadini · insalata mista · erbe aromatiche · olio EVO. Inforna tutto a 200°C per 20 min. Ottima fonte di omega-3. <strong>43g prot · 35g carb · 28g grassi · ~650 kcal</strong></div>
+      </div>
+      <div class="recipe-card">
+        <div class="recipe-title">🌾 Bowl di farro + ricotta + verdure grigliate + noci</div>
+        <div class="recipe-desc">80 g farro cotto · 200 g ricotta vaccina · peperoni e melanzane grigliate · 20 g noci · olio EVO. Assembla in bowl. Ideale nei giorni di riposo. <strong>35g prot · 55g carb · 22g grassi · ~620 kcal</strong></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="meal-card" onclick="toggleMeal(this)">
+    <div class="meal-header">
+      <div class="meal-icon">🍽️</div>
+      <div class="meal-info"><div class="meal-name">Cena — Piatti completi</div><div class="meal-kcal">Alternativa ai pasti suddivisi qui sopra</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="meal-body"><div class="meal-content">
+      <div class="recipe-card">
+        <div class="recipe-title">🥩 Bistecca di manzo + lenticchie + spinaci saltati</div>
+        <div class="recipe-desc">180 g controfiletto · 150 g lenticchie rosse (da barattolo) con aglio · spinaci freschi saltati 2 min. La carne rossa 2x/sett. dà zinco e ferro — essenziali per testosterone e recupero. <strong>52g prot · 28g carb · 18g grassi · ~580 kcal</strong></div>
+      </div>
+      <div class="recipe-card">
+        <div class="recipe-title">🍳 Uova strapazzate + avocado + pane di segale</div>
+        <div class="recipe-desc">3 uova intere + 2 albumi · ½ avocado · 2 fette pane di segale · pepe nero. Cena leggera sui carb ma ricca di grassi sani per produzione ormonale notturna. <strong>36g prot · 30g carb · 26g grassi · ~500 kcal</strong></div>
+      </div>
+      <div class="recipe-card">
+        <div class="recipe-title">🍗 Cosce di pollo al forno + broccoli + ricotta prima di dormire</div>
+        <div class="recipe-desc">200 g cosce di pollo · broccoli arrosto con aglio · poi, 30 min prima di dormire, 150 g ricotta con un cucchiaio di miele. La caseina lenta nutre i muscoli di notte. <strong>55g prot · 20g carb · 22g grassi · ~510 kcal</strong></div>
+      </div>
+      <div class="recipe-card">
+        <div class="recipe-title">🫘 Merluzzo in padella + ceci al curry + zucca</div>
+        <div class="recipe-desc">200 g merluzzo · 150 g ceci (barattolo) con curry e cipolla · 150 g zucca arrosto. Pesce bianco magro + legumi = combo ad alto indice di sazietà, pochi grassi. <strong>48g prot · 38g carb · 8g grassi · ~430 kcal</strong></div>
+      </div>
+      <div class="recipe-card">
+        <div class="recipe-title">🧆 Greek yogurt proteico + noci + banana + semi di zucca</div>
+        <div class="recipe-desc">250 g yogurt greco 0% · 20 g noci · 1 banana matura · 15 g semi di zucca. Cena leggerissima per le serate in cui si vuole restare in forte deficit calorico. <strong>30g prot · 40g carb · 12g grassi · ~380 kcal</strong></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="meal-card" onclick="toggleMeal(this)">
+    <div class="meal-header">
+      <div class="meal-icon">🍌</div>
+      <div class="meal-info"><div class="meal-name">Pre-allenamento (rientro lavoro)</div><div class="meal-kcal"><strong>~300 kcal</strong> · 30–60 min prima</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="meal-body"><div class="meal-content">
+      <div class="food-item"><div class="food-dot"></div><div><div class="food-name">Toast integrale + prosciutto + formaggio</div><div class="food-qty">Lo fai già — tienilo. 1–2 toast. Carboidrati + proteine + grassi, esattamente quello che serve.</div></div></div>
+      <div class="food-item"><div class="food-dot"></div><div><div class="food-name">+ 1 banana se hai più fame</div><div class="food-qty">Carboidrati rapidi che arrivano durante l'allenamento.</div></div></div>
+      <div class="alt-label">Alternativa più leggera</div>
+      <div class="food-item"><div class="food-dot"></div><div><div class="food-name">Yogurt greco + frutta secca</div><div class="food-qty">Se non hai voglia di cucinare — 2 minuti, stessa efficacia</div></div></div>
+      <div class="meal-note">💡 Non allenarti a stomaco vuoto dopo 10h fuori casa — crolli a metà sessione.</div>
+    </div></div>
+  </div>
+
+  <div class="meal-card" onclick="toggleMeal(this)">
+    <div class="meal-header">
+      <div class="meal-icon">🐟</div>
+      <div class="meal-info"><div class="meal-name">Cena — Pesce</div><div class="meal-kcal">Merluzzo · Orata · Branzino</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="meal-body"><div class="meal-content">
+      <div class="day-pill allenamento">🏋️ Con riso/patate nei giorni Lun · Ven</div>
+      <div class="day-pill riposo">🌙 Solo verdure Mar · Gio · Sab</div>
+      <div class="recipe-card">
+        <div class="recipe-title">Merluzzo al forno con zucchine e pomodorini</div>
+        <div class="recipe-desc"><strong>200g merluzzo</strong> in teglia con zucchine, pomodorini, olio, aglio, origano. Forno 200° 20 min. Zero padelle.</div>
+      </div>
+      <div class="recipe-card">
+        <div class="recipe-title">Merluzzo in padella con pisellini</div>
+        <div class="recipe-desc"><strong>200g merluzzo</strong> in padella con aglio e olio, 8 min per lato. Pisellini (freezer) saltati a parte. 15 minuti totali.</div>
+      </div>
+      <div class="recipe-card">
+        <div class="recipe-title">Orata/Branzino al forno con patate</div>
+        <div class="recipe-desc"><strong>1 orata intera</strong> con patate a spicchi, rosmarino, olio. Forno 200° 25 min. (Solo giorni di allenamento.)</div>
+      </div>
+      <div class="recipe-card">
+        <div class="recipe-title">Branzino al cartoccio con zucchine</div>
+        <div class="recipe-desc"><strong>1 branzino</strong> in carta forno con zucchine a julienne, limone, olio. Forno 200° 20 min. Nessuna padella.</div>
+      </div>
+      <div class="recipe-card">
+        <div class="recipe-title">Merluzzo gratinato con fagiolini</div>
+        <div class="recipe-desc"><strong>200g merluzzo</strong> con pangrattato, limone, prezzemolo. Fagiolini (freezer) al vapore 8 min. Forno 18 min.</div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="meal-card" onclick="toggleMeal(this)">
+    <div class="meal-header">
+      <div class="meal-icon">🥩</div>
+      <div class="meal-info"><div class="meal-name">Cena — Carne</div><div class="meal-kcal">Polpette · Scamone · Fettine</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="meal-body"><div class="meal-content">
+      <div class="day-pill allenamento">🏋️ Con riso/patate nei giorni Lun · Ven</div>
+      <div class="day-pill riposo">🌙 Solo verdure Mar · Gio · Sab</div>
+      <div class="recipe-card">
+        <div class="recipe-title">Polpette al forno con melanzane</div>
+        <div class="recipe-desc"><strong>200g polpette di manzo</strong> in teglia con melanzane a cubetti, pomodorini, origano. Forno 200° 25 min. Fai il doppio — durano 2 giorni.</div>
+      </div>
+      <div class="recipe-card">
+        <div class="recipe-title">Polpette in umido con pisellini</div>
+        <div class="recipe-desc"><strong>200g polpette</strong> con soffritto leggero, poi pisellini (freezer) e copri. 20 min. Si scalda bene il giorno dopo.</div>
+      </div>
+      <div class="recipe-card">
+        <div class="recipe-title">Scaloppine al limone</div>
+        <div class="recipe-desc"><strong>180g scamone</strong> a fettine, leggermente infarinate. Padella calda, 3 min per lato, sfuma con limone e prezzemolo. 8 minuti.</div>
+      </div>
+      <div class="recipe-card">
+        <div class="recipe-title">Straccetti con zucchine e pomodorini</div>
+        <div class="recipe-desc"><strong>180g scamone</strong> a striscioline. Padella molto calda, rosola 3 min, aggiungi zucchine e pomodorini, altri 5 min.</div>
+      </div>
+      <div class="recipe-card">
+        <div class="recipe-title">Involtini di manzo</div>
+        <div class="recipe-desc"><strong>2 fettine scamone</strong> con prezzemolo e aglio dentro, arrotola, ferma con stuzzicadenti. Rosola 4 min per lato, sfuma con vino bianco.</div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="meal-card" onclick="toggleMeal(this)">
+    <div class="meal-header">
+      <div class="meal-icon">🫘</div>
+      <div class="meal-info"><div class="meal-name">Cena — Legumi e Uova</div><div class="meal-kcal">Giorni di riposo · leggeri e proteici</div></div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="meal-body"><div class="meal-content">
+      <div class="recipe-card">
+        <div class="recipe-title">Zuppa di lenticchie</div>
+        <div class="recipe-desc"><strong>200g lenticchie</strong> con soffritto, carote, sedano, alloro. Fai una pentola grande — dura 3 giorni.</div>
+      </div>
+      <div class="recipe-card">
+        <div class="recipe-title">Burrito di carne con legumi</div>
+        <div class="recipe-desc"><strong>1 tortilla integrale</strong> con ceci o fagioli neri, spinaci saltati, zucchine, hummus. Senza riso — i legumi bastano.</div>
+      </div>
+      <div class="recipe-card">
+        <div class="recipe-title">Hummus + verdure crude + uova sode</div>
+        <div class="recipe-desc"><strong>100g hummus</strong> + carote, sedano, cetriolo + 2 uova sode. Zero cottura per i giorni no.</div>
+      </div>
+      <div class="recipe-card">
+        <div class="recipe-title">Omelette spinaci e parmigiano</div>
+        <div class="recipe-desc"><strong>3–4 uova</strong> con spinaci saltati e 20g parmigiano. 8 minuti. Alta proteina, zero carboidrati.</div>
+      </div>
+      <div class="recipe-card">
+        <div class="recipe-title">Pisellini con pancetta e uovo</div>
+        <div class="recipe-desc"><strong>150g pisellini</strong> (freezer) con 30g pancetta, poi rompi 2 uova sopra e mescola. 10 minuti.</div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="section-label">Regole semplici</div>
+
+  <div class="prog-card">
+    <div class="prog-title">LE REGOLE</div>
+    <div class="prog-step"><div class="prog-dot"></div><p><strong>Carboidrati a cena:</strong> solo nei giorni di allenamento (lun/ven). Martedì, giovedì, sabato: solo proteine + verdure a cena.</p></div>
+    <div class="prog-step"><div class="prog-dot"></div><p><strong>Proteine invariate:</strong> non toccare mai pesce, carne, uova, legumi. Si taglia sempre sui carbo, mai sulle proteine.</p></div>
+    <div class="prog-step"><div class="prog-dot"></div><p><strong>Verdure senza limite</strong> in ogni caso — zucchine, melanzane, spinaci, fagiolini, pisellini. Già li hai.</p></div>
+    <div class="prog-step"><div class="prog-dot"></div><p><strong>Alcol:</strong> blocca la perdita di grasso. Se proprio, solo weekend — consapevole che rallenta tutto.</p></div>
+    <div class="prog-step"><div class="prog-dot"></div><p><strong>Zero zuccheri liquidi</strong> — succhi, bibite, energy drink. Acqua, caffè, tè.</p></div>
+    <div class="prog-step"><div class="prog-dot"></div><p><strong>Meal prep domenica:</strong> polpette o zuppa di lenticchie in grandi quantità. Con 10h fuori casa altrimenti mangi a caso.</p></div>
+  </div>
+</div>
+
+<!-- ===== PROGRESSIONE ===== -->
+<div class="day-view" id="day-prog">
+  <div class="day-header">
+    <div class="day-title">PROGRESSIONE</div>
+    <div class="day-meta">Cosa aspettarti mese per mese</div>
+  </div>
+
+  <div class="prog-card">
+    <div class="prog-title">MESE 1</div>
+    <div class="prog-step"><div class="prog-dot"></div><p><strong>Obiettivo:</strong> imparare i movimenti. 4kg per i curl è il tuo peso reale ora — non un fallimento.</p></div>
+    <div class="prog-step"><div class="prog-dot"></div><p>Trazioni: solo negative + scapular. È la base.</p></div>
+    <div class="prog-step"><div class="prog-dot"></div><p>Flessioni sulle ginocchia — normale. Obiettivo: arrivare a 15 pulite.</p></div>
+    <div class="prog-step"><div class="prog-dot"></div><p>Forward fold: progressi visibili già dalla seconda settimana. Fai una foto per misurare.</p></div>
+  </div>
+
+  <div class="prog-card">
+    <div class="prog-title">MESE 2</div>
+    <div class="prog-step"><div class="prog-dot"></div><p><strong>Prima trazione vera.</strong> Curl passa a 6kg. Flessioni normali cominciano.</p></div>
+    <div class="prog-step"><div class="prog-dot"></div><p>Knee raises: 3×8 senza dondolio. Dolori schiena ridotti.</p></div>
+    <div class="prog-step"><div class="prog-dot"></div><p>Forward fold nettamente migliorato. Se hai preso l'EZ bar: curl molto più comodi.</p></div>
+  </div>
+
+  <div class="prog-card">
+    <div class="prog-title">MESE 3</div>
+    <div class="prog-step"><div class="prog-dot"></div><p><strong>Dorsali visibili.</strong> Spalle più larghe grazie al giant set. Avambracci più definiti.</p></div>
+    <div class="prog-step"><div class="prog-dot"></div><p>Tocchi o quasi le punte. Postura migliorata. Flessioni archer in progressione.</p></div>
+    <div class="prog-step"><div class="prog-dot"></div><p>Se hai il bilanciere: bent over row e overhead press aprono un nuovo livello di forza.</p></div>
+  </div>
+
+  <div class="prog-card">
+    <div class="prog-title">MESE 6</div>
+    <div class="prog-step"><div class="prog-dot"></div><p><strong>5+ trazioni vere.</strong> Spalle tonde su tutti e tre i capi. Dorsali visibili da dietro.</p></div>
+    <div class="prog-step"><div class="prog-dot"></div><p>Tocchi le punte. Schiena senza dolori. Flessioni archer complete.</p></div>
+    <div class="prog-step"><div class="prog-dot"></div><p>Se hai il bilanciere: Romanian deadlift è il prossimo obiettivo — catena posteriore completa e accelera la flessibilità.</p></div>
+  </div>
+
+  <div class="prog-card">
+    <div class="prog-title">BILANCIERE — quando e cosa</div>
+    <div class="prog-step"><div class="prog-dot"></div><p><strong>EZ bar subito:</strong> sostituisce i curl con manubri. Polsi più a loro agio, reverse curl più comodo.</p></div>
+    <div class="prog-step"><div class="prog-dot"></div><p><strong>Bilanciere dritto — bent over row:</strong> sostituisce il rematore con manubrio. Superiore per spessore dorsale.</p></div>
+    <div class="prog-step"><div class="prog-dot"></div><p><strong>Bilanciere dritto — overhead press:</strong> più stabile dei manubri, progressione di carico più precisa.</p></div>
+    <div class="prog-step"><div class="prog-dot"></div><p><strong>Romanian deadlift (mese 2–3):</strong> catena posteriore completa. È l'esercizio che più accelera il toccare le punte dei piedi e risolve la schiena bassa.</p></div>
+  </div>
+
+  <div class="prog-card" style="border-color:rgba(200,241,53,.2);">
+    <div class="prog-title">REGOLE D'ORO</div>
+    <div class="prog-step"><div class="prog-dot"></div><p>Aumenta il peso <strong>solo</strong> quando completi tutte le serie con tecnica pulita.</p></div>
+    <div class="prog-step"><div class="prog-dot"></div><p>Il mercoledì non è opzionale quando hai dolori — è il giorno che li risolve.</p></div>
+    <div class="prog-step"><div class="prog-dot"></div><p>Traccia 7 giorni con Cronometer prima di cambiare l'alimentazione. Senza dati reali il deficit è solo una speranza.</p></div>
+    <div class="prog-step"><div class="prog-dot"></div><p>La definizione viene per il <strong>70% dall'alimentazione</strong>. Senza deficit calorico non si vede niente.</p></div>
+  </div>
+</div>
+
+<script>
+  function showDay(day,btn){
+    document.querySelectorAll('.day-view').forEach(d=>d.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.getElementById('day-'+day).classList.add('active');
+    btn.classList.add('active');
+  }
+  function toggleCard(card){
+    const isOpen=card.classList.contains('open');
+    card.classList.toggle('open',!isOpen);
+    const body=card.querySelector('.exercise-body');
+    body.style.maxHeight=isOpen?'0':body.scrollHeight+'px';
+  }
+  function toggleMeal(card){
+    const isOpen=card.classList.contains('open');
+    card.classList.toggle('open',!isOpen);
+    const body=card.querySelector('.meal-body');
+    body.style.maxHeight=isOpen?'0':body.scrollHeight+'px';
+  }
+</script>
+</body>
+</html>
