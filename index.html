@@ -230,6 +230,9 @@ ol.moves>li{border-bottom:1px solid var(--line)}
 }
 .ghost:hover{border-color:var(--paper);background:rgba(243,238,227,.05)}
 .ghost:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+.ghost.snd{min-width:5.6em}
+.ghost.snd[aria-pressed="false"]{color:var(--muted);border-style:dashed}
+.timeright{margin-left:auto;display:flex;align-items:center;gap:12px}
 
 .note{
   margin-top:20px;padding:14px 16px;
@@ -438,6 +441,7 @@ footer a:hover{color:var(--paper)}
   .calcnums{gap:8px 16px}
   .calcnums b{font-size:22px}
   .calcnums .hint{margin-left:0;flex:1 0 100%}
+  .timeright{flex:1 0 100%;margin-left:0;justify-content:space-between}
 }
 
 @media print{
@@ -631,7 +635,7 @@ const DATA = {
   ex: [
     { id:"trazioni", nome:"Trazioni alla sbarra", m:"dorsali · bicipiti · presa", grp:"trazione",
       steps:[
-        "Impugna la sbarra con presa prona, poco più larga delle spalle. Se usi l'elastico, aggancialo alla sbarra e mettici dentro un ginocchio.",
+        "Impugna la sbarra con presa prona, poco più larga delle spalle. Se usi l'elastico, aggancialo alla sbarra ed entraci col piede da terra, mai da appeso: con il ginocchio l'aiuto è medio, con il piede (o tutti e due i piedi) l'aiuto è massimo, perché l'elastico resta più teso.",
         "Gambe incrociate e busto fermo: niente dondolio. Parti da braccia completamente distese: è lì che il dorsale lavora.",
         "Tira i gomiti verso il basso e verso i fianchi, non pensare alle mani. Supera il mento, meglio se arrivi col petto alla sbarra.",
         "Scendi controllato in 2 secondi fino alla distensione completa. Non lasciarti cadere."
@@ -639,6 +643,7 @@ const DATA = {
       err:["Fermarsi a metà: servono almeno mento sopra la sbarra.","Dondolare con le gambe.","Scendere solo a metà escursione.","Stringere le spalle alle orecchie in partenza."],
       prog:"5×5 pulite senza elastico → poi zaino o cintura con dischi.",
       regr:"Trazioni australiane (ring row o sotto un tavolo) e negative: salta in alto e scendi in 5 secondi.",
+      extra:"Se l'ultima ripetizione non chiude, finirla con la presa neutra sui manici è la stessa trazione con meno fastidio a gomiti e spalle: va bene, non è un trucco. Se però ti serve per due sedute di fila, il carico è troppo: metti l'elastico o scendi a 4 ripetizioni per serie.",
       fig:`<figure class="fig">
         <div class="frame"><svg viewBox="0 0 110 110" aria-hidden="true">
           <line x1="18" y1="12" x2="92" y2="12" opacity=".5"/>
@@ -1004,34 +1009,69 @@ const DATA = {
     d: "In alternativa: 2 filetti di merluzzo o un palmo grande di pollo al posto delle uova. Una fetta di grana in più sono +10 g."
   },
 
-  /* proteine e kcal per 100 g di alimento crudo, con la misura casalinga */
+  /* proteine, kcal e misura casalinga per 100 g di alimento crudo */
   foods: [
-    ["Petto di pollo", 23, 110, "1 palmo spesso 2 dita ≈ 150 g"],
-    ["Cosce di pollo", 18, 160, "1 coscia disossata ≈ 120 g"],
-    ["Fettina di manzo", 21, 130, "2 fettine ≈ 150 g"],
-    ["Bistecca di manzo", 21, 150, "1 bistecca ≈ 150 g"],
-    ["Macinato magro", 19, 140, "4 polpette ≈ 300 g"],
-    ["Uova (1 ≈ 55 g)", 12.5, 143, "1 uovo ≈ 55 g"],
-    ["Salmone", 20, 200, "1 trancio ≈ 150 g"],
-    ["Merluzzo / platessa", 17, 80, "1 filetto ≈ 100 g"],
-    ["Tonno sgocciolato", 25, 115, "1 scatoletta ≈ 80 g"],
-    ["Polpo / moscardini", 15, 80, "1 porzione ≈ 200 g"],
-    ["Yogurt greco 0%", 10, 57, "mezzo barattolo da 500 g ≈ 250 g"],
-    ["Yogurt proteico", 12, 70, "1 vasetto ≈ 150 g"],
-    ["Latte", 3.3, 46, "1 bicchiere ≈ 250 g"],
-    ["Grana / parmigiano", 33, 390, "1 fetta 2 dita ≈ 30 g"],
-    ["Bresaola", 32, 150, "5 fette ≈ 100 g"],
-    ["Prosciutto crudo", 26, 270, "4 fette ≈ 100 g"],
-    ["Prosciutto cotto", 20, 190, "3 fette ≈ 100 g"],
-    ["Legumi cotti", 8, 115, "2 mestoli ≈ 150 g"],
-    ["Pasta cruda", 11, 350, "1 piatto fondo ≈ 100 g"],
-    ["Riso crudo", 7, 350, "1 piatto fondo ≈ 100 g"],
-    ["Pane", 8, 270, "2 fette ≈ 50 g"],
-    ["Patate", 2, 77, "2 medie ≈ 300 g"],
-    ["Avena", 13, 380, "3 cucchiai colmi ≈ 50 g"],
-    ["Mandorle", 21, 600, "1 pugno ≈ 15 g"],
-    ["Burro d'arachidi", 25, 590, "1 cucchiaio ≈ 15 g"],
-    ["Proteine in polvere", 80, 380, "1 misurino ≈ 30 g"]
+    ["Petto di pollo", 23, 110, "1 palmo spesso 2 dita ≈ 150 g", "Carne"],
+    ["Cosce di pollo", 18, 160, "1 coscia disossata ≈ 120 g", "Carne"],
+    ["Tacchino (fesa)", 24, 110, "1 fetta grande come il palmo ≈ 150 g", "Carne"],
+    ["Fettina di manzo", 21, 130, "2 fettine ≈ 150 g", "Carne"],
+    ["Bistecca di manzo", 21, 150, "1 bistecca ≈ 150 g", "Carne"],
+    ["Macinato magro", 19, 140, "4 polpette ≈ 300 g", "Carne"],
+    ["Lonza di maiale", 21, 140, "1 fetta ≈ 150 g", "Carne"],
+    ["Bresaola", 32, 150, "5 fette ≈ 100 g", "Carne"],
+    ["Prosciutto crudo", 26, 270, "4 fette ≈ 100 g", "Carne"],
+    ["Prosciutto cotto", 20, 190, "3 fette ≈ 100 g", "Carne"],
+    ["Speck", 28, 290, "3 fette ≈ 80 g", "Carne"],
+    ["Salame", 26, 400, "4 fettine ≈ 30 g", "Carne"],
+
+    ["Salmone", 20, 200, "1 trancio ≈ 150 g", "Pesce"],
+    ["Merluzzo / platessa", 17, 80, "1 filetto ≈ 100 g", "Pesce"],
+    ["Orata / branzino", 20, 120, "1 filetto ≈ 150 g", "Pesce"],
+    ["Tonno fresco", 23, 130, "1 trancio ≈ 150 g", "Pesce"],
+    ["Sgombro", 20, 205, "1 filetto ≈ 120 g", "Pesce"],
+    ["Gamberi", 18, 85, "una manciata ≈ 100 g", "Pesce"],
+    ["Polpo / moscardini", 15, 80, "1 porzione ≈ 200 g", "Pesce"],
+    ["Tonno sgocciolato", 25, 115, "1 scatoletta ≈ 80 g", "Pesce"],
+    ["Sgombro in scatola", 22, 190, "1 scatola ≈ 120 g", "Pesce"],
+    ["Sardine sott'olio", 21, 220, "1 scatoletta ≈ 90 g", "Pesce"],
+
+    ["Uova (1 ≈ 55 g)", 12.5, 143, "1 uovo ≈ 55 g", "Uova e latticini"],
+    ["Yogurt greco 0%", 10, 57, "mezzo barattolo da 500 g ≈ 250 g", "Uova e latticini"],
+    ["Yogurt proteico", 12, 70, "1 vasetto ≈ 150 g", "Uova e latticini"],
+    ["Fiocchi di latte", 11, 98, "mezzo vasetto ≈ 100 g", "Uova e latticini"],
+    ["Ricotta", 11, 146, "3 cucchiai ≈ 100 g", "Uova e latticini"],
+    ["Mozzarella", 18, 250, "mezzo panetto ≈ 125 g", "Uova e latticini"],
+    ["Caciotta", 25, 350, "1 fetta ≈ 30 g", "Uova e latticini"],
+    ["Grana / parmigiano", 33, 390, "1 fetta 2 dita ≈ 30 g", "Uova e latticini"],
+    ["Latte", 3.3, 46, "1 bicchiere ≈ 250 g", "Uova e latticini"],
+    ["Latte scremato", 3.5, 34, "1 bicchiere ≈ 250 g", "Uova e latticini"],
+    ["Kefir", 3.3, 60, "1 bicchiere ≈ 200 g", "Uova e latticini"],
+
+    ["Lenticchie cotte", 9, 116, "2 mestoli ≈ 150 g", "Legumi e soia"],
+    ["Ceci cotti", 7, 120, "2 mestoli ≈ 150 g", "Legumi e soia"],
+    ["Fagioli cotti", 7, 110, "2 mestoli ≈ 150 g", "Legumi e soia"],
+    ["Tofu", 12, 140, "mezzo panetto ≈ 125 g", "Legumi e soia"],
+    ["Seitan", 22, 120, "1 fetta ≈ 100 g", "Legumi e soia"],
+    ["Hummus", 7, 170, "2 cucchiai ≈ 50 g", "Legumi e soia"],
+
+    ["Pasta cruda", 11, 350, "1 piatto fondo ≈ 100 g", "Carboidrati"],
+    ["Riso crudo", 7, 350, "1 piatto fondo ≈ 100 g", "Carboidrati"],
+    ["Gnocchi", 4, 130, "1 porzione ≈ 250 g", "Carboidrati"],
+    ["Cous cous crudo", 12, 350, "1 piatto fondo ≈ 100 g", "Carboidrati"],
+    ["Pane", 8, 270, "2 fette ≈ 50 g", "Carboidrati"],
+    ["Pane integrale", 9, 250, "2 fette ≈ 50 g", "Carboidrati"],
+    ["Patate", 2, 77, "2 medie ≈ 300 g", "Carboidrati"],
+    ["Avena", 13, 380, "3 cucchiai colmi ≈ 50 g", "Carboidrati"],
+    ["Fette biscottate", 12, 400, "2 fette ≈ 20 g", "Carboidrati"],
+    ["Pizza margherita", 10, 270, "1 trancio ≈ 200 g", "Carboidrati"],
+
+    ["Mandorle", 21, 600, "1 pugno ≈ 15 g", "Frutta secca e grassi"],
+    ["Noci", 15, 650, "1 pugno ≈ 20 g", "Frutta secca e grassi"],
+    ["Pistacchi", 20, 560, "1 pugno ≈ 20 g", "Frutta secca e grassi"],
+    ["Burro d'arachidi", 25, 590, "1 cucchiaio ≈ 15 g", "Frutta secca e grassi"],
+    ["Olio d'oliva", 0, 900, "1 cucchiaio ≈ 10 g", "Frutta secca e grassi"],
+
+    ["Proteine in polvere", 80, 380, "1 misurino ≈ 30 g", "Altro"]
   ]
 };
 
@@ -1119,7 +1159,10 @@ function renderSession(){
       <button class="ghost" data-timer="90">90 s</button>
       <button class="ghost" data-timer="120">2 min</button>
       <button class="ghost" data-timer="180">3 min</button>
-      <span id="timerOut" style="font-family:var(--mono);font-size:13px;color:var(--sage);margin-left:auto"></span>
+      <span class="timeright">
+        <span id="timerOut" style="font-family:var(--mono);font-size:13px;color:var(--sage)"></span>
+        <button class="ghost snd" id="sndBtn" type="button" aria-pressed="${state.sound === false ? 'false' : 'true'}">${state.sound === false ? 'suono off' : 'suono on'}</button>
+      </span>
     </div>
     <div class="note">
       <span class="label">Le prime due settimane</span>
@@ -1145,17 +1188,60 @@ function wireSession(){
   document.querySelectorAll('[data-timer]').forEach(btn => {
     btn.addEventListener('click', () => startTimer(Number(btn.dataset.timer)));
   });
+  const snd = document.getElementById('sndBtn');
+  if(snd) snd.addEventListener('click', () => {
+    state.sound = state.sound === false;
+    save();
+    snd.textContent = state.sound === false ? 'suono off' : 'suono on';
+    snd.setAttribute('aria-pressed', state.sound === false ? 'false' : 'true');
+    if(state.sound !== false){ ensureAudio(); blip(1320, 0, 0.09, 0.12); }
+  });
 }
 
 let timerId = null;
+
+/* audio: nessun file, tutto sintetizzato. Serve un tocco per sbloccarlo. */
+let audioCtx = null;
+function ensureAudio(){
+  try {
+    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if(audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx;
+  } catch(e){ return null; }
+}
+
+function blip(freq, delay, dur, vol){
+  const ctx = ensureAudio();
+  if(!ctx) return;
+  const t0 = ctx.currentTime + delay;
+  const o = ctx.createOscillator();
+  const g = ctx.createGain();
+  o.type = 'sine';
+  o.frequency.value = freq;
+  g.gain.setValueAtTime(0.0001, t0);
+  g.gain.exponentialRampToValueAtTime(vol, t0 + 0.015);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  o.connect(g).connect(ctx.destination);
+  o.start(t0); o.stop(t0 + dur + 0.05);
+}
+
+/* tre note che salgono: breve, non fastidioso, riconoscibile */
+function chime(){
+  if(state.sound === false) return;
+  blip(880,    0,    0.45, 0.14);
+  blip(1318.5, 0.10, 0.40, 0.11);
+  blip(1760,   0.20, 0.50, 0.07);
+}
+
 function startTimer(sec){
   clearInterval(timerId);
+  ensureAudio();
   const out = document.getElementById('timerOut');
   const end = Date.now() + sec * 1000;
   const tick = () => {
     const left = Math.max(0, Math.round((end - Date.now()) / 1000));
     out.textContent = `${String(Math.floor(left/60)).padStart(2,'0')}:${String(left%60).padStart(2,'0')}`;
-    if(left <= 0){ clearInterval(timerId); out.textContent = 'vai'; }
+    if(left <= 0){ clearInterval(timerId); out.textContent = 'vai'; chime(); }
   };
   tick(); timerId = setInterval(tick, 250);
 }
@@ -1254,6 +1340,18 @@ const fK = n => FZ[fIdx(n)][2];
 const fM = n => FZ[fIdx(n)][3];
 const kcalFmt = n => Math.round(n).toLocaleString('it-IT');
 
+/* gruppi per il menu a tendina, nell'ordine in cui compaiono */
+const FOOD_GROUPS = [];
+FZ.forEach(f => {
+  let g = FOOD_GROUPS.find(x => x.cat === f[4]);
+  if(!g) FOOD_GROUPS.push(g = { cat: f[4], items: [] });
+  g.items.push(f);
+});
+const foodOptions = sel => FOOD_GROUPS.map(g =>
+  `<optgroup label="${g.cat}">` +
+    g.items.map(f => `<option value="${f[0]}" ${f[0]===sel?'selected':''}>${f[0]}</option>`).join('') +
+  `</optgroup>`).join('');
+
 function valHTML(n, g){
   if(!g) return '—';
   return `${Math.round(fP(n) * g / 100)} g<small>${kcalFmt(fK(n) * g / 100)} kcal</small>`;
@@ -1266,7 +1364,7 @@ function renderCalc(){
     return `<div class="calcrow">
       <div class="selwrap">
         <select data-sel="${i}" aria-label="Alimento ${i+1}">
-          ${FZ.map(f => `<option value="${f[0]}" ${f[0]===row.n?'selected':''}>${f[0]}</option>`).join('')}
+          ${foodOptions(row.n)}
         </select>
         <span class="eq">${fM(row.n)}</span>
       </div>
