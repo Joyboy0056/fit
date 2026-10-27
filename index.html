@@ -166,20 +166,23 @@ ol.moves>li{border-bottom:1px solid var(--line)}
   padding-top:5px;letter-spacing:.06em;
 }
 .move .name{
+  display:flex;align-items:flex-start;gap:.3em;
   font-family:var(--serif);font-size:1.14rem;font-weight:600;letter-spacing:-.01em;
   line-height:1.2;background:none;border:0;padding:0;text-align:left;color:var(--paper);
   cursor:pointer;
 }
+.move .name .txt{flex:1 1 auto}
 .move .name:hover{color:var(--signal)}
 .move .name:focus-visible{outline:2px solid var(--signal);outline-offset:3px}
-.move .name .arw{font-size:.8em;opacity:.5;margin-left:.35em;display:inline-block;transition:transform .2s}
+.move .name .arw{font-size:.8em;opacity:.5;flex:0 0 auto;display:inline-block;transition:transform .2s}
 .move .name[aria-expanded="true"] .arw{transform:rotate(90deg)}
 .move .presc{
   font-family:var(--mono);font-size:12.5px;color:var(--paper);
-  text-align:right;line-height:1.55;white-space:nowrap;
+  text-align:right;line-height:1.5;white-space:nowrap;
 }
 .move .presc b{font-weight:500;color:var(--signal)}
-.move .presc span{color:var(--muted)}
+.move .presc span{color:var(--muted);display:block}
+.move .presc span.rec{font-size:11px;letter-spacing:.02em}
 .move .muscle{
   grid-column:2 / -1;font-family:var(--mono);font-size:11px;
   letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
@@ -198,6 +201,22 @@ ol.moves>li{border-bottom:1px solid var(--line)}
 .detail ul{margin:0;padding-left:1.1em}
 .detail li{margin-bottom:.3em;font-size:.95rem;opacity:.9}
 .detail .safe{border-left:1px solid var(--signal);padding-left:12px}
+
+/* figure */
+.fig{
+  display:flex;gap:16px;margin:0 0 18px;padding:14px 0;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+}
+.fig .frame{flex:1;display:flex;flex-direction:column;gap:7px;align-items:center}
+.fig svg{
+  width:100%;max-width:130px;height:auto;
+  stroke:var(--paper);fill:none;stroke-width:2.2;
+  stroke-linecap:round;stroke-linejoin:round;opacity:.88;
+}
+.fig .frame span{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--muted);text-align:center;line-height:1.3;
+}
 
 .timerbar{
   display:flex;flex-wrap:wrap;gap:8px;align-items:center;
@@ -297,7 +316,6 @@ article.ex .body h3{font-size:1rem}
 }
 .meal li input:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
 .meal li .p{margin-left:auto;font-family:var(--mono);font-size:11.5px;color:var(--muted);white-space:nowrap;padding-left:8px}
-.meal li.alternative{color:var(--muted);font-style:italic}
 
 .totalbar{
   position:sticky;bottom:0;z-index:10;
@@ -365,7 +383,65 @@ footer a:hover{color:var(--paper)}
   .field input{font-size:18px}
 }
 
-@media print{  body{background:#fff;color:#000}
+/* ---------- calc ---------- */
+.calc{display:grid;gap:10px;margin:18px 0 14px}
+.calcrow{
+  display:grid;grid-template-columns:1fr 5.5em 4.6em 1.7em;
+  gap:10px;align-items:start;
+}
+.calcrow select,.calcrow input{
+  appearance:none;background:transparent;border:0;border-bottom:1px solid var(--line-2);
+  color:var(--paper);font-family:var(--mono);font-size:13.5px;padding:7px 0;width:100%;
+  transition:border-color .18s;
+}
+.calcrow select{cursor:pointer;border-radius:0;padding-right:16px}
+.selwrap{position:relative}
+.selwrap::after{
+  content:"▾";position:absolute;right:0;top:50%;transform:translateY(-50%);
+  font-size:10px;color:var(--muted);pointer-events:none;
+}
+.grwrap{position:relative}
+.grwrap input{padding-right:13px}
+.grwrap span{
+  position:absolute;right:0;top:50%;transform:translateY(-50%);
+  font-family:var(--mono);font-size:11px;color:var(--muted);pointer-events:none;
+}
+.calcrow select option{background:var(--ink-2);color:var(--paper)}
+.calcrow input{text-align:right}
+.calcrow select:focus,.calcrow input:focus{outline:none;border-bottom-color:var(--signal)}
+.calcrow input::placeholder{color:var(--muted);opacity:.5}
+.calcrow .val{font-family:var(--mono);font-size:13px;color:var(--sage);text-align:right;padding-top:7px;line-height:1.25}
+.calcrow .val small{display:block;font-size:10px;color:var(--muted);letter-spacing:.02em}
+.eq{
+  display:block;margin-top:3px;
+  font-family:var(--mono);font-size:10px;color:var(--muted);opacity:.8;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.calcrow .del{
+  appearance:none;background:none;border:0;color:var(--muted);
+  font-size:17px;line-height:1;cursor:pointer;padding:4px;margin-top:4px;
+}
+.calcrow .del:hover{color:var(--signal)}
+.calcrow .del:focus-visible{outline:2px solid var(--signal);outline-offset:1px}
+.calcnums{
+  display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+  margin-top:16px;padding-top:14px;border-top:1px solid var(--line-2);
+}
+.calcnums .num{display:flex;align-items:baseline;gap:5px}
+.calcnums b{font-family:var(--mono);font-size:26px;font-weight:500;color:var(--sage);line-height:1}
+.calcnums .of{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.calcnums .hint{font-size:.92rem;color:var(--paper);opacity:.85;margin-left:auto}
+@media(max-width:560px){
+  .calcrow{grid-template-columns:1fr 4em 3.8em 1.4em;gap:8px}
+  .calcrow select,.calcrow input{font-size:12.5px}
+  .eq{font-size:9.5px}
+  .calcnums{gap:8px 16px}
+  .calcnums b{font-size:22px}
+  .calcnums .hint{margin-left:0;flex:1 0 100%}
+}
+
+@media print{
+  body{background:#fff;color:#000}
   body::before,nav.tabs,.seg,.timerbar,.filters,.totalbar{display:none}
   article.ex .body{display:block!important}
   .move .detail{display:block!important}
@@ -396,7 +472,8 @@ footer a:hover{color:var(--paper)}
 <main>
   <section id="p-all" role="tabpanel" aria-labelledby="tab-all">
     <h2>Le tre sedute</h2>
-    <p class="sub">Full body, 2-3 volte a settimana, sempre a un giorno di distanza. Mai due giorni di fila.</p>
+    <p class="sub">Full body, 2-3 volte a settimana, sempre a un giorno di distanza. Mai due giorni di fila.
+    La formula è sempre <strong>serie × ripetizioni</strong>: <em>4×8-10</em> significa quattro serie da 8-10 ripetizioni.</p>
     <div class="seg" id="segDays" role="group" aria-label="Scegli la seduta"></div>
     <div id="sessionBody"></div>
   </section>
@@ -410,35 +487,50 @@ footer a:hover{color:var(--paper)}
 
   <section id="p-food" role="tabpanel" aria-labelledby="tab-food" hidden>
     <h2>Quattro palmi al giorno</h2>
-    <p class="sub">Obiettivo <strong>120-140 g</strong> di proteine: quattro porzioni grandi come il palmo della mano.
-    Spunta quello che mangi, il conto si aggiorna da solo.</p>
+    <p class="sub">Obiettivo <strong>120-140 g</strong> di proteine e <strong>~2.500 kcal</strong> al giorno, surplus incluso:
+    quattro porzioni grandi come il palmo della mano. Spunta quello che mangi, il conto si aggiorna da solo.</p>
 
     <div class="meals" id="meals"></div>
 
     <div class="totalbar">
       <div class="nums"><b id="pTotal">0</b><small>proteine</small></div>
       <div class="meter" aria-hidden="true"><i id="pBar" style="width:0"></i><span class="goal" style="left:85.7%"></span></div>
-      <div class="nums" style="text-align:right"><small>target</small><span id="pState">0 / 130</span></div>
+      <div class="nums" style="text-align:right"><small id="kTotal">0 kcal</small><span id="pState">0 / 130</span></div>
     </div>
 
+    <h3 style="margin-top:44px">Calcolatore: cosa ho in casa</h3>
+    <p class="sub">Scegli l'alimento, scrivi i grammi, leggi le proteine. Valori per 100 g <strong>crudo</strong>:
+    se pesi già cotto, aggiungi un 20-25% al risultato.</p>
+    <div class="calc" id="calcRows"></div>
+    <button class="ghost" id="calcAdd" type="button">+ alimento</button>
+    <div class="calcnums" id="calcNums"></div>
+
     <h3 style="margin-top:44px">Le porzioni, a occhio</h3>
+    <p class="sub" style="margin-bottom:0">La colonna di mezzo è quella che conta: se non hai la bilancia, usa quella.
+    I grammi sono lì solo per il calcolatore.</p>
     <table>
-      <thead><tr><th>Cosa</th><th>Quanto</th><th>Proteine</th></tr></thead>
+      <thead><tr><th>Cosa</th><th>A occhio</th><th>Prot.</th><th>Kcal</th></tr></thead>
       <tbody>
-        <tr><td>Petto di pollo</td><td class="n">150 g</td><td class="n">34 g</td></tr>
-        <tr><td>Fettina di manzo</td><td class="n">150 g</td><td class="n">32 g</td></tr>
-        <tr><td>Salmone</td><td class="n">150 g</td><td class="n">30 g</td></tr>
-        <tr><td>Merluzzo / platessa</td><td class="n">200 g</td><td class="n">34 g</td></tr>
-        <tr><td>Tonno in scatola</td><td class="n">1 scatoletta</td><td class="n">20 g</td></tr>
-        <tr><td>Uova</td><td class="n">3 intere</td><td class="n">19 g</td></tr>
-        <tr><td>Yogurt greco 0%</td><td class="n">200 g</td><td class="n">20 g</td></tr>
-        <tr><td>Bresaola</td><td class="n">100 g</td><td class="n">32 g</td></tr>
-        <tr><td>Grana</td><td class="n">30 g</td><td class="n">10 g</td></tr>
-        <tr><td>Legumi cotti</td><td class="n">150 g</td><td class="n">12 g</td></tr>
-        <tr><td>Latte</td><td class="n">250 ml</td><td class="n">8 g</td></tr>
-        <tr><td>Polpette</td><td class="n">300 g macinato</td><td class="n">57 g</td></tr>
-        <tr><td>Pasta / riso</td><td class="n">100 g crudo</td><td class="n">11 g</td></tr>
-        <tr><td>Pane</td><td class="n">100 g</td><td class="n">8 g</td></tr>
+        <tr><td>Petto di pollo</td><td>un palmo grande, spesso 2 dita <em>(150 g)</em></td><td class="n">34 g</td><td class="n">165</td></tr>
+        <tr><td>Cosce di pollo</td><td>una coscia disossata <em>(120 g)</em></td><td class="n">22 g</td><td class="n">192</td></tr>
+        <tr><td>Fettina di manzo</td><td>2 fettine sottili <em>(150 g)</em></td><td class="n">32 g</td><td class="n">195</td></tr>
+        <tr><td>Bistecca</td><td>una grande come la mano aperta <em>(150 g)</em></td><td class="n">32 g</td><td class="n">225</td></tr>
+        <tr><td>Salmone</td><td>un trancio grande come il palmo <em>(150 g)</em></td><td class="n">30 g</td><td class="n">300</td></tr>
+        <tr><td>Merluzzo</td><td>2 filetti <em>(200 g)</em></td><td class="n">34 g</td><td class="n">160</td></tr>
+        <tr><td>Moscardini / polpo</td><td>una porzione da due mani <em>(200 g)</em></td><td class="n">30 g</td><td class="n">160</td></tr>
+        <tr><td>Tonno in scatola</td><td>1 scatoletta sgocciolata <em>(80 g)</em></td><td class="n">20 g</td><td class="n">92</td></tr>
+        <tr><td>Uova</td><td>3 intere <em>(165 g)</em></td><td class="n">21 g</td><td class="n">236</td></tr>
+        <tr><td>Yogurt greco 0%</td><td>mezzo barattolo da 500 g <em>(250 g)</em></td><td class="n">25 g</td><td class="n">143</td></tr>
+        <tr><td>Yogurt proteico</td><td>1 vasetto <em>(150 g)</em></td><td class="n">18 g</td><td class="n">105</td></tr>
+        <tr><td>Bresaola</td><td>5 fette sottili <em>(100 g)</em></td><td class="n">32 g</td><td class="n">150</td></tr>
+        <tr><td>Grana / parmigiano</td><td>una fetta spessa 2 dita <em>(30 g)</em></td><td class="n">10 g</td><td class="n">117</td></tr>
+        <tr><td>Legumi cotti</td><td>2 mestoli <em>(150 g)</em></td><td class="n">12 g</td><td class="n">172</td></tr>
+        <tr><td>Polpette</td><td>4 medie, da 300 g di macinato</td><td class="n">57 g</td><td class="n">420</td></tr>
+        <tr><td>Latte</td><td>1 bicchiere <em>(250 ml)</em></td><td class="n">8 g</td><td class="n">115</td></tr>
+        <tr><td>Pasta o riso</td><td>1 piatto fondo colmo, crudo <em>(100 g)</em></td><td class="n">11 g</td><td class="n">350</td></tr>
+        <tr><td>Pane</td><td>2 fette <em>(50 g)</em></td><td class="n">4 g</td><td class="n">135</td></tr>
+        <tr><td>Patate</td><td>2 medie <em>(300 g)</em></td><td class="n">6 g</td><td class="n">231</td></tr>
+        <tr><td>Mandorle</td><td>un pugno <em>(15 g)</em></td><td class="n">3 g</td><td class="n">90</td></tr>
       </tbody>
     </table>
 
@@ -476,9 +568,11 @@ footer a:hover{color:var(--paper)}
     <h3 style="margin-top:36px">Glossario, per non leggere da tecnico</h3>
     <table>
       <tbody>
+        <tr><td><strong>4×8-10</strong></td><td>Quattro serie da 8-10 ripetizioni ciascuna.</td></tr>
         <tr><td><strong>RIR</strong></td><td>Ripetizioni in riserva: quante ne avresti ancora. "RIR 3" = ti fermi quando ne senti altre 3.</td></tr>
         <tr><td><strong>Cedimento</strong></td><td>Il punto in cui non riesci a completare un'altra ripetizione pulita. Non è l'obiettivo di ogni serie.</td></tr>
         <tr><td><strong>Turgore</strong></td><td>Il "pump": sangue e liquidi nel muscolo. Gonfia per 1-3 ore, non è crescita.</td></tr>
+        <tr><td><strong>HSPU</strong></td><td>Handstand push-up: piegamenti a testa in giù, al muro.</td></tr>
         <tr><td><strong>Ricomposizione</strong></td><td>Guadagnare muscolo tenendo il grasso fermo. Funziona da non allenati, con proteine alte.</td></tr>
         <tr><td><strong>Doppia progressione</strong></td><td>Prima aggiungi ripetizioni dentro il range, poi aumenti il carico e riparti dal minimo.</td></tr>
       </tbody>
@@ -538,24 +632,41 @@ const DATA = {
     { id:"trazioni", nome:"Trazioni alla sbarra", m:"dorsali · bicipiti · presa", grp:"trazione",
       steps:[
         "Impugna la sbarra con presa prona, poco più larga delle spalle. Se usi l'elastico, aggancialo alla sbarra e mettici dentro un ginocchio.",
-        "Gambe incrociate e busto fermo: niente dondolio. Parti da braccia completamente distese (allungamento completo, è lì che lavora il dorsale).",
+        "Gambe incrociate e busto fermo: niente dondolio. Parti da braccia completamente distese: è lì che il dorsale lavora.",
         "Tira i gomiti verso il basso e verso i fianchi, non pensare alle mani. Supera il mento, meglio se arrivi col petto alla sbarra.",
         "Scendi controllato in 2 secondi fino alla distensione completa. Non lasciarti cadere."
       ],
       err:["Fermarsi a metà: servono almeno mento sopra la sbarra.","Dondolare con le gambe.","Scendere solo a metà escursione.","Stringere le spalle alle orecchie in partenza."],
       prog:"5×5 pulite senza elastico → poi zaino o cintura con dischi.",
-      regr:"Trazioni australiane (ring row o sotto un tavolo) e negative: salta in alto e scendi in 5 secondi."
+      regr:"Trazioni australiane (ring row o sotto un tavolo) e negative: salta in alto e scendi in 5 secondi.",
+      fig:`<figure class="fig">
+        <div class="frame"><svg viewBox="0 0 110 110" aria-hidden="true">
+          <line x1="18" y1="12" x2="92" y2="12" opacity=".5"/>
+          <path d="M42 12 L50 32 M68 12 L60 32"/>
+          <circle cx="55" cy="26" r="6.5"/>
+          <path d="M55 34 L55 64"/>
+          <path d="M55 64 L48 82 L44 100 M55 64 L62 82 L66 100"/>
+        </svg><span>1 · appeso, braccia distese</span></div>
+        <div class="frame"><svg viewBox="0 0 110 110" aria-hidden="true">
+          <line x1="18" y1="12" x2="92" y2="12" opacity=".5"/>
+          <path d="M42 12 L35 24 L50 34 M68 12 L75 24 L60 34"/>
+          <circle cx="55" cy="21" r="6"/>
+          <path d="M55 34 L55 58"/>
+          <path d="M55 58 L49 74 L46 90 M55 58 L61 74 L64 90"/>
+        </svg><span>2 · mento sopra la sbarra</span></div>
+      </figure>`
     },
     { id:"rematore", nome:"Rematore a 30° gomiti alti", m:"trapezio · romboidi · deltoide posteriore", grp:"trazione",
       steps:[
-        "Busto inclinato in avanti di ~30-45°, schiena piatta, ginocchia morbide. Con gli anelli: agganciati e mettiti quasi orizzontale.",
-        "Gomiti larghi e alti, che portano verso l'esterno: è questo che sposta il lavoro sui muscoli alti della schiena.",
-        "Tira fino a portare le mani ai lati del petto, stringi le scapole per un istante.",
-        "Scendi lento, lasciando che le scapole si aprano. Non strappare."
+        "Con gli anelli: agganciali a un'altezza tra i fianchi e il petto, afferra le estremità e mettiti con i piedi avanti a te. Più i piedi vanno avanti e più il corpo si inclina, più l'esercizio è duro.",
+        "Il corpo resta dritto come una tavola, dalla testa ai talloni: è la posizione che conta, non la forza delle braccia.",
+        "Gomiti larghi e alti, che vanno verso l'esterno. Tira fino a portare le mani ai lati del petto e stringi le scapole per un istante.",
+        "Scendi lento lasciando che le scapole si aprano. Se hai l'ez-bar: busto inclinato di 30-45°, schiena piatta, ginocchia morbide, barra verso l'ombelico."
       ],
-      err:["Gomiti incollati al busto (diventa un rematore per dorsali bassi).","Schiena che si inarca per chiudere il movimento.","Slancio col busto.","Presa troppo larga: peggiora la chiusura delle scapole."],
-      prog:"Aggiungi dischi all'ez-bar, oppure alza la difficoltà mettendoti più orizzontale agli anelli.",
-      regr:"Ring row in piedi con i piedi molto avanti, busto quasi verticale."
+      err:["Gomiti incollati al busto: diventa un rematore per dorsali bassi, non per la schiena alta.","Busto che si inarca o si piega.","Tirare con le braccia e non con le scapole: prima chiudi le scapole, poi piega i gomiti.","Slancio col bacino."],
+      prog:"Piedi più avanti (corpo più orizzontale), oppure dischi sull'ez-bar.",
+      regr:"Ring row quasi in piedi (busto verticale) oppure australiane sotto un tavolo.",
+      extra:"Non è la stessa cosa delle australian pull: quelle sono a gomiti stretti e prendono i dorsali; questo è a gomiti larghi e prende trapezio, romboidi e deltoide posteriore. Per la tua schiena alta serve questo.",
     },
     { id:"pike", nome:"Pike push-up", m:"deltoidi · tricipiti · fasci clavicolari", grp:"spinta",
       steps:[
@@ -565,10 +676,10 @@ const DATA = {
         "Sfiora quasi il pavimento con la cima della testa (non caricare sul collo), spingi e risali fino a distendere le braccia."
       ],
       err:["Gomiti aperti a 90°: stressa la spalla.","Testa che va troppo avanti invece di scendere dritta.","Busto che si inarca e bacino che scende.","Piedi troppo alti alla prima settimana."],
-      prog:"Piedi su un gradino più alto → pausa di 2 secondi in basso → HSPU al muro con le mani su rialzi.",
-      regr:"Mani su un rialzo (meno peso sulla spalla) o pike con i piedi a terra e bacino meno alto. Mulino: 3 serie da 6 quando ne fai 10 puliti.",
+      prog:"Piedi su un gradino più alto → pausa di 2 secondi in basso → HSPU (handstand push-up) al muro con le mani su rialzi.",
+      regr:"Mani su un rialzo (meno peso sulla spalla) o pike con i piedi a terra e bacino meno alto. Poi 3 serie da 6 quando ne fai 10 puliti.",
       safe:"Se la spalla pizzica, riduci l'escursione e allarga un po' le mani. Se hai pressione alta o vertigini a testa in giù, resta al pike moderato e usa il lento avanti con l'ez-bar.",
-      extra:"È il \"piegamenti a testa in giù\" del PDF: stesso esercizio, i piedi al muro servono solo per l'equilibrio."
+      extra:"È il \"piegamenti a testa in giù\" del PDF: stesso esercizio, i piedi al muro servono solo per l'equilibrio.",
     },
     { id:"piegamenti", nome:"Piegamenti a terra", m:"pettorali · deltoide anteriore · tricipiti", grp:"spinta",
       steps:[
@@ -597,11 +708,29 @@ const DATA = {
         "Un piede indietro appoggiato su una sedia, l'altro avanti a un passo comodo. Busto dritto.",
         "Scendi in verticale: il ginocchio dietro va verso terra, quello davanti resta sopra il piede.",
         "Scendi finché la coscia davanti è quasi parallela al pavimento, poi spingi col tallone davanti.",
-        "Tutto il carico sulla gamba davanti. Zaino o ez-bar sulle spalle, se la barra è scomoda usa lo zaino."
+        "Tutto il carico sulla gamba davanti. Due manubri ai lati, a 10 kg l'uno: meglio dello zaino, il carico è più alto e la presa più comoda."
       ],
       err:["Passo troppo corto: il ginocchio davanti va oltre le dita.","Busto che si piega in avanti.","Spingere col piede dietro.","Rimbalzare in basso."],
       prog:"Zaino più pesante → pausa di 2 secondi in basso.",
-      regr:"Affondo normale a terra, o affondo con la mano appoggiata a un muro per equilibrio."
+      regr:"Affondo normale a terra, o affondo con la mano appoggiata a un muro per equilibrio.",
+      fig:`<figure class="fig">
+        <div class="frame"><svg viewBox="0 0 110 110" aria-hidden="true">
+          <rect x="80" y="66" width="26" height="38" opacity=".45"/>
+          <line x1="14" y1="104" x2="100" y2="104" opacity=".4"/>
+          <circle cx="40" cy="16" r="6"/>
+          <path d="M40 24 L40 54"/>
+          <path d="M40 54 L30 76 L26 100"/>
+          <path d="M40 54 L62 74 L82 67"/>
+        </svg><span>1 · in alto, busto dritto</span></div>
+        <div class="frame"><svg viewBox="0 0 110 110" aria-hidden="true">
+          <rect x="80" y="66" width="26" height="38" opacity=".45"/>
+          <line x1="14" y1="104" x2="100" y2="104" opacity=".4"/>
+          <circle cx="40" cy="38" r="6"/>
+          <path d="M40 46 L40 74"/>
+          <path d="M40 74 L28 84 L24 102"/>
+          <path d="M40 74 L60 88 L82 69"/>
+        </svg><span>2 · coscia quasi parallela</span></div>
+      </figure>`
     },
     { id:"rdl", nome:"Stacco rumeno con ez-bar", m:"femorali · glutei · schiena bassa", grp:"gambe",
       steps:[
@@ -612,29 +741,71 @@ const DATA = {
       ],
       err:["Schiena che si arrotonda: si ferma lì, non si scende di più.","Barra che si allontana dalle gambe.","Piegare troppo le ginocchia: diventa uno squat.","Iperestendere la schiena in alto."],
       prog:"+2,5/5 kg. Massimo 40 kg totali con la tua barra.",
-      regr:"Stacco rumeno a una gamba con due manubri, o ponte glutei a terra."
+      regr:"Stacco rumeno a una gamba con due manubri, o ponte glutei a terra.",
+      fig:`<figure class="fig">
+        <div class="frame"><svg viewBox="0 0 110 110" aria-hidden="true">
+          <line x1="14" y1="102" x2="100" y2="102" opacity=".4"/>
+          <circle cx="52" cy="14" r="5.5"/>
+          <path d="M52 22 L52 54"/>
+          <path d="M52 54 L50 76 L48 100"/>
+          <path d="M52 28 L48 44 L46 60"/>
+          <line x1="36" y1="60" x2="66" y2="60"/>
+        </svg><span>1 · in piedi, barra alle cosce</span></div>
+        <div class="frame"><svg viewBox="0 0 110 110" aria-hidden="true">
+          <line x1="14" y1="102" x2="100" y2="102" opacity=".4"/>
+          <circle cx="74" cy="36" r="5.5"/>
+          <path d="M66 42 L44 54"/>
+          <path d="M44 54 L46 78 L48 100"/>
+          <path d="M66 46 L64 58 L64 70"/>
+          <line x1="52" y1="70" x2="84" y2="70"/>
+        </svg><span>2 · sedere indietro, schiena piatta</span></div>
+      </figure>`
     },
-    { id:"squat", nome:"Squat con zaino", m:"quadricipiti · glutei", grp:"gambe",
+    { id:"squat", nome:"Squat con manubri", m:"quadricipiti · glutei", grp:"gambe",
       steps:[
-        "Zaino carico ben alto sulle spalle, piedi larghezza spalle, punte leggermente aperte.",
+        "Due manubri caricati a 10 kg, uno per lato, oppure un solo manubrio tenuto al petto (goblet squat). Piedi larghezza spalle, punte leggermente aperte.",
         "Scendi sedendoti tra i piedi, ginocchia che seguono la direzione delle punte, talloni a terra.",
         "Vai giù almeno a coscia parallela, schiena piatta per tutta la discesa.",
         "Risali spingendo dal centro del piede, senza far cedere le ginocchia all'interno."
       ],
-      err:["Talloni che si staccano.","Ginocchia che collassano verso l'interno.","Schiena che si arrotonda in basso.","Zaino troppo basso sulla schiena."],
-      prog:"Più dischi nello zaino, poi pistols assistiti.",
+      err:["Talloni che si staccano.","Ginocchia che collassano verso l'interno.","Schiena che si arrotonda in basso.","Manubri che sbattono sulle cosce."],
+      prog:"Manubri più pesanti, oppure pistols assistiti (una gamba, appoggiato a una porta).",
       regr:"Squat a corpo libero con pausa in basso, o seduto e alzati da una sedia."
     },
     { id:"curl", nome:"Curl con ez-bar", m:"bicipiti · avambracci", grp:"braccia",
       steps:[
-        "Presa supina sulla ez-bar, gomiti fermi ai fianchi, spalle indietro.",
+        "Presa supina sulla ez-bar (palmi verso l'alto), gomiti fermi ai fianchi, spalle indietro.",
         "Sali piegando solo i gomiti, senza spostare il busto. Fermati prima che la barra tocchi le spalle.",
         "Scendi lento in 3 secondi fino alla distensione quasi completa.",
         "Polsi dritti: se cedono, il carico è troppo."
       ],
       err:["Dondolare il busto.","Gomiti che vanno avanti.","Mezza discesa.","Caricare troppo e fare 4 ripetizioni."],
-      prog:"+2,5 kg oppure presa più stretta per far lavorare di più l'avambraccio.",
-      regr:"Curl a una mano con manubrio, appoggiando il gomito sulla coscia."
+      prog:"+2,5 kg. La presa prona è il suo complemento: si fanno in coppia, il curl normale e poi il reverse a metà carico.",
+      regr:"Curl a una mano con manubrio, appoggiando il gomito sulla coscia.",
+      extra:"Il reverse curl non sostituisce il curl: con la presa prona carichi il 30-40% in meno. Aggiungilo come serie accoppiata, non al posto."
+    },
+    { id:"revcurl", nome:"Reverse curl", m:"avambracci · brachioradiale", grp:"braccia",
+      steps:[
+        "Presa prona: palmi verso il basso, mani alla larghezza delle spalle, gomiti fermi ai fianchi.",
+        "Carico: circa la metà del curl normale, 7,5-10 kg. Con la presa prona si solleva molto meno, ed è normale.",
+        "Sali piegando solo i gomiti, polsi dritti e rigidi. Fermati quando la barra arriva all'altezza del petto.",
+        "Scendi in 3 secondi fino a braccia quasi distese, senza lasciar cadere la barra."
+      ],
+      err:["Polsi che si piegano all'indietro: il carico è troppo.","Dondolare il busto per chiudere la ripetizione.","Caricare come nel curl normale.","Presa troppo larga: il polso lavora storto."],
+      prog:"2,5 kg in più quando fai 12 ripetizioni pulite con i polsi fermi.",
+      regr:"Solo la barra vuota (5,5 kg), oppure un manubrio da 4 kg per mano.",
+      extra:"È l'unico esercizio del programma che allena in modo diretto gli estensori del polso e il brachioradiale. Dà spessore al lato dell'avambraccio. Non sostituisce il curl: si fanno in coppia, uno dopo l'altro."
+    },
+    { id:"scrollate", nome:"Scrollate", m:"trapezio alto", grp:"trazione",
+      steps:[
+        "Ez-bar (o zaino) in mano, braccia distese lungo i fianchi, presa comoda.",
+        "Alza le spalle verso le orecchie senza piegare i gomiti e senza muovere la testa: solo le scapole che salgono.",
+        "Fermati 1 secondo in alto, poi scendi lento lasciando che le spalle si abbassino.",
+        "Qui puoi andare pesante: la scapola è una struttura forte."
+      ],
+      err:["Piegare i gomiti e trasformarlo in un curl.","Ruotare le spalle in avanti o indietro.","Spingere la testa in avanti.","Movimento a scatti."],
+      prog:"+5 kg, oppure pausa di 2 secondi in alto.",
+      regr:"Scrollate con lo zaino, o con due manubri."
     },
     { id:"laterali", nome:"Alzate laterali", m:"deltoide laterale", grp:"spinta",
       steps:[
@@ -651,12 +822,23 @@ const DATA = {
       steps:[
         "Fissa l'elastico all'altezza degli occhi (porta, sbarra). Mani sulle estremità, braccia tese.",
         "Tira verso la faccia separando le mani: i gomiti salgono e vanno indietro, le mani finiscono ai lati delle orecchie.",
-        "Stringi le scapole in chiusura, come se volessi mettere le scapole nelle tasche posteriori.",
+        "Stringi le scapole in chiusura, come se volessi metterle nelle tasche posteriori.",
         "Torna controllato. È il migliore amico delle tue spalle: fallo anche quando sei stanco."
       ],
       err:["Tirare con le braccia invece che con le scapole.","Elastico troppo duro e busto che va indietro.","Movimento veloce e senza chiusura."],
       prog:"Elastico più corto/duro oppure 3 secondi di chiusura.",
       regr:"Elastico più lungo, o alzate a 90° con i 4 kg."
+    },
+    { id:"calf", nome:"Calf raise su un gradino", m:"polpacci", grp:"gambe",
+      steps:[
+        "Avampiede su un gradino, talloni a sospeso nel vuoto, zaino sulle spalle o manubrio in mano.",
+        "Scendi lentamente in 2-3 secondi fino a sentire allungare il polpaccio.",
+        "Sali il più in alto possibile sulle punte e fermati 1 secondo in cima.",
+        "Se il carico è poco, fallo a una gamba sola: il peso che senti raddoppia."
+      ],
+      err:["Rimbalzare invece di controllare.","Mezza escursione.","Ginocchia che si piegano.","Carico troppo leggero per fare 20 ripetizioni."],
+      prog:"+5 kg nello zaino, oppure una gamba sola.",
+      regr:"Calf a due gambe a terra, salendo sulle punte."
     },
     { id:"deadhang", nome:"Dead hang alla sbarra", m:"presa · avambracci · spalle", grp:"trazione",
       steps:[
@@ -679,7 +861,25 @@ const DATA = {
       err:["Sollevare le gambe senza ruotare il bacino.","Andare a cedimento: l'ultima ripetizione sbagliata è quella che fa dondolare.","Spalle che salgono alle orecchie.","Ginocchia che si aprono di lato."],
       prog:"Gambe distese (L-sit raise) → pausa di 2 secondi in alto → L-sit tenuto.",
       regr:"Appeso alla sbarra con pausa di 1 secondo in basso, oppure ginocchia al petto a terra.",
-      extra:"In appoggio non c'è nessun pendolo da sfruttare: è per questo che dondolare diventa quasi impossibile. Con gli anelli è più instabile dei paralletti, quindi allarga un po' le mani."
+      extra:"In appoggio non c'è nessun pendolo da sfruttare: è per questo che dondolare diventa quasi impossibile. Con gli anelli è più instabile dei paralletti, quindi allarga un po' le mani.",
+      fig:`<figure class="fig">
+        <div class="frame"><svg viewBox="0 0 110 110" aria-hidden="true">
+          <path d="M34 46 L34 96 M76 46 L76 96" opacity=".35"/>
+          <line x1="28" y1="46" x2="82" y2="46" opacity=".5"/>
+          <path d="M46 46 L48 62 M64 46 L62 62"/>
+          <circle cx="55" cy="57" r="5.5"/>
+          <path d="M55 66 L55 84"/>
+          <path d="M55 84 L50 94 L48 102"/>
+        </svg><span>1 · appoggio, bacino arrotondato</span></div>
+        <div class="frame"><svg viewBox="0 0 110 110" aria-hidden="true">
+          <path d="M34 46 L34 96 M76 46 L76 96" opacity=".35"/>
+          <line x1="28" y1="46" x2="82" y2="46" opacity=".5"/>
+          <path d="M46 46 L48 62 M64 46 L62 62"/>
+          <circle cx="55" cy="57" r="5.5"/>
+          <path d="M55 66 L55 84"/>
+          <path d="M55 84 L76 74 L86 82"/>
+        </svg><span>2 · ginocchia al petto</span></div>
+      </figure>`
     },
     { id:"hollow", nome:"Hollow hold (e tuck)", m:"addome · anti-estensione", grp:"addome",
       steps:[
@@ -691,7 +891,23 @@ const DATA = {
       err:["Lombari che si staccano da terra: chiudi la serie lì.","Trattenere il respiro.","Gambe troppo distese troppo presto.","Spingerlo a cedimento: è una tenuta tecnica, non una gara."],
       prog:"Tuck (ginocchia piegate) → gambe sempre più distese → hollow con braccia oltre la testa.",
       regr:"Ginocchia al petto tenute 20 secondi, oppure solo le spalle sollevate con le gambe a terra.",
-      extra:"Insegna la posizione che ti protegge in affondi, trazioni e stacco: per questo sta a fine seduta, quando sei stanco, e non all'inizio. Il \"ground sit\" che avevi visto è mobilità, non un esercizio di forza: non serve al tuo obiettivo."
+      extra:"Insegna la posizione che ti protegge in affondi, trazioni e stacco: per questo sta a fine seduta, quando sei stanco. Il \"ground sit\" è mobilità, non un esercizio di forza: non serve al tuo obiettivo.",
+      fig:`<figure class="fig">
+        <div class="frame"><svg viewBox="0 0 110 110" aria-hidden="true">
+          <line x1="8" y1="90" x2="104" y2="90" opacity=".4"/>
+          <circle cx="26" cy="70" r="6"/>
+          <path d="M31 73 L14 66"/>
+          <path d="M31 73 L70 78"/>
+          <path d="M70 78 L60 46 L78 42"/>
+        </svg><span>1 · tuck: ginocchia al petto</span></div>
+        <div class="frame"><svg viewBox="0 0 110 110" aria-hidden="true">
+          <line x1="8" y1="90" x2="104" y2="90" opacity=".4"/>
+          <circle cx="25" cy="70" r="6"/>
+          <path d="M30 73 L12 64"/>
+          <path d="M30 73 L70 78"/>
+          <path d="M70 78 L92 70 L106 62"/>
+        </svg><span>2 · hollow: gambe distese, lombari giù</span></div>
+      </figure>`
     },
     { id:"planktwist", nome:"Plank twist (opzionale)", m:"obliqui", grp:"addome",
       steps:[
@@ -714,71 +930,108 @@ const DATA = {
       ],
       err:["Troppe ripetute: diventa resistenza e ti svuota.","Recupero troppo corto.","Correre a freddo.","Farlo il giorno dopo le gambe pesanti."],
       prog:"Aggiungi una ripetuta o un carico trainato.",
-      regr:"Salita più corta (20-30 m) o camminata veloce in salita."
+      regr:"Salita più corta (20-30 m), camminata veloce in salita, scale a due gradini alla volta, oppure 6×20 secondi di bici da fermo a tutta.",
+      extra:"Se non hai una salita: vale qualsiasi cosa ti faccia stare a tutta intensità per 10 secondi con recupero completo. Scale del palazzo e bici vanno benissimo."
     }
   ],
 
   sessions: [
     { key:"A", nome:"Trazione e gambe", focus:"dorsali · schiena alta · quadricipiti",
       dur:"45 min", min:"25 min",
+      nota:"Scrollate e dead hang vanno in superserie: le fai una dopo l'altra, con un solo recupero alla fine della coppia.", 
       moves:[
         { id:"trazioni", s:"5", r:"4", kg:"elastico", rec:"2-3 min", minVer:true },
-        { id:"bulgaro", s:"3", r:"8 /gamba", kg:"12 kg", rec:"2 min", minVer:true },
+        { id:"bulgaro", s:"3", r:"8 /gamba", kg:"2×10 kg", rec:"2 min", minVer:true },
         { id:"rematore", s:"4", r:"8-10", kg:"22,5 kg", rec:"2 min", minVer:true },
         { id:"pike", s:"3", r:"6-8", kg:"corpo", rec:"2 min" },
-        { id:"deadhang", s:"3", r:"20-30 s", kg:"corpo", rec:"60 s" }
+        { id:"deadhang", s:"3", r:"20-30 s", kg:"corpo", rec:"in superserie" },
+        { id:"scrollate", s:"2", r:"12-15", kg:"30 kg", rec:"in superserie" }
       ]},
     { key:"B", nome:"Spinta e femorali", focus:"petto · spalle · femorali · braccia",
       dur:"45 min", min:"25 min",
-      nota:"L'addome è l'ultima voce del programma: un solo esercizio, fatto bene. Se sei corto di tempo taglia il knee raise, non le trazioni.",
+      nota:"Curl e reverse curl vanno in superserie: fai una serie di curl, poi senza pausa il reverse a metà carico, e recuperi una volta sola. L'addome è l'ultima voce del programma: un solo esercizio, fatto bene. Se sei corto di tempo taglia il knee raise, non le trazioni.",
       moves:[
         { id:"rdl", s:"4", r:"8", kg:"30 kg", rec:"2-3 min", minVer:true },
         { id:"piegamenti", s:"4", r:"8-10", kg:"corpo", rec:"2 min", minVer:true },
         { id:"dip", s:"3", r:"6-10", kg:"corpo", rec:"2 min", minVer:true },
-        { id:"curl", s:"3", r:"10-12", kg:"15 kg", rec:"90 s" },
+        { id:"curl", s:"3", r:"10-12", kg:"15 kg", rec:"in superserie" },
+        { id:"revcurl", s:"3", r:"10-12", kg:"7,5 kg", rec:"in superserie" },
         { id:"kneeraise", s:"3", r:"8-12", kg:"corpo", rec:"60 s" }
       ]},
     { key:"C", nome:"Weekend, tutto il corpo", focus:"gambe · spalle · schiena",
-      dur:"40 min", min:"20 min",
-      nota:"L'hollow hold sta in chiusura apposta: è una tenuta tecnica, si fa quando sei già stanco, ed è lì che serve.",
+      dur:"45 min", min:"20 min",
+      nota:"Alzate laterali e calf raise in superserie. L'hollow hold sta in chiusura apposta: è una tenuta tecnica, si fa quando sei già stanco, ed è lì che serve.",
       moves:[
         { id:"sprint", s:"4-6", r:"40-50 m", kg:"—", rec:"completo", minVer:true },
-        { id:"squat", s:"4", r:"12-15", kg:"15 kg", rec:"2 min", minVer:true },
+        { id:"squat", s:"4", r:"12-15", kg:"2×10 kg", rec:"2 min", minVer:true },
         { id:"trazioni", s:"3", r:"max-1", kg:"elastico", rec:"2 min", minVer:true },
-        { id:"laterali", s:"3", r:"15-20", kg:"4 kg", rec:"60 s" },
+        { id:"laterali", s:"3", r:"15-20", kg:"4 kg", rec:"in superserie" },
+        { id:"calf", s:"3", r:"15-20", kg:"zaino", rec:"in superserie" },
         { id:"facepull", s:"3", r:"15", kg:"elastico", rec:"60 s" },
         { id:"hollow", s:"2", r:"20-30 s", kg:"corpo", rec:"60 s" }
       ]}
   ],
 
   meals: [
-    { time:"7:30", title:"Colazione", note:"Quella che oggi non fai. È il pasto più facile da aggiungere di tutta la giornata.",
+    { time:"7:30", title:"Colazione",
       items:[
-        { t:"Yogurt greco 0% — 200 g", p:20, id:"b1" },
-        { t:"Avena — 60 g", p:5, id:"b2" },
-        { t:"Mandorle — 15 g", p:3, id:"b3" },
-        { t:"Caffè (zucchero facoltativo)", p:0, id:"b4" }
-      ],
-      alt:"In alternativa: 300 ml latte + 2 fette di pane + marmellata + 30 g grana (≈ 28 g)." },
-    { time:"12:30", title:"Mensa", note:"Primo, secondo e contorno: sempre tutti e tre.",
+        { t:"Yogurt greco 0% — metà barattolo da 500 g", p:25, k:143, id:"b1" },
+        { t:"Avena — 3 cucchiai colmi", p:7, k:190, id:"b2" },
+        { t:"Mandorle — un pugno", p:3, k:90, id:"b3" },
+        { t:"Caffè (zucchero facoltativo)", p:0, k:5, id:"b4" }
+      ] },
+    { time:"12:30", title:"Mensa",
       items:[
-        { t:"Primo — 100 g di pasta o riso", p:11, id:"l1" },
-        { t:"Secondo di carne o pesce — 150 g", p:33, id:"l2" },
-        { t:"Contorno di legumi — 150 g", p:12, id:"l3" },
-        { t:"Pane — 50 g", p:4, id:"l4" }
-      ],
-      alt:"Se prendi il secondo vegetariano: aggiungi legumi come contorno e 30 g di grana (≈ +22 g)." },
-    { time:"16:30", title:"Spuntino", note:"È questo che ti evita il crollo sul divano alle 21.",
+        { t:"Primo — un piatto fondo colmo", p:11, k:350, id:"l1" },
+        { t:"Secondo — un trancio grande come il palmo", p:33, k:165, id:"l2" },
+        { t:"Contorno — 2 mestoli di legumi", p:12, k:172, id:"l3" },
+        { t:"Pane — 2 fette", p:4, k:135, id:"l4" }
+      ] },
+    { time:"16:30", title:"Spuntino",
       items:[
-        { t:"Yogurt greco 0% — 200 g", p:20, id:"s1" }
-      ],
-      alt:"In alternativa: 100 g di bresaola (32 g), oppure 250 ml latte + 30 g grana (18 g)." },
-    { time:"20:00", title:"Cena", note:"Entro le 20:30. Dopo cena non ci si sdraia: quella stanchezza è cibo pesante + debito di sonno.",
+        { t:"Yogurt proteico — 1 vasetto", p:18, k:105, id:"s1" }
+      ] },
+    { time:"20:00", title:"Cena",
       items:[
-        { t:"3 uova (o 200 g di pesce)", p:19, id:"d1" },
-        { t:"Pasta o riso — 100 g", p:11, id:"d2" }
-      ],
-      alt:"In alternativa: 200 g di merluzzo (34 g) o 150 g di pollo (34 g) al posto delle uova. 20 g di grana in più sono +7 g." }
+        { t:"Uova — 3 intere (o 200 g di pesce)", p:21, k:236, id:"d1" },
+        { t:"Pasta o riso — un piatto fondo colmo", p:11, k:350, id:"d2" }
+      ] }
+  ],
+
+  swaps: {    b: "In alternativa: 1 bicchiere di latte + 2 fette di pane con marmellata + una fetta di grana (≈ 28 g).",
+    l: "Secondo vegetariano? 2 mestoli di legumi come contorno e una fetta di grana (≈ +22 g).",
+    s: "In alternativa: 5 fette di bresaola (32 g), oppure 1 bicchiere di latte + una fetta di grana (18 g).",
+    d: "In alternativa: 2 filetti di merluzzo o un palmo grande di pollo al posto delle uova. Una fetta di grana in più sono +10 g."
+  },
+
+  /* proteine e kcal per 100 g di alimento crudo, con la misura casalinga */
+  foods: [
+    ["Petto di pollo", 23, 110, "1 palmo spesso 2 dita ≈ 150 g"],
+    ["Cosce di pollo", 18, 160, "1 coscia disossata ≈ 120 g"],
+    ["Fettina di manzo", 21, 130, "2 fettine ≈ 150 g"],
+    ["Bistecca di manzo", 21, 150, "1 bistecca ≈ 150 g"],
+    ["Macinato magro", 19, 140, "4 polpette ≈ 300 g"],
+    ["Uova (1 ≈ 55 g)", 12.5, 143, "1 uovo ≈ 55 g"],
+    ["Salmone", 20, 200, "1 trancio ≈ 150 g"],
+    ["Merluzzo / platessa", 17, 80, "1 filetto ≈ 100 g"],
+    ["Tonno sgocciolato", 25, 115, "1 scatoletta ≈ 80 g"],
+    ["Polpo / moscardini", 15, 80, "1 porzione ≈ 200 g"],
+    ["Yogurt greco 0%", 10, 57, "mezzo barattolo da 500 g ≈ 250 g"],
+    ["Yogurt proteico", 12, 70, "1 vasetto ≈ 150 g"],
+    ["Latte", 3.3, 46, "1 bicchiere ≈ 250 g"],
+    ["Grana / parmigiano", 33, 390, "1 fetta 2 dita ≈ 30 g"],
+    ["Bresaola", 32, 150, "5 fette ≈ 100 g"],
+    ["Prosciutto crudo", 26, 270, "4 fette ≈ 100 g"],
+    ["Prosciutto cotto", 20, 190, "3 fette ≈ 100 g"],
+    ["Legumi cotti", 8, 115, "2 mestoli ≈ 150 g"],
+    ["Pasta cruda", 11, 350, "1 piatto fondo ≈ 100 g"],
+    ["Riso crudo", 7, 350, "1 piatto fondo ≈ 100 g"],
+    ["Pane", 8, 270, "2 fette ≈ 50 g"],
+    ["Patate", 2, 77, "2 medie ≈ 300 g"],
+    ["Avena", 13, 380, "3 cucchiai colmi ≈ 50 g"],
+    ["Mandorle", 21, 600, "1 pugno ≈ 15 g"],
+    ["Burro d'arachidi", 25, 590, "1 cucchiaio ≈ 15 g"],
+    ["Proteine in polvere", 80, 380, "1 misurino ≈ 30 g"]
   ]
 };
 
@@ -821,7 +1074,10 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':
 
 function detailHTML(ex){
   return `<dl>
-    <div><dt>Esecuzione</dt><dd><ol class="steps">${ex.steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol></dd></div>
+    <div><dt>Esecuzione</dt><dd>
+      ${ex.fig || ''}
+      <ol class="steps">${ex.steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>
+    </dd></div>
     ${ex.extra ? `<div><dt>Nota</dt><dd>${esc(ex.extra)}</dd></div>` : ''}
     <div class="two">
       <div class="block err"><h4>Errori da evitare</h4><ul>${ex.err.map(s=>`<li>${esc(s)}</li>`).join('')}</ul></div>
@@ -847,9 +1103,9 @@ function renderSession(){
           <div class="move">
             <span class="idx">${String(i+1).padStart(2,'0')}</span>
             <button class="name" aria-expanded="false" data-target="d-${s.key}-${m.id}">
-              ${ex.nome}${m.minVer ? '<span class="min-flag">minimo</span>' : ''}&nbsp;<span class="arw" aria-hidden="true">›</span>
+              <span class="txt">${ex.nome}${m.minVer ? '<span class="min-flag">minimo</span>' : ''}</span><span class="arw" aria-hidden="true">›</span>
             </button>
-            <span class="presc"><b>${m.s}×${m.r}</b><br><span>${m.kg}</span></span>
+            <span class="presc"><b>${m.s}×${m.r}</b><span>${m.kg}</span><span class="rec">rec ${m.rec}</span></span>
             <span class="muscle">${ex.m}</span>
             <div class="detail" id="d-${s.key}-${m.id}">${detailHTML(ex)}</div>
           </div>
@@ -926,7 +1182,7 @@ groups.forEach(g => {
 function renderLibrary(){
   [...filters.children].forEach(b => b.setAttribute('aria-pressed', b.dataset.g === activeGroup ? 'true' : 'false'));
   const list = DATA.ex.filter(e => activeGroup === 'all' || e.grp === activeGroup);
-  document.getElementById('library').innerHTML = list.map((e,i) => `
+  document.getElementById('library').innerHTML = list.map(e => `
     <article class="ex">
       <button class="exhead" aria-expanded="false" data-ex="${e.id}">
         <span class="t"><h3>${e.nome}</h3><span class="m">${e.m}</span></span>
@@ -945,13 +1201,17 @@ function renderLibrary(){
 
 /* ---------- food ---------- */
 const mealsEl = document.getElementById('meals');
+const swapKey = { "7:30":"b", "12:30":"l", "16:30":"s", "20:00":"d" };
 function renderMeals(){
-  mealsEl.innerHTML = DATA.meals.map(m => `
+  mealsEl.innerHTML = DATA.meals.map(m => {
+    const p = m.items.reduce((a,b)=>a+b.p,0);
+    const k = m.items.reduce((a,b)=>a+b.k,0);
+    return `
     <div class="meal">
       <div class="top">
         <span class="clock">${m.time}</span>
         <span class="title">${m.title}</span>
-        <span class="grams">${m.items.reduce((a,b)=>a+b.p,0)} g se completo</span>
+        <span class="grams">${p} g · ${k} kcal</span>
       </div>
       <ul>
         ${m.items.map(it => `
@@ -959,8 +1219,9 @@ function renderMeals(){
             <label for="${it.id}">${it.t}</label>
             <span class="p">${it.p} g</span></li>`).join('')}
       </ul>
-      <p class="sub" style="font-size:.88rem;margin:.5em 0 0;color:var(--muted)">${m.alt}</p>
-    </div>`).join('');
+      <p class="sub" style="font-size:.88rem;margin:.5em 0 0;color:var(--muted)">${DATA.swaps[swapKey[m.time]] || ''}</p>
+    </div>`;
+  }).join('');
   mealsEl.querySelectorAll('input[type=checkbox]').forEach(c => {
     c.addEventListener('change', () => { state.checks[c.id] = c.checked; save(); updateTotal(); });
   });
@@ -968,16 +1229,95 @@ function renderMeals(){
 }
 
 function updateTotal(){
-  let total = 0;
-  DATA.meals.forEach(m => m.items.forEach(it => { if(state.checks[it.id]) total += it.p; }));
+  let total = 0, kcal = 0;
+  DATA.meals.forEach(m => m.items.forEach(it => {
+    if(state.checks[it.id]) { total += it.p; kcal += it.k; }
+  }));
+  const fmt = n => n.toLocaleString('it-IT');
   document.getElementById('pTotal').textContent = total;
   document.getElementById('pBar').style.width = Math.min(100, total / 140 * 100) + '%';
+  document.getElementById('kTotal').textContent = fmt(kcal) + ' kcal';
   const s = document.getElementById('pState');
   if(total === 0) s.textContent = '0 / 130';
   else if(total < 110) s.textContent = `mancano ${110-total} g`;
-  else if(total <= 145) s.textContent = 'sei in target';
+  else if(total <= 150) s.textContent = 'sei in target';
   else s.textContent = `+${total-140} g`;
 }
+
+/* ---------- calcolatore ---------- */
+const FZ = DATA.foods;
+const calcRowsEl = document.getElementById('calcRows');
+const calcNumsEl = document.getElementById('calcNums');
+const fIdx = n => Math.max(0, FZ.findIndex(f => f[0] === n));
+const fP = n => FZ[fIdx(n)][1];
+const fK = n => FZ[fIdx(n)][2];
+const fM = n => FZ[fIdx(n)][3];
+const kcalFmt = n => Math.round(n).toLocaleString('it-IT');
+
+function valHTML(n, g){
+  if(!g) return '—';
+  return `${Math.round(fP(n) * g / 100)} g<small>${kcalFmt(fK(n) * g / 100)} kcal</small>`;
+}
+
+function renderCalc(){
+  if(!Array.isArray(state.calc) || !state.calc.length) state.calc = [{ n:FZ[0][0], g:"" }];
+  calcRowsEl.innerHTML = state.calc.map((row,i) => {
+    const g = parseFloat(row.g) || 0;
+    return `<div class="calcrow">
+      <div class="selwrap">
+        <select data-sel="${i}" aria-label="Alimento ${i+1}">
+          ${FZ.map(f => `<option value="${f[0]}" ${f[0]===row.n?'selected':''}>${f[0]}</option>`).join('')}
+        </select>
+        <span class="eq">${fM(row.n)}</span>
+      </div>
+      <div class="grwrap">
+        <input type="number" inputmode="decimal" min="0" step="10" placeholder="—" value="${row.g}" data-g="${i}" aria-label="Grammi ${i+1}">
+        <span aria-hidden="true">g</span>
+      </div>
+      <span class="val">${valHTML(row.n, g)}</span>
+      <button class="del" data-del="${i}" aria-label="Rimuovi alimento ${i+1}">×</button>
+    </div>`;
+  }).join('');
+  calcRowsEl.querySelectorAll('select').forEach(s => s.addEventListener('change', () => {
+    state.calc[+s.dataset.sel].n = s.value; save(); renderCalc();
+  }));
+  calcRowsEl.querySelectorAll('input').forEach(inp => inp.addEventListener('input', () => {
+    const i = +inp.dataset.g;
+    state.calc[i].g = inp.value; save();
+    inp.closest('.calcrow').querySelector('.val').innerHTML =
+      valHTML(state.calc[i].n, parseFloat(inp.value) || 0);
+    updateCalcTotal();
+  }));
+  calcRowsEl.querySelectorAll('.del').forEach(b => b.addEventListener('click', () => {
+    state.calc.splice(+b.dataset.del, 1); save(); renderCalc();
+  }));
+  updateCalcTotal();
+}
+
+function updateCalcTotal(){
+  let total = 0, kcal = 0;
+  state.calc.forEach(r => {
+    const g = parseFloat(r.g) || 0;
+    total += fP(r.n) * g / 100;
+    kcal  += fK(r.n) * g / 100;
+  });
+  const t = Math.round(total);
+  const missing = 130 - t;
+  let hint;
+  if(t === 0) hint = 'Aggiungi un alimento per cominciare.';
+  else if(missing > 15) hint = `Mancano ${missing} g: un palmo di pollo abbondante, o 2 uova in più.`;
+  else if(missing > 0) hint = `Quasi: mancano ${missing} g, un uovo e sei a posto.`;
+  else if(t > 150) hint = `Sei sopra di ${t-140} g. Non succede tutti i giorni: va bene.`;
+  else hint = 'Sei in target: chiudi la giornata così.';
+  calcNumsEl.innerHTML = `
+    <span class="num"><b>${t}</b><span class="of">g proteine</span></span>
+    <span class="num"><b>${kcalFmt(kcal)}</b><span class="of">kcal sul piatto</span></span>
+    <span class="hint">${hint}</span>`;
+}
+
+document.getElementById('calcAdd').addEventListener('click', () => {
+  state.calc.push({ n:FZ[0][0], g:"" }); save(); renderCalc();
+});
 
 /* ---------- log ---------- */
 const logForm = document.getElementById('logForm');
@@ -1036,6 +1376,7 @@ function renderVerdict(){
 renderSession();
 renderLibrary();
 renderMeals();
+renderCalc();
 renderLog();
 const initial = (location.hash || '').replace('#','');
 showTab(['all','ex','food','log'].includes(initial) ? initial : 'all');
