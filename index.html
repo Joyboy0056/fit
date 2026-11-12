@@ -379,6 +379,7 @@ article.ex .body h3{font-size:var(--fs-small);margin:18px 0 8px}
   stroke:var(--text);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 .fig .frame span{display:block;margin-top:6px;font-size:10px;letter-spacing:.06em;
   text-transform:uppercase;color:var(--text-faint);text-align:center}
+.fig.solo .frame{flex:0 0 auto;width:100%;max-width:250px;margin:0 auto}
 .fig.quad .frame{flex:1 1 38%}
 .fig.quad .frame svg{max-width:150px}
 
@@ -548,9 +549,11 @@ tr:last-child td{border-bottom:0}
   *{animation:none!important;transition:none!important}
 }
 @media (max-width:479px){
-  nav.tabs{display:grid;grid-template-columns:repeat(5,1fr);overflow:visible}
-  nav.tabs button{padding:11px 2px;font-size:11px;text-align:center;justify-content:center}
-  nav.tabs button:first-child{padding-left:4px}
+  nav.tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));overflow:visible;
+    margin-left:calc(-1*var(--edge));margin-right:calc(-1*var(--edge))}
+  nav.tabs button{min-width:0;padding:11px 2px;font-size:10px;letter-spacing:0;
+    text-align:center;justify-content:center}
+  nav.tabs button:first-child{padding-left:2px;border-left:0}
 }
 </style>
 </head>
@@ -613,7 +616,7 @@ tr:last-child td{border-bottom:0}
     <h2>Le tre sedute</h2>
     <p class="sub">Full body, 2-3 volte a settimana, sempre a un giorno di distanza. Mai due giorni di fila.
     La formula è sempre <strong>serie × ripetizioni</strong>: <em>4×8-10</em> significa quattro serie da 8-10 ripetizioni.
-    Prima di ogni seduta, cinque minuti di riscaldamento: sono nella scheda <strong>Warm-up</strong>, insieme alla mobilità.
+    Prima di ogni seduta, cinque minuti di riscaldamento: sono nella scheda <strong>Start &amp; End</strong>, insieme alla mobilità.
     <strong>10+10 kg</strong> significa un manubrio da 10 kg per mano, non due serie da 10: le serie sono quelle della colonna «serie × rip».</p>
     <div class="seg" id="segDays" role="group" aria-label="Scegli la seduta"></div>
     <div id="sessionBody"></div>
@@ -1119,6 +1122,21 @@ const DATA = {
       prog:"Elastico più corto, oppure 20 ripetizioni per lato.",
       regr:"A vuoto, senza elastico, per imparare il gesto; poi elastico leggerissimo."},
     { id:"femorali", nome:"Allungamento femorali con elastico", what:"Sdraiato a pancia in su, piede nell'elastico: tiri la gamba verso di te a ginocchio quasi teso. È il muscolo che decide se arrivi alle punte.", m:"mobilità · femorali", grp:"mobilita",
+      fig:`<figure class="fig solo">
+        <div class="frame"><svg viewBox="0 0 110 110" aria-hidden="true">
+          <line x1="6" y1="100" x2="104" y2="100" opacity=".4"/>
+          <circle cx="14" cy="94" r="5.5"/>
+          <path d="M20 94 L60 94"/>
+          <path d="M60 94 L80 95 L100 96"/>
+          <path d="M60 94 L54 64 L48 34"/>
+          <path d="M48 34 L54 30"/>
+          <path d="M24 93 L40 81"/>
+          <path d="M50 33 L41 79" stroke-dasharray="3 3"/>
+          <circle cx="60" cy="94" r="1.8" fill="currentColor" stroke="none"/>
+          <circle cx="54" cy="64" r="1.8" fill="currentColor" stroke="none"/>
+          <circle cx="48" cy="34" r="1.8" fill="currentColor" stroke="none"/>
+        </svg><span>gamba su, elastico al piede</span></div>
+      </figure>`,
       steps:[
         "Sdraiati a pancia in su, elastico (o una cintura) sotto l'arco del piede, un capo per mano.",
         "Gamba verso l'alto, ginocchio quasi teso: la piega la tieni, ma poca.",
@@ -1130,6 +1148,22 @@ const DATA = {
       prog:"Gamba più vicina al petto, con il piede a martello.",
       regr:"Ginocchio più piegato e gamba che sale meno."},
     { id:"polpacci", nome:"Allungamento polpacci al muro", what:"Mani al muro, una gamba dietro con il tallone a terra: spingi il bacino avanti. È il tendine che blocca la punta del piede.", m:"mobilità · polpacci · tendine d'Achille", grp:"mobilita",
+      fig:`<figure class="fig solo">
+        <div class="frame"><svg viewBox="0 0 110 110" aria-hidden="true">
+          <line x1="6" y1="100" x2="104" y2="100" opacity=".4"/>
+          <path d="M88 8 L88 100"/><path d="M96 8 L96 100"/>
+          <path d="M88 92 L96 84"/><path d="M88 76 L96 68"/><path d="M88 60 L96 52"/>
+          <path d="M88 44 L96 36"/><path d="M88 28 L96 20"/><path d="M88 12 L96 4"/>
+          <circle cx="56" cy="24" r="6"/>
+          <path d="M56 30 L52 68"/>
+          <path d="M52 68 L70 86 L80 98"/>
+          <path d="M52 68 L36 86 L18 100"/>
+          <path d="M56 38 L86 46"/><path d="M56 45 L86 55"/>
+          <circle cx="52" cy="68" r="1.8" fill="currentColor" stroke="none"/>
+          <circle cx="70" cy="86" r="1.8" fill="currentColor" stroke="none"/>
+          <circle cx="36" cy="86" r="1.8" fill="currentColor" stroke="none"/>
+        </svg><span>tallone a terra, bacino avanti</span></div>
+      </figure>`,
       steps:[
         "Mani al muro, una gamba avanti piegata e l'altra dietro tesa, tallone a terra, punta dritta in avanti.",
         "Spingi il bacino verso il muro senza staccare il tallone di dietro: senti tirare dietro la caviglia.",
@@ -1140,6 +1174,20 @@ const DATA = {
       prog:"Gamba dietro più lontana dal muro.",
       regr:"Punta sul gradino, tallone a terra e ginocchio che spinge avanti."},
     { id:"psoas", nome:"Allungamento dell'anca in affondo", what:"In ginocchio con una gamba avanti, gluteo contratto e bacino in avanti: allunghi la parte davanti dell'anca, quella che si accorcia stando seduti.", m:"mobilità · anca · psoas", grp:"mobilita",
+      fig:`<figure class="fig solo">
+        <div class="frame"><svg viewBox="0 0 110 110" aria-hidden="true">
+          <line x1="6" y1="100" x2="104" y2="100" opacity=".4"/>
+          <circle cx="52" cy="30" r="6"/>
+          <path d="M52 36 L52 68"/>
+          <path d="M52 68 L76 70 L78 100"/>
+          <path d="M52 68 L46 96 L24 98"/>
+          <path d="M24 98 L22 91"/>
+          <path d="M54 44 L72 66"/>
+          <circle cx="52" cy="68" r="1.8" fill="currentColor" stroke="none"/>
+          <circle cx="76" cy="70" r="1.8" fill="currentColor" stroke="none"/>
+          <circle cx="46" cy="96" r="1.8" fill="currentColor" stroke="none"/>
+        </svg><span>ginocchio a terra, bacino avanti</span></div>
+      </figure>`,
       steps:[
         "In ginocchio sul tappeto, una gamba avanti con il ginocchio a 90°, l'altra indietro con il ginocchio a terra.",
         "Contrai il gluteo della gamba dietro: il bacino va avanti e la schiena resta dritta, senza inarcarsi.",
@@ -1150,6 +1198,23 @@ const DATA = {
       prog:"Braccio opposto in alto e leggerissima inclinazione di lato.",
       regr:"Meno profondità e un cuscino sotto il ginocchio."},
     { id:"toracica", nome:"Rotazione toracica in quadrupedia", what:"In quadrupedia, mano dietro la testa e gomito che sale verso il soffitto ruotando il busto: sblocca la parte alta della schiena.", m:"mobilità · schiena alta", grp:"mobilita",
+      fig:`<figure class="fig solo">
+        <div class="frame"><svg viewBox="0 0 110 110" aria-hidden="true">
+          <line x1="6" y1="100" x2="104" y2="100" opacity=".4"/>
+          <circle cx="24" cy="62" r="6"/>
+          <path d="M30 60 L38 56"/>
+          <path d="M38 56 L78 58"/>
+          <path d="M38 56 L32 100"/>
+          <path d="M78 58 L82 86 L82 100"/>
+          <path d="M78 58 L74 86 L74 100"/>
+          <path d="M38 56 L56 26 L33 50"/>
+          <path d="M66 24 A 14 14 0 0 0 52 8"/>
+          <path d="M52 8 L57 6"/><path d="M52 8 L55 13"/>
+          <circle cx="38" cy="56" r="1.8" fill="currentColor" stroke="none"/>
+          <circle cx="78" cy="58" r="1.8" fill="currentColor" stroke="none"/>
+          <circle cx="56" cy="26" r="1.8" fill="currentColor" stroke="none"/>
+        </svg><span>gomito al soffitto, bacino fermo</span></div>
+      </figure>`,
       steps:[
         "In quadrupedia, mani sotto le spalle e ginocchia sotto il bacino.",
         "Mano destra dietro la testa, gomito che punta al pavimento.",
@@ -1160,6 +1225,20 @@ const DATA = {
       prog:"Pausa di 2 secondi in cima a ogni rotazione.",
       regr:"Mano appoggiata sulla spalla invece che dietro la testa."},
     { id:"petto", nome:"Apertura petto alla porta", what:"Avambraccio sullo stipite, gomito all'altezza della spalla, giri il busto dall'altra parte: apre il petto e riporta le spalle indietro.", m:"mobilità · petto · spalle", grp:"mobilita",
+      fig:`<figure class="fig solo">
+        <div class="frame"><svg viewBox="0 0 110 110" aria-hidden="true">
+          <line x1="6" y1="100" x2="104" y2="100" opacity=".4"/>
+          <path d="M76 6 L76 100"/><path d="M85 6 L85 100"/><path d="M76 6 L85 6"/>
+          <circle cx="36" cy="28" r="6"/>
+          <path d="M37 34 L44 72"/>
+          <path d="M44 72 L36 86 L32 100"/>
+          <path d="M44 72 L52 86 L56 100"/>
+          <path d="M38 40 L74 44 L74 16"/>
+          <circle cx="44" cy="72" r="1.8" fill="currentColor" stroke="none"/>
+          <circle cx="74" cy="44" r="1.8" fill="currentColor" stroke="none"/>
+          <circle cx="38" cy="40" r="1.8" fill="currentColor" stroke="none"/>
+        </svg><span>avambraccio sullo stipite</span></div>
+      </figure>`,
       steps:[
         "Mettiti sulla porta (o in un angolo), avambraccio appoggiato allo stipite, gomito all'altezza della spalla.",
         "Fai un passo avanti con lo stesso lato e ruota il busto dall'altra parte.",
