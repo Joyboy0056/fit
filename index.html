@@ -171,6 +171,7 @@ p{margin:0 0 14px;max-width:var(--measure)}
 .filters button[data-g="gambe"][aria-pressed="true"]{background:var(--yellow);border-color:var(--yellow);color:var(--bg-deep)}
 .filters button[data-g="braccia"][aria-pressed="true"]{background:var(--magenta);border-color:var(--magenta);color:var(--bg-deep)}
 .filters button[data-g="addome"][aria-pressed="true"]{background:var(--cyan);border-color:var(--cyan);color:var(--bg-deep)}
+.filters button[data-g="mobilita"][aria-pressed="true"]{background:var(--green);border-color:var(--green);color:var(--bg-deep)}
 
 .ghost{
   appearance:none;background:none;border:var(--hair);color:var(--text);
@@ -215,6 +216,7 @@ ol.moves>li{border-bottom:var(--hair)}
 .move[data-g="braccia"] .idx{color:var(--magenta)}
 .move[data-g="addome"] .idx{color:var(--cyan)}
 .move[data-g="spalle"] .idx{color:var(--orange)}
+.move[data-g="mobilita"] .idx{color:var(--green)}
 .move .name{
   grid-area:name;appearance:none;background:none;border:0;padding:0;margin:0;text-align:left;
   display:flex;align-items:baseline;gap:8px;min-width:0;cursor:pointer;
@@ -321,6 +323,7 @@ article.ex[data-g="gambe"] .exhead .m{color:var(--yellow)}
 article.ex[data-g="braccia"] .exhead .m{color:var(--magenta)}
 article.ex[data-g="addome"] .exhead .m{color:var(--cyan)}
 article.ex[data-g="spalle"] .exhead .m{color:var(--orange)}
+[data-g="mobilita"] .exhead .m{color:var(--green)}
 article.ex .exhead:hover h3,article.ex .exhead[aria-expanded="true"] h3{color:var(--blue)}
 article.ex .exhead .plus{color:var(--text-faint);transition:transform .18s,color .18s;flex:none}
 article.ex .exhead[aria-expanded="true"] .plus{transform:rotate(45deg);color:var(--link)}
@@ -337,6 +340,8 @@ article.ex .body h3{font-size:var(--fs-small);margin:18px 0 8px}
   text-transform:uppercase;color:var(--text-faint);text-align:center}
 .fig.quad .frame{flex:1 1 38%}
 .fig.quad .frame svg{max-width:150px}
+
+
 .fignote{margin:0 0 18px;font-size:var(--fs-small);line-height:1.6;color:var(--text-muted);max-width:var(--measure)}
 .fignote b{color:var(--text-strong);font-weight:500}
 
@@ -444,15 +449,51 @@ article.ex .body h3{font-size:var(--fs-small);margin:18px 0 8px}
   color:var(--text-faint);margin-bottom:6px}
 .verdict.ok .label{color:var(--green)}
 .log{border-top:var(--hair);margin-top:20px}
-.logrow{display:grid;grid-template-columns:92px minmax(0,1fr) auto auto;gap:14px;align-items:baseline;
+.logrow{display:grid;grid-template-columns:84px repeat(4,auto);gap:4px 16px;align-items:baseline;
   padding:10px 0;border-bottom:var(--hair);font-size:var(--fs-small)}
 .logrow .d{font-size:var(--fs-meta);color:var(--text-faint)}
+@media (max-width:599px){
+  .logrow{grid-template-columns:1fr 1fr;row-gap:2px}
+  .logrow .d{grid-column:1 / -1;margin-bottom:2px}
+}
 .logrow .w{color:var(--text)}
 .logrow .dl{font-size:var(--fs-meta);color:var(--text-muted)}
 .up{color:var(--orange)}
 .down{color:var(--cyan)}
 .eq{color:var(--text-faint)}
 .empty{padding:20px 0;color:var(--text-faint);font-size:var(--fs-small)}
+
+/* diario dei carichi */
+.dtable{border-top:var(--hair);margin:0 0 6px}
+.dhead,.drow{display:grid;grid-template-columns:30px minmax(0,1fr) 132px 176px;grid-template-areas:"idx dn last inp";
+  column-gap:14px;align-items:center}
+.dhead{padding:10px 0 8px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}
+.dhead span:nth-child(1){grid-area:idx}
+.dhead span:nth-child(2){grid-area:dn}
+.dhead span:nth-child(3){grid-area:last;text-align:right}
+.dhead span:nth-child(4){grid-area:inp;text-align:right}
+.drow{padding:11px 0;border-bottom:var(--hair)}
+.drow .idx{grid-area:idx;font-size:var(--fs-micro);color:var(--text-faint)}
+.drow .dn{grid-area:dn;min-width:0;font-size:var(--fs-ui);color:var(--text-strong);line-height:1.35}
+.drow .dn small{display:block;font-size:var(--fs-micro);letter-spacing:.06em;text-transform:uppercase;
+  color:var(--text-faint);margin-top:3px}
+.drow .dn em{display:block;font-style:normal;font-size:var(--fs-meta);color:var(--orange);margin-top:3px}
+.drow .dlast{grid-area:last;text-align:right;font-size:var(--fs-meta);color:var(--text-muted);white-space:nowrap}
+.drow .dlast .dt{color:var(--text-faint)}
+.drow .din{grid-area:inp;display:flex;gap:6px;justify-content:flex-end;align-items:center}
+.drow .din input{appearance:none;background:var(--bg-weak);border:var(--hair);color:var(--text-strong);
+  font:400 var(--fs-meta)/1.2 var(--mono);padding:7px 8px;width:58px;border-radius:0;text-align:center}
+.drow .din input:last-of-type{width:52px}
+.drow .din input::placeholder{color:var(--text-faint)}
+.drow .din input:focus{border-color:var(--link);outline:none}
+.drow .dok{appearance:none;background:none;border:var(--hair);color:var(--text-muted);cursor:pointer;
+  font:400 var(--fs-micro)/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:8px 9px}
+.drow .dok:hover{color:var(--text-strong);border-color:var(--border-strong)}
+@media (max-width:599px){
+  .dhead{display:none}
+  .drow{grid-template-columns:26px minmax(0,1fr);grid-template-areas:"idx dn" ". last" ". inp";row-gap:6px}
+  .drow .dlast,.drow .din{justify-content:flex-start;text-align:left}
+}
 
 /* ============ dati ============ */
 table{width:100%;border-collapse:collapse;font-size:var(--fs-small);margin:0 0 20px}
@@ -488,7 +529,7 @@ tr:last-child td{border-bottom:0}
   <button role="tab" id="tab-all" aria-controls="p-all" aria-selected="true" data-view="all">Allenamento</button>
   <button role="tab" id="tab-ex" aria-controls="p-ex" aria-selected="false" data-view="ex">Esercizi</button>
   <button role="tab" id="tab-food" aria-controls="p-food" aria-selected="false" data-view="food">Cibo</button>
-  <button role="tab" id="tab-log" aria-controls="p-log" aria-selected="false" data-view="log">Misure</button>
+  <button role="tab" id="tab-log" aria-controls="p-log" aria-selected="false" data-view="log">Diario</button>
 </nav>
 </aside>
 
@@ -501,9 +542,43 @@ tr:last-child td{border-bottom:0}
   <section id="p-all" role="tabpanel" aria-labelledby="tab-all">
     <h2>Le tre sedute</h2>
     <p class="sub">Full body, 2-3 volte a settimana, sempre a un giorno di distanza. Mai due giorni di fila.
-    La formula è sempre <strong>serie × ripetizioni</strong>: <em>4×8-10</em> significa quattro serie da 8-10 ripetizioni.</p>
+    La formula è sempre <strong>serie × ripetizioni</strong>: <em>4×8-10</em> significa quattro serie da 8-10 ripetizioni.
+    Prima di ogni seduta, cinque minuti di riscaldamento: lo trovi in fondo a questa pagina, insieme alla mobilità.
+    <strong>10+10 kg</strong> significa un manubrio da 10 kg per mano, non due serie da 10: le serie sono quelle della colonna «serie × rip».</p>
     <div class="seg" id="segDays" role="group" aria-label="Scegli la seduta"></div>
     <div id="sessionBody"></div>
+
+    <h3 style="margin-top:46px">Prima: cinque minuti di riscaldamento</h3>
+    <p class="sub">Sempre uguale, anche quando hai fretta. Serve a scaldare articolazioni e tendini, non a stancarti.</p>
+    <table>
+      <tbody>
+        <tr><td>Marcia sul posto o jumping jack</td><td class="n">60 s</td></tr>
+        <tr><td>Cerchi con le braccia, avanti e indietro</td><td class="n">10 + 10</td></tr>
+        <tr><td>Squat a corpo libero, discesa lenta</td><td class="n">10</td></tr>
+        <tr><td>Scapole alla sbarra: appeso, spalle che salgono e scendono</td><td class="n">10</td></tr>
+        <tr><td>Rotazioni del busto in quadrupedia</td><td class="n">8 per lato</td></tr>
+      </tbody>
+    </table>
+    <p class="sub">Poi una serie leggera del primo esercizio della seduta: metà carico, otto ripetizioni pulite.</p>
+
+    <h3 style="margin-top:44px">Mobilità: otto minuti, anche nei giorni di riposo</h3>
+    <p class="sub">Se non ti tocchi le punte il problema è quasi sempre a monte: femorali corti e anca che si piega poco.
+    Non forzare la schiena — lavora su quei due, con costanza.</p>
+    <table>
+      <tbody>
+        <tr><td>Femorali con elastico</td><td class="n">45 s per lato</td></tr>
+        <tr><td>Polpacci al muro</td><td class="n">45 s per lato</td></tr>
+        <tr><td>Anca in affondo (psoas)</td><td class="n">45 s per lato</td></tr>
+        <tr><td>Rotazione toracica in quadrupedia</td><td class="n">8 per lato</td></tr>
+        <tr><td>Apertura petto alla porta</td><td class="n">45 s per lato</td></tr>
+      </tbody>
+    </table>
+    <div class="note">
+      <span class="label">Le punte</span>
+      Non si conquistano tirando con la schiena: si conquistano allungando i femorali e sbloccando l'anca.
+      3-4 volte a settimana, 8 minuti, e in 6-10 settimane la distanza cala di 5-10 cm. Se dopo un mese non si muove niente,
+      il limite non è la flessibilità: è che ti allunghi solo prima dell'allenamento, quando il muscolo è già stanco.
+    </div>
   </section>
 
   <section id="p-ex" role="tabpanel" aria-labelledby="tab-ex" hidden>
@@ -527,9 +602,19 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section id="p-food" role="tabpanel" aria-labelledby="tab-food" hidden>
-    <h2>Quattro palmi al giorno</h2>
-    <p class="sub">Obiettivo <strong>120-140 g</strong> di proteine e <strong>~2.500 kcal</strong> al giorno, surplus incluso:
-    quattro porzioni grandi come il palmo della mano. Spunta quello che mangi, il conto si aggiorna da solo.</p>
+    <h2>Quattro porzioni di proteine al giorno</h2>
+    <p class="sub">Obiettivo <strong>120-140 g</strong> di proteine e <strong>~2.500 kcal</strong> al giorno, surplus incluso.
+    Una porzione è grande come il palmo aperto, dita escluse, spessa due dita: <strong>150 g di carne o pesce</strong>,
+    cioè 30-35 g di proteine. Uova, yogurt e legumi contano meno di una porzione intera: la tabella in fondo dice quanto.</p>
+
+    <div class="note">
+      <span class="label">Il palmo è la tua mano, non una media</span>
+      Palmo aperto e spesso due dita: per carne e pesce sono 150 g circa, cioè 30-35 g di proteine.
+      Se hai la mano piccola, la porzione è più piccola — per questo la tabella in fondo riporta anche i grammi.
+      Quattro porzioni al giorno sono il minimo: 30 × 4 = 120 g, e il resto arriva da pasta, latte, pane.
+    </div>
+
+    <p class="sub">Spunta quello che mangi, il conto si aggiorna da solo.</p>
 
     <div class="mealwrap">
     <div class="meals" id="meals"></div>
@@ -616,25 +701,39 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section id="p-log" role="tabpanel" aria-labelledby="tab-log" hidden>
-    <h2>Il metro decide</h2>
-    <p class="sub">Peso ogni mattina appena sveglio, vita all'ombelico a fine espirazione, rilassato.
-    Una volta a settimana basta: conta la media, non il giorno singolo.</p>
+    <h2>Il diario dei carichi</h2>
+    <p class="sub">Quello che scrivi qui è la scheda della prossima volta. La progressione non si vede allo specchio:
+    si vede qui. Scegli la seduta, scrivi la serie migliore di oggi, e alla prossima sai da dove ripartire.
+    Resta tutto nel browser.</p>
+
+    <div class="seg" id="segDiary" role="group" aria-label="Scegli la seduta da annotare"></div>
+    <div id="diary"></div>
+
+    <h3 style="margin-top:44px">Check-in ogni due settimane</h3>
+    <p class="sub">Peso e vita al mattino appena sveglio, trazioni e piegamenti come serie massima con tecnica pulita.
+    Conta la tendenza, non il giorno singolo.</p>
 
     <form class="log" id="logForm">
       <div class="field">
         <label for="fWeight">Peso (kg)</label>
-        <input id="fWeight" name="weight" type="number" step="0.1" inputmode="decimal" placeholder="70.0" required>
+        <input id="fWeight" name="weight" type="number" step="0.1" inputmode="decimal" placeholder="70.0">
       </div>
       <div class="field">
         <label for="fWaist">Vita (cm)</label>
         <input id="fWaist" name="waist" type="number" step="0.5" inputmode="decimal" placeholder="80">
       </div>
+      <div class="field">
+        <label for="fPull">Trazioni max</label>
+        <input id="fPull" name="pull" type="number" step="1" inputmode="numeric" placeholder="6">
+      </div>
+      <div class="field">
+        <label for="fPush">Piegamenti max</label>
+        <input id="fPush" name="push" type="number" step="1" inputmode="numeric" placeholder="20">
+      </div>
       <button class="ghost" type="submit">Registra</button>
     </form>
 
     <div class="verdict" id="verdict" hidden></div>
-
-    <h3 style="margin-top:38px">Registro</h3>
     <div id="logList"></div>
 
     <h3 style="margin-top:38px">Quando si vede cosa</h3>
@@ -647,10 +746,18 @@ tr:last-child td{border-bottom:0}
         <tr><td>Gli altri se ne accorgono</td><td class="n">4-6 mesi</td></tr>
       </tbody>
     </table>
+
     <div class="note">
       <span class="label">Il segnale più veloce</span>
-      Non le foto: il diario dei carichi. Se in due settimane non hai aggiunto una ripetizione da qualche parte,
+      Non le foto: il diario. Se in due settimane non hai aggiunto una ripetizione da nessuna parte,
       il problema è cibo o sonno, non la scheda.
+    </div>
+
+    <div class="note">
+      <span class="label">Ogni 6-8 settimane: scarico</span>
+      Una settimana a metà volume, stesso carico: puoi fare metà delle serie, o togliere gli ultimi due esercizi di ogni seduta.
+      Serve dopo un periodo in cui sei arrivato davvero vicino al cedimento. Se ti alleni sempre a 2-3 ripetizioni di riserva
+      non è obbligatorio, ma se due sedute di fila si bloccano, quella è la settimana giusta.
     </div>
   </section>
 </main>
@@ -709,17 +816,18 @@ const DATA = {
       </figure>`
     },
     { id:"rematore", nome:"Rematore a 30° gomiti alti",
-      what:"Rematore agli anelli: corpo inclinato e rigido, tiri il petto verso le mani.", m:"trapezio · romboidi · deltoide posteriore", grp:"trazione",
+      what:"Rematore agli anelli con il corpo inclinato: tiri il petto verso le mani tenendo i gomiti larghi. È il lavoro che dà spessore alla schiena alta.", m:"trapezio · romboidi · deltoide posteriore", grp:"trazione",
       steps:[
-        "Aggancia gli anelli alla sbarra con la presa a circa 105 cm da terra, altezza dei fianchi. Un anello per mano, palmi in fuori (prona) e pollice chiuso sopra l'anello: con i palmi verso di te tirano i bicipiti, non la schiena alta.",
-        "Mettiti con i talloni a terra e i piedi avanti finché le braccia sono tese. Il corpo deve restare una linea sola dalla testa ai talloni, come una tavola: se il sedere scende, la linea è rotta e il lavoro se ne va.",
-        "Da lì parti: braccia tese, scapole aperte, sguardo sugli anelli. Prima stringi le scapole (spalle giù e indietro), poi piega i gomiti.",
-        "Porta i gomiti in fuori, larghi, e tira il petto verso le mani: le mani arrivano ai lati del petto, i gomiti all'altezza delle spalle. È il petto che va agli anelli, non la testa: la testa resta dove sta.",
-        "Un istante in cima con le scapole chiuse, poi scendi in 3 secondi lasciando che le scapole si riaprano solo alla fine.",
-        "Respira: tira mentre butti fuori l'aria, scendi mentre inspiri. Se a 8 ripetizioni il petto tocca gli anelli, il corpo è troppo verticale: piedi più avanti.",
-        "Versione con l'ez-bar: busto inclinato di 30-45°, schiena piatta, ginocchia morbide, barra verso l'ombelico e gomiti larghi."
+        "Aggancia gli anelli a circa 105 cm da terra, tra i fianchi e il petto. Afferra le estremità e mettiti con i piedi avanti, talloni a terra, corpo inclinato all'indietro.",
+        "Presa prona (palmi in fuori) con il pollice chiuso sull'anello: la presa supina fa tirare i bicipiti invece dei dorsali.",
+        "Talloni a terra, corpo dritto come una tavola dalla testa ai talloni: il bacino non scende e la pancia non si appoggia.",
+        "Parti dalle scapole: prima le avvicini tra loro, poi pieghi i gomiti. Se tiri solo con le braccia, la schiena alta resta fuori.",
+        "Porta il petto verso gli anelli tenendo i gomiti larghi e alti, verso l'esterno. Ti fermi quando le mani arrivano ai lati del petto.",
+        "1 secondo in cima stringendo, poi scendi in 3 secondi lasciando che le scapole si aprano. Gli occhi restano sugli anelli, non sul pavimento.",
+        "Espira mentre tiri, inspira mentre scendi. Se i gomiti si incollano al busto diventa un rematore per i dorsali bassi: qui servono larghi.",
+        "Con l'ez-bar: busto a 45°, schiena piatta, ginocchia morbide, barra verso l'ombelico e gomiti larghi. Stesso principio."
       ],
-      err:["Gomiti incollati al busto: diventa un rematore per i dorsali bassi, non per la schiena alta.","Busto che si inarca o si piega all'anca: il sedere scende e il petto non arriva mai.","Guardare il pavimento: il collo si piega e il petto resta indietro. Gli occhi stanno sugli anelli.","Tirare con le braccia senza chiudere le scapole: prima le scapole, poi i gomiti.","Slancio col bacino per superare il punto duro.","Scendere di colpo: metà del lavoro è nella discesa lenta."],
+      err:["Gomiti incollati al busto: diventa un rematore per i dorsali bassi, non per la schiena alta.", "Busto che si inarca o si piega all'anca: il sedere scende e il petto non arriva mai.", "Guardare il pavimento: il collo si piega e il petto resta indietro. Gli occhi stanno sugli anelli.", "Tirare con le braccia senza chiudere le scapole: prima le scapole, poi i gomiti.", "Slancio col bacino per superare il punto duro.", "Scendere di colpo: metà del lavoro è nella discesa lenta."],
       prog:"Piedi più avanti e corpo più orizzontale: meno gradi, più duro. Oppure anelli più bassi; con l'ez-bar +2,5 kg.",
       regr:"Anelli più alti, con il busto quasi verticale, oppure australiane sotto un tavolo a gomiti stretti.",
       extra:"Non è la stessa cosa delle australian pull: quelle sono a gomiti stretti e prendono i dorsali; questo è a gomiti larghi e prende trapezio, romboidi e deltoide posteriore. Per la schiena alta serve questo."
@@ -879,6 +987,18 @@ const DATA = {
       regr:"Solo la barra vuota (5,5 kg), oppure un manubrio da 4 kg per mano.",
       extra:"È l'unico esercizio del programma che allena in modo diretto gli estensori del polso e il brachioradiale. Dà spessore al lato dell'avambraccio. Non sostituisce il curl: si fanno in coppia, uno dopo l'altro."
     },
+    { id:"curlhammer", nome:"Curl a martello",
+      what:"Curl con i manubri tenuti come due martelli, palmi uno verso l'altro: prende l'avambraccio e il muscolo sotto il bicipite.", m:"brachiale · brachioradiale · avambraccio", grp:"braccia",
+      steps:[
+        "In piedi, un manubrio per mano, palmi rivolti verso il corpo e pollice in su: come se tenessi due martelli.",
+        "Gomiti attaccati ai fianchi e fermi: si muovono solo gli avambracci.",
+        "Piega i gomiti portando i manubri verso le spalle senza ruotare il polso: la presa resta identica dall'inizio alla fine.",
+        "Fermati un istante in cima e scendi in 3 secondi fino a braccio quasi disteso.",
+        "12-15 ripetizioni per 2 serie. Il carico sale solo quando le 15 escono pulite."
+      ],
+      err:["Gomiti che vanno avanti: il curl diventa una tirata di spalle.","Busto che si dondola per strappare l'ultima ripetizione.","Polsi che ruotano: diventa un curl normale.","Scendere di colpo: metà del lavoro è nella discesa."],
+      prog:"6+6 kg per 12 ripetizioni, oppure 3 secondi di discesa.",
+      regr:"Un braccio per volta, con la schiena appoggiata al muro."},
     { id:"laterali", nome:"Alzate laterali",
       what:"Braccia tese che salgono di lato fino all'altezza delle spalle, gomiti appena piegati.", m:"deltoide laterale", grp:"spalle",
       steps:[
@@ -932,7 +1052,20 @@ const DATA = {
         </svg><span>2 · gomiti all'altezza delle spalle</span></div>
       </figure>`
     },
-    { id:"rotesterne", nome:"Rotazione esterna con elastico", what:"Gomito piegato e fermo al fianco, ruoti l'avambraccio verso l'esterno contro l'elastico: rinforza il muscolo che tiene la spalla al suo posto.", m:"cuffia dei rotatori · infraspinato", grp:"spalle",
+    { id:"yraise", nome:"Alzate a Y a terra",
+      what:"A pancia in giù, braccia distese sopra la testa a formare una Y: sollevi solo le braccia. Allena il trapezio basso, quello che tiene le spalle indietro e il petto aperto.", m:"trapezio inferiore · deltoide posteriore", grp:"spalle",
+      steps:[
+        "Sdraiati a pancia in giù, fronte appoggiata o mento appena sollevato, braccia distese sopra la testa a formare una Y, palmi verso il pavimento.",
+        "Prima allunga le braccia in avanti come se volessi toccare la parete di fronte: il movimento parte da lì, non dalla schiena.",
+        "Solleva le braccia di 5-10 cm con i gomiti tesi e il pollice in su. Il petto resta a terra: se si stacca, hai inarcato la schiena.",
+        "Tieni 2 secondi in cima e scendi in 3. 12-15 ripetizioni lente.",
+        "Le prime volte a corpo libero, poi 2 kg per mano. Qui conta la tensione, non il carico."
+      ],
+      err:["Inarcare la schiena per alzare di più: il movimento parte dalle braccia, non dalla colonna.","Sollevare testa e collo.","Gomiti piegati.","Andare veloce: è un esercizio di controllo, non di forza."],
+      prog:"2 kg per mano, oppure 3 secondi di pausa in cima.",
+      regr:"Solo le braccia, senza peso, 8 ripetizioni."},
+    { id:"rotesterne", nome:"Rotazione esterna con elastico",
+      what:"Gomito piegato e fermo al fianco, ruoti l'avambraccio verso l'esterno contro l'elastico: rinforza il muscolo che tiene la spalla al suo posto.", m:"cuffia dei rotatori · infraspinato", grp:"spalle",
       steps:[
         "Allaccia l'elastico a qualcosa all'altezza del gomito (una maniglia, la sbarra, una spalliera) e prendine un capo con la mano più lontana.",
         "Mettiti di fianco, gomito piegato a 90° e incollato al fianco: l'avambraccio punta davanti alla pancia e l'elastico è già in tensione.",
@@ -941,10 +1074,60 @@ const DATA = {
         "Vai piano: 2 secondi per aprire, 2 per tornare davanti alla pancia. 12-15 ripetizioni, poi cambia lato.",
         "Elastico leggero e spalla bassa, lontana dall'orecchio. Qui non si cerca il carico: si insegna alla spalla a stare al suo posto."
       ],
-      err:["Gomito che si stacca dal fianco: la spalla non lavora più.","Busto che ruota insieme al braccio: si muove solo l'avambraccio.","Spalla che sale verso l'orecchio.","Elastico troppo duro: se non arrivi a 12 ripetizioni, è troppo.","Fretta: è un esercizio lento per forza."],
+      err:["Gomito che si stacca dal fianco: diventa un altro esercizio e la spalla non lavora.","Busto che ruota insieme al braccio: deve stare fermo, si muove solo l'avambraccio.","Spalla che sale verso l'orecchio.","Elastico troppo duro: se non arrivi a 12 ripetizioni, è troppo.","Fretta: è un esercizio lento per forza."],
       prog:"Elastico più corto, oppure 20 ripetizioni per lato.",
-      regr:"A vuoto, senza elastico, per imparare il gesto; poi elastico leggerissimo."
-    },
+      regr:"A vuoto, senza elastico, per imparare il gesto; poi elastico leggerissimo."},
+    { id:"femorali", nome:"Allungamento femorali con elastico", what:"Sdraiato a pancia in su, piede nell'elastico: tiri la gamba verso di te a ginocchio quasi teso. È il muscolo che decide se arrivi alle punte.", m:"mobilità · femorali", grp:"mobilita",
+      steps:[
+        "Sdraiati a pancia in su, elastico (o una cintura) sotto l'arco del piede, un capo per mano.",
+        "Gamba verso l'alto, ginocchio quasi teso: la piega la tieni, ma poca.",
+        "Tira l'elastico portando la gamba verso di te, senza staccare la schiena da terra. Se il bacino si solleva, hai tirato troppo.",
+        "Fermati dove senti tirare dietro la coscia e respira lì 30-45 secondi. Poi cambia gamba.",
+        "2 serie per lato. Non serve arrivare al limite: serve farlo spesso.",
+      ],
+      err:["Schiena che si stacca da terra per far salire la gamba.","Ginocchio piegato: così sale, ma non allunghi.","Tirare di slancio.","Fermarsi a 5 secondi: sotto i 30 non fa quasi niente."],
+      prog:"Gamba più vicina al petto, con il piede a martello.",
+      regr:"Ginocchio più piegato e gamba che sale meno."},
+    { id:"polpacci", nome:"Allungamento polpacci al muro", what:"Mani al muro, una gamba dietro con il tallone a terra: spingi il bacino avanti. È il tendine che blocca la punta del piede.", m:"mobilità · polpacci · tendine d'Achille", grp:"mobilita",
+      steps:[
+        "Mani al muro, una gamba avanti piegata e l'altra dietro tesa, tallone a terra, punta dritta in avanti.",
+        "Spingi il bacino verso il muro senza staccare il tallone di dietro: senti tirare dietro la caviglia.",
+        "Tieni 45 secondi e cambia lato. Il tallone non si stacca mai: se si stacca, stai spingendo troppo.",
+        "2 serie per lato, anche a fine giornata.",
+      ],
+      err:["Tallone che sale.","Punta rivolta verso l'esterno: allunghi un'altra cosa.","Schiena inarcata per scendere di più.","Rimbalzare."],
+      prog:"Gamba dietro più lontana dal muro.",
+      regr:"Punta sul gradino, tallone a terra e ginocchio che spinge avanti."},
+    { id:"psoas", nome:"Allungamento dell'anca in affondo", what:"In ginocchio con una gamba avanti, gluteo contratto e bacino in avanti: allunghi la parte davanti dell'anca, quella che si accorcia stando seduti.", m:"mobilità · anca · psoas", grp:"mobilita",
+      steps:[
+        "In ginocchio sul tappeto, una gamba avanti con il ginocchio a 90°, l'altra indietro con il ginocchio a terra.",
+        "Contrai il gluteo della gamba dietro: il bacino va avanti e la schiena resta dritta, senza inarcarsi.",
+        "Spingi il bacino avanti di 2-3 cm e tieni 45 secondi. Devi sentire tirare davanti all'anca, non nella schiena.",
+        "2 serie per lato. Se senti la schiena, stai inarcando: torna indietro e stringi il gluteo.",
+      ],
+      err:["Inarcare la schiena: allunghi la lombare, non l'anca.","Gluteo rilassato: senza contrazione il bacino non va avanti.","Ginocchio davanti che spinge troppo oltre la punta."],
+      prog:"Braccio opposto in alto e leggerissima inclinazione di lato.",
+      regr:"Meno profondità e un cuscino sotto il ginocchio."},
+    { id:"toracica", nome:"Rotazione toracica in quadrupedia", what:"In quadrupedia, mano dietro la testa e gomito che sale verso il soffitto ruotando il busto: sblocca la parte alta della schiena.", m:"mobilità · schiena alta", grp:"mobilita",
+      steps:[
+        "In quadrupedia, mani sotto le spalle e ginocchia sotto il bacino.",
+        "Mano destra dietro la testa, gomito che punta al pavimento.",
+        "Ruota il busto verso destra portando il gomito verso il soffitto: il bacino resta fermo, ruota solo la schiena.",
+        "8-10 rotazioni lente per lato, senza strappi.",
+      ],
+      err:["Bacino che ruota insieme al busto.","Collo piegato all'indietro.","Movimento veloce e a scatti."],
+      prog:"Pausa di 2 secondi in cima a ogni rotazione.",
+      regr:"Mano appoggiata sulla spalla invece che dietro la testa."},
+    { id:"petto", nome:"Apertura petto alla porta", what:"Avambraccio sullo stipite, gomito all'altezza della spalla, giri il busto dall'altra parte: apre il petto e riporta le spalle indietro.", m:"mobilità · petto · spalle", grp:"mobilita",
+      steps:[
+        "Mettiti sulla porta (o in un angolo), avambraccio appoggiato allo stipite, gomito all'altezza della spalla.",
+        "Fai un passo avanti con lo stesso lato e ruota il busto dall'altra parte.",
+        "Tieni 45 secondi respirando, poi cambia lato. Deve tirare davanti al petto, non sulla spalla.",
+        "2 serie per lato: è il migliore da fare prima di trazioni e rematore.",
+      ],
+      err:["Gomito basso: allunghi la spalla, non il petto.","Spalla che sale verso l'orecchio.","Spingere fino a sentire dolore."],
+      prog:"Gomito un po' più alto e passo più lungo.",
+      regr:"Meno passo e gomito più basso."},
     { id:"farmer", nome:"Farmer hold", what:"Restare in piedi o camminare tenendo due pesi pesanti: è il modo più diretto per allenare presa e avambracci.", m:"avambracci · presa · trapezio", grp:"trazione",
       steps:[
         "Un disco da 10 kg per mano (o i due manubri da 10). Spalle basse, braccia distese lungo i fianchi.",
@@ -1132,12 +1315,12 @@ const DATA = {
       moves:[
         { id:"trazioni", s:"4", r:"5-8", kg:"elastico", rec:"2-3 min", minVer:true },
         { id:"rematoreb", s:"4", r:"8-10", kg:"22,5 kg", rec:"2 min", minVer:true },
-        { id:"bulgaro", s:"3", r:"8-10", kg:"2×10 kg", rec:"2 min", minVer:true },
+        { id:"bulgaro", s:"3", r:"8-10", kg:"10+10 kg", rec:"2 min", minVer:true },
         { id:"hollow", s:"2", r:"20-30 s", kg:"corpo", rec:"45 s", minVer:true },
-        { id:"laterali", s:"3", r:"15-20", kg:"2×4 kg", rec:"60 s" },
-        { id:"revcurl", s:"2", r:"12-15", kg:"7,5 kg", rec:"45 s" },
-        { id:"farmer", s:"2", r:"30-40 s", kg:"2×10 kg", rec:"45 s" },
-        { id:"rotesterne", s:"2", r:"12-15", kg:"elastico", rec:"45 s" }
+        { id:"laterali", s:"3", r:"15-20", kg:"4+4 kg", rec:"60 s" },
+        { id:"curlhammer", s:"2", r:"12-15", kg:"5+5 kg", rec:"45 s" },
+        { id:"yraise", s:"2", r:"12-15", kg:"2+2 kg", rec:"45 s" },
+        { id:"deadhang", s:"2", r:"20-40 s", kg:"corpo", rec:"60 s" }
       ]},
     { key:"B", nome:"Spinta e femorali", focus:"petto · spalle · femorali · braccia",
       dur:"45 min", min:"30 min",
@@ -1151,17 +1334,17 @@ const DATA = {
         { id:"curl", s:"3", r:"10-12", kg:"15 kg", rec:"in superserie" },
         { id:"revcurl", s:"3", r:"10-12", kg:"7,5 kg", rec:"in superserie" }
       ]},
-    { key:"C", nome:"Weekend, tutto il corpo", focus:"gambe · spalle · schiena",
+    { key:"C", nome:"Tutto il corpo", focus:"gambe · trazione · spalle · addome",
       dur:"45 min", min:"35 min",
-      nota:"Lo sprint è facoltativo e resta fuori dalla versione breve: se lo salti, C resta una seduta da 40 minuti. Alzate laterali e alzate posteriori vanno in superserie: una serie di laterali, subito una di posteriori, poi il minuto di recupero.",
+      nota:"Lo sprint è facoltativo e resta fuori dalla versione breve: se lo salti, C resta una seduta da 40 minuti. Alzate laterali e alzate posteriori vanno in superserie: una serie di laterali, subito una di posteriori, poi il minuto di recupero. Il face pull è l'unico esercizio dove l'elastico può essere troppo morbido: accorcialo o raddoppialo.",
       moves:[
         { id:"sprint", s:"4-6", r:"40-50 m", kg:"", rec:"completo", opt:true },
-        { id:"squat", s:"3", r:"20", kg:"2×10 kg", rec:"90 s", minVer:true },
+        { id:"squat", s:"3", r:"20", kg:"10+10 kg", rec:"90 s", minVer:true },
         { id:"trazioni", s:"3", r:"max-1", kg:"elastico", rec:"2 min", minVer:true },
         { id:"rematore", s:"3", r:"10-12", kg:"anelli", rec:"90 s", minVer:true },
-        { id:"laterali", s:"3", r:"15-20", kg:"2×4 kg", rec:"in superserie" },
-        { id:"alzatepost", s:"3", r:"15", kg:"2×4 kg", rec:"60 s" },
-        { id:"facepull", s:"3", r:"15", kg:"elastico", rec:"45 s", minVer:true },
+        { id:"laterali", s:"3", r:"15-20", kg:"4+4 kg", rec:"in superserie" },
+        { id:"alzatepost", s:"3", r:"15", kg:"4+4 kg", rec:"60 s" },
+        { id:"facepull", s:"3", r:"15", kg:"elastico corto", rec:"45 s", minVer:true },
         { id:"hollow", s:"2", r:"20-30 s", kg:"corpo", rec:"45 s", minVer:true }
       ]}
   ],
@@ -1308,8 +1491,10 @@ const DATA = {
 
 /* ---------- state ---------- */
 const KEY = "piano.v1";
-let state = { day:"A", checks:{}, log:[], short:false };
+let state = { day:"A", checks:{}, log:[], short:false, diary:{}, diaryDay:"A" };
 try { state = Object.assign(state, JSON.parse(localStorage.getItem(KEY) || "{}")); } catch(e){}
+if(!state.diary || typeof state.diary !== "object" || Array.isArray(state.diary)) state.diary = {};
+if(!state.diaryDay) state.diaryDay = "A";
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} };
 /* una tantum: il suono era rimasto muto per sbaglio, lo riaccendiamo una volta */
 try {
@@ -1541,7 +1726,8 @@ const groups = [
   { id:'spalle', label:'Spalle' },
   { id:'gambe', label:'Gambe' },
   { id:'braccia', label:'Braccia' },
-  { id:'addome', label:'Addome' }
+  { id:'addome', label:'Addome' },
+  { id:'mobilita', label:'Mobilità' }
 ];
 let activeGroup = 'all';
 const filters = document.getElementById('filters');
@@ -1815,8 +2001,11 @@ logForm.addEventListener('submit', e => {
   e.preventDefault();
   const w = parseFloat(document.getElementById('fWeight').value);
   const wa = parseFloat(document.getElementById('fWaist').value);
-  if(!w && !wa) return;
-  state.log.push({ d:new Date().toISOString().slice(0,10), w:w||null, wa:wa||null });
+  const pull = parseInt(document.getElementById('fPull').value, 10);
+  const push = parseInt(document.getElementById('fPush').value, 10);
+  if(!w && !wa && !pull && !push) return;
+  state.log.push({ d:new Date().toISOString().slice(0,10), w:w||null, wa:wa||null,
+                   pull:pull||null, push:push||null });
   state.log.sort((a,b) => a.d.localeCompare(b.d));
   save(); logForm.reset(); renderLog();
 });
@@ -1831,13 +2020,18 @@ function renderLog(){
   }
   const first = state.log[0];
   list.innerHTML = rows.map(r => {
-    const dW = (r.w && first.w) ? (r.w - first.w) : null;
-    const dA = (r.wa && first.wa) ? (r.wa - first.wa) : null;
-    const fmt = v => v === null ? '' : `<span class="${v>0?'up':'down'}">${v>0?'+':''}${v.toFixed(1)}</span>`;
+    const firstRow = r === first;
+    const dW = (!firstRow && r.w && first.w) ? (r.w - first.w) : null;
+    const dA = (!firstRow && r.wa && first.wa) ? (r.wa - first.wa) : null;
+    const dP = (!firstRow && r.pull && first.pull) ? (r.pull - first.pull) : null;
+    const dU = (!firstRow && r.push && first.push) ? (r.push - first.push) : null;
+    const fmt = (v, dec) => v === null ? '' : `<span class="${v>0?'up':'down'}">${v>0?'+':''}${v.toFixed(dec === undefined ? 1 : dec).replace('.', ',')}</span>`;
     return `<div class="logrow">
       <span class="d">${r.d}</span>
-      <span class="w">${r.w ? r.w.toFixed(1)+' kg' : '—'} ${dW!==null?fmt(dW):''}</span>
-      <span class="w">${r.wa ? r.wa+' cm' : '—'} ${dA!==null?fmt(dA):''}</span>
+      <span class="w">${r.w ? r.w.toFixed(1).replace('.', ',')+' kg' : '—'} ${fmt(dW)}</span>
+      <span class="w">${r.wa ? String(r.wa).replace('.', ',')+' cm' : '—'} ${fmt(dA)}</span>
+      <span class="w">${r.pull ? r.pull+' traz.' : '—'} ${fmt(dP, 0)}</span>
+      <span class="w">${r.push ? r.push+' pieg.' : '—'} ${fmt(dU, 0)}</span>
     </div>`;
   }).join('');
   renderVerdict();
@@ -1857,13 +2051,77 @@ function renderVerdict(){
   else if(rate > 0.6){ ok = false; msg = `Stai salendo a ${rate.toFixed(2)} kg/settimana: è troppo veloce. Togli 200 kcal.`; }
   else if(rate < 0.05 && days >= 10){ ok = false; msg = `Peso fermo da ${Math.round(days)} giorni: aggiungi una porzione di carboidrati al giorno.`; }
   else { msg = `+${rate.toFixed(2)} kg/settimana, vita ${dWaist===null?'non misurata':(dWaist>0?'+'+dWaist.toFixed(1):dWaist.toFixed(1))+' cm'}. Stai ricomponendo: non cambiare niente.`; }
+  msg = msg.replace(/(\d)\.(\d)/g, '$1,$2');
   v.className = 'verdict' + (ok ? ' ok' : '');
   v.innerHTML = `<span class="label">${ok ? 'Verdetto' : 'Correzione'}</span>${msg}`;
   v.hidden = false;
 }
 
+/* ---------- diario dei carichi ---------- */
+const segDiary = document.getElementById('segDiary');
+const rangeOf = r => {
+  const m = String(r).match(/(\d+)\s*-\s*(\d+)/);
+  if(m) return [+m[1], +m[2]];
+  const one = String(r).match(/^(\d+)/);
+  return one ? [+one[1], +one[1]] : null;
+};
+const lastOf = id => {
+  const a = state.diary[id];
+  return (a && a.length) ? a[a.length-1] : null;
+};
+function hintFor(move, last){
+  if(!last) return '';
+  const rr = rangeOf(move.r);
+  const reps = parseFloat(last.r);
+  const kgish = /kg/i.test(move.kg || '');
+  const unit = /\bs\b/.test(move.r) ? ' s' : /\bm\b/.test(move.r) ? ' m' : ' rip';
+  const step = unit === ' rip' ? 1 : 5;
+  if(!rr || isNaN(reps)) return 'prossima: una ripetizione in più';
+  if(reps >= rr[1]) return 'tetto del range: ' + (kgish ? '+2,5 kg' : 'variante più difficile');
+  return 'prossima: ' + (kgish && last.kg ? last.kg.replace('.', ',') + ' kg × ' : '') + (reps + step) + unit;
+}
+function renderDiary(){
+  segDiary.innerHTML = ['A','B','C'].map(k => `<button type="button" data-dk="${k}" aria-current="${state.diaryDay===k?'true':'false'}">${k}</button>`).join('');
+  [...segDiary.children].forEach(b => b.addEventListener('click', () => {
+    state.diaryDay = b.dataset.dk; save(); renderDiary();
+  }));
+  const se = DATA.sessions.find(x => x.key === state.diaryDay);
+  const rows = se.moves.map((m, i) => {
+    const ex = exById(m.id);
+    const last = lastOf(m.id);
+    const when = last ? (() => { const d = new Date(last.d); return String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0'); })() : '';
+    const lastTxt = last
+      ? `${last.kg ? last.kg.replace('.', ',') + ' kg × ' : ''}${last.r}${last.kg ? '' : ' rip'} <span class="dt">${when}</span>`
+      : '—';
+    const hint = hintFor(m, last);
+    return `<div class="drow" data-ex="${m.id}">
+      <span class="idx">${String(i+1).padStart(2,'0')}</span>
+      <span class="dn">${ex.nome}${m.opt ? ' · facoltativo' : ''}<small>${m.s}×${m.r}${m.kg ? ' · ' + m.kg : ''}</small>${hint ? `<em>${hint}</em>` : ''}</span>
+      <span class="dlast">${lastTxt}</span>
+      <span class="din"><input class="dkg" inputmode="decimal" placeholder="kg" aria-label="carico ${ex.nome}"><input class="drp" inputmode="numeric" placeholder="rip" aria-label="ripetizioni ${ex.nome}"><button type="button" class="dok" aria-label="salva ${ex.nome}">ok</button></span>
+    </div>`;
+  }).join('');
+  document.getElementById('diary').innerHTML = `<div class="dtable"><div class="dhead" aria-hidden="true"><span>#</span><span>Esercizio</span><span>Ultima volta</span><span>Oggi</span></div>${rows}</div>
+    <p class="sub" style="margin-top:12px">Scrivi solo la serie migliore: carico e ripetizioni. Il diario serve a sapere da dove ripartire, non a fare statistica.</p>`;
+  document.querySelectorAll('#diary .drow').forEach(row => {
+    const id = row.dataset.ex;
+    const kg = row.querySelector('.dkg');
+    const rp = row.querySelector('.drp');
+    const commit = () => {
+      if(!kg.value && !rp.value) return;
+      const arr = state.diary[id] || (state.diary[id] = []);
+      arr.push({ d:new Date().toISOString().slice(0,10), kg:kg.value.trim().replace(',','.'), r:rp.value.trim() });
+      if(arr.length > 12) arr.shift();
+      save(); renderDiary();
+    };
+    row.querySelector('.dok').addEventListener('click', commit);
+    [kg, rp].forEach(inp => inp.addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); commit(); } }));
+  });
+}
+
 /* ---------- boot ---------- */
 renderSession();
+renderDiary();
 renderLibrary();
 renderMeals();
 renderPlanner();
