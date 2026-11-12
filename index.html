@@ -388,6 +388,14 @@ article.ex .body h3{font-size:var(--fs-small);margin:18px 0 8px}
 .fignote b{color:var(--text-strong);font-weight:500}
 
 /* ============ cibo ============ */
+.find{display:flex;align-items:center;gap:12px;border:var(--hair);background:var(--bg-weak);padding:0 12px;margin:0 0 14px}
+.find:focus-within{border-color:var(--link)}
+.find label{font:400 var(--fs-micro)/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);flex:none;padding-right:12px;border-right:var(--hair);align-self:stretch;display:flex;align-items:center}
+.find input{flex:1;min-width:0;appearance:none;background:none;border:0;padding:11px 0;color:var(--text-strong);font:400 var(--fs-small)/1.2 var(--mono)}
+.find input:focus{outline:none}
+.find input::placeholder{color:var(--text-faint)}
+.find input::-webkit-search-cancel-button{filter:invert(.55)}
+.findn{font:400 var(--fs-micro)/1 var(--mono);color:var(--text-faint);flex:none;white-space:nowrap}
 .meals{border-top:var(--hair)}
 .meal{padding:16px 0;border-bottom:var(--hair)}
 .meal .top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
@@ -685,9 +693,14 @@ tr:last-child td{border-bottom:0}
     <h3 style="margin-top:44px">Le porzioni, a occhio</h3>
     <p class="sub" style="margin-bottom:0">La colonna di mezzo è quella che conta: se non hai la bilancia, usa quella.
     I grammi sono lì solo per il calcolatore.</p>
+    <div class="find">
+      <label for="foodFind">Cerca</label>
+      <input id="foodFind" type="search" placeholder="toast, vongole, cornetto…" autocomplete="off" aria-describedby="foodCount">
+      <span class="findn" id="foodCount" aria-live="polite"></span>
+    </div>
     <table>
       <thead><tr><th>Cosa</th><th>A occhio</th><th>Prot.</th><th>Kcal</th></tr></thead>
-      <tbody>
+      <tbody id="foodBody">
         <tr><td>Petto di pollo</td><td>un palmo grande, spesso 2 dita <em>(150 g)</em></td><td class="n">34 g</td><td class="n">165</td></tr>
         <tr><td>Cosce di pollo</td><td>una coscia disossata <em>(120 g)</em></td><td class="n">22 g</td><td class="n">192</td></tr>
         <tr><td>Fettina di manzo</td><td>2 fettine sottili <em>(150 g)</em></td><td class="n">32 g</td><td class="n">195</td></tr>
@@ -708,8 +721,20 @@ tr:last-child td{border-bottom:0}
         <tr><td>Pane</td><td>2 fette <em>(50 g)</em></td><td class="n">4 g</td><td class="n">135</td></tr>
         <tr><td>Patate</td><td>2 medie <em>(300 g)</em></td><td class="n">6 g</td><td class="n">231</td></tr>
         <tr><td>Mandorle</td><td>un pugno <em>(15 g)</em></td><td class="n">3 g</td><td class="n">90</td></tr>
+        <tr><td>Cornetto (crema o nutella)</td><td>uno <em>(55 g)</em></td><td class="n">3 g</td><td class="n">225</td></tr>
+        <tr><td>Vongole</td><td>un piatto sgusciato <em>(150 g)</em></td><td class="n">18 g</td><td class="n">105</td></tr>
+        <tr><td>Sottiletta</td><td>una <em>(20 g)</em></td><td class="n">3 g</td><td class="n">52</td></tr>
+        <tr><td>Toast: 2 fette di pane, 2 di prosciutto cotto, 1 sottiletta</td><td>un toast</td><td class="n">15 g</td><td class="n">260</td></tr>
       </tbody>
     </table>
+    <p class="sub" id="foodEmpty" hidden>Nessun alimento con questo nome. Prova con una parola sola: <em>pane</em>, <em>uova</em>, <em>pesce</em>.</p>
+
+    <div class="note" style="margin-top:18px">
+      <span class="label">Il toast non è una porzione</span>
+      Pane, prosciutto cotto e sottiletta fanno <strong>15 g di proteine in 260 kcal</strong>: metà porzione
+      con il doppio delle calorie. Va bene come spuntino, non come secondo. Per arrivare a 30 g:
+      <strong>due toast</strong> (≈ 520 kcal), oppure un toast più <strong>cinque fette di bresaola</strong> (+22 g, 150 kcal).
+    </div>
 
     <h3 style="margin-top:44px">La mensa, decodificata</h3>
     <div class="block">
@@ -1043,6 +1068,32 @@ const DATA = {
       err:["Gomiti che vanno avanti: il curl diventa una tirata di spalle.","Busto che si dondola per strappare l'ultima ripetizione.","Polsi che ruotano: diventa un curl normale.","Scendere di colpo: metà del lavoro è nella discesa."],
       prog:"6+6 kg per 12 ripetizioni, oppure 3 secondi di discesa.",
       regr:"Un braccio per volta, con la schiena appoggiata al muro."},
+    { id:"curlpolsi", nome:"Curl polsi con ez-bar",
+      what:"Avambraccio appoggiato sulla coscia, polso che si chiude: è il lavoro diretto sui flessori, quello che nessun curl prende.", m:"flessori dell'avambraccio · presa", grp:"braccia",
+      steps:[
+        "Siediti, ez-bar con le palme in su, avambraccio appoggiato sulla coscia e polso libero oltre il ginocchio.",
+        "Lascia scendere il bilanciere aprendo un poco le dita, senza mollarlo: il polso arriva a fine corsa.",
+        "Chiudi il polso portando il bilanciere verso l'avambraccio, un secondo di fermo in cima.",
+        "Scendi in 3 secondi senza slancio: si muove il polso, il gomito resta appoggiato alla coscia.",
+        "2 serie da 15 per lato con 10 kg totali. Se le 15 escono facili, 12,5 kg."
+      ],
+      err:["Polso che va su e giù veloce, senza fermo: è pompaggio, non carico.","Il bilanciere tira su l'avambraccio dalla coscia: carico troppo alto.","Il gomito si stacca e diventa un curl normale."],
+      prog:"12,5 kg per 15 ripetizioni, poi 15 kg.",
+      regr:"Manubrio da 3-5 kg, un braccio per volta, avambraccio sul ginocchio."
+    },
+    { id:"revpolsi", nome:"Curl polsi al contrario",
+      what:"Il dorso della mano sale con i palmi in giù: allena gli estensori, quelli che si vedono sopra l'avambraccio.", m:"estensori dell'avambraccio · presa", grp:"braccia",
+      steps:[
+        "Siediti, palmi in giù, avambraccio appoggiato sulla coscia, ez-bar con 5 kg totali.",
+        "Lascia cadere il polso verso il basso: il bilanciere scende piano, senza strappi.",
+        "Solleva il dorso della mano: il movimento è corto, quasi solo del polso.",
+        "Scendi in 3 secondi. Qui il carico è metà del curl polsi: serve poco, serve sempre.",
+        "2 serie da 20 per lato. Brucia prima di quanto pensi."
+      ],
+      err:["Caricare come nel curl polsi: gli estensori sono piccoli.","Gomito che si solleva dalla coscia.","Muovere le dita invece del polso."],
+      prog:"7,5 kg per 20 ripetizioni.",
+      regr:"Un manubrio da 2 kg, un braccio per volta."
+    },
     { id:"laterali", nome:"Alzate laterali",
       what:"Braccia tese che salgono di lato fino all'altezza delle spalle, gomiti appena piegati.", m:"deltoide laterale", grp:"spalle",
       steps:[
@@ -1430,20 +1481,22 @@ const DATA = {
 
   sessions: [
     { key:"A", nome:"Trazione e gambe", focus:"dorsali · schiena alta · quadricipiti",
-      dur:"45 min", min:"30 min",
+      dur:"50 min", min:"33 min",
       nota:"Il rematore qui è col bilanciere, busto a 45°: è la versione che permette più carico. Gli anelli tornano in C, dove il carico è il tuo corpo.",
       moves:[
         { id:"trazioni", s:"4", r:"5-8", kg:"elastico", rec:"2-3 min", minVer:true },
         { id:"rematoreb", s:"4", r:"8-10", kg:"22,5 kg", rec:"2 min", minVer:true },
         { id:"bulgaro", s:"3", r:"8-10", kg:"10+10 kg", rec:"2 min", minVer:true },
         { id:"hollow", s:"2", r:"20-30 s", kg:"corpo", rec:"45 s", minVer:true },
-        { id:"laterali", s:"3", r:"15-20", kg:"4+4 kg", rec:"60 s" },
+        { id:"laterali", s:"4", r:"15-20", kg:"4+4 kg", rec:"60 s", minVer:true },
         { id:"curlhammer", s:"2", r:"12-15", kg:"5+5 kg", rec:"45 s" },
         { id:"yraise", s:"2", r:"12-15", kg:"2+2 kg", rec:"45 s" },
+        { id:"curlpolsi", s:"2", r:"15", kg:"10 kg", rec:"45 s" },
+        { id:"revpolsi", s:"2", r:"20", kg:"5 kg", rec:"45 s" },
         { id:"deadhang", s:"2", r:"20-40 s", kg:"corpo", rec:"60 s" }
       ]},
     { key:"B", nome:"Spinta e femorali", focus:"petto · spalle · femorali · braccia",
-      dur:"45 min", min:"30 min",
+      dur:"48 min", min:"32 min",
       nota:"Qui niente superserie: curl e reverse usano lo stesso bilanciere a carichi diversi, e cambiare i dischi a ogni giro ti fa perdere il ritmo. Prima tutte le serie di curl, poi tutte quelle di reverse: i dischi si cambiano una volta sola. Superserie solo tra esercizi che usano gli stessi manubri allo stesso carico, come in C.",
       moves:[
         { id:"rdl", s:"4", r:"10-12", kg:"30 kg", rec:"2 min", minVer:true },
@@ -1452,7 +1505,9 @@ const DATA = {
         { id:"reversecrunch", s:"3", r:"12-15", kg:"corpo", rec:"45 s", minVer:true },
         { id:"ringdip", s:"3", r:"6-10", kg:"corpo", rec:"2 min" },
         { id:"curl", s:"3", r:"8-12", kg:"15 kg", rec:"90 s" },
-        { id:"revcurl", s:"3", r:"12-15", kg:"10 kg", rec:"90 s" }
+        { id:"revcurl", s:"3", r:"12-15", kg:"10 kg", rec:"90 s" },
+        { id:"curlpolsi", s:"2", r:"15", kg:"10 kg", rec:"45 s" },
+        { id:"revpolsi", s:"2", r:"20", kg:"5 kg", rec:"45 s" }
       ]},
     { key:"C", nome:"Tutto il corpo", focus:"gambe · trazione · spalle · addome",
       dur:"45 min", min:"35 min",
@@ -1535,7 +1590,8 @@ const DATA = {
     ["Trota", 20, 120, "1 filetto ≈ 150 g", "Pesce"],
     ["Pesce spada", 20, 140, "1 trancio ≈ 150 g", "Pesce"],
     ["Calamari", 16, 80, "1 porzione ≈ 200 g", "Pesce"],
-    ["Cozze / vongole", 12, 70, "1 porzione ≈ 200 g", "Pesce"],
+    ["Cozze", 12, 70, "1 porzione ≈ 200 g", "Pesce"],
+    ["Vongole", 12, 70, "1 porzione sgusciata ≈ 150 g", "Pesce"],
     ["Alici fresche", 18, 130, "6 alici ≈ 100 g", "Pesce"],
 
     ["Uova (1 ≈ 55 g)", 12.5, 143, "1 uovo ≈ 55 g", "Uova e latticini"],
@@ -1549,10 +1605,10 @@ const DATA = {
     ["Latte", 3.3, 46, "1 bicchiere ≈ 250 g", "Uova e latticini"],
     ["Latte scremato", 3.5, 34, "1 bicchiere ≈ 250 g", "Uova e latticini"],
     ["Kefir", 3.3, 60, "1 bicchiere ≈ 200 g", "Uova e latticini"],
-    ["Skyr", 11, 63, "1 vasetto ≈ 150 g", "Uova e latticini"],
     ["Yogurt bianco intero", 3.5, 65, "1 vasetto ≈ 125 g", "Uova e latticini"],
     ["Stracchino", 10, 320, "2 cucchiai ≈ 50 g", "Uova e latticini"],
     ["Philadelphia", 6, 250, "2 cucchiai ≈ 50 g", "Uova e latticini"],
+    ["Sottiletta", 13, 260, "1 sottiletta ≈ 20 g", "Uova e latticini"],
 
     ["Lenticchie cotte", 9, 116, "2 mestoli ≈ 150 g", "Legumi e soia"],
     ["Ceci cotti", 7, 120, "2 mestoli ≈ 150 g", "Legumi e soia"],
@@ -1562,13 +1618,13 @@ const DATA = {
     ["Hummus", 7, 170, "2 cucchiai ≈ 50 g", "Legumi e soia"],
     ["Piselli", 5, 80, "2 mestoli ≈ 150 g", "Legumi e soia"],
     ["Edamame", 11, 120, "1 ciotola ≈ 100 g", "Legumi e soia"],
-    ["Lupini", 16, 120, "1 manciata ≈ 50 g", "Legumi e soia"],
 
     ["Pasta cruda", 11, 350, "1 piatto fondo ≈ 100 g", "Carboidrati"],
     ["Riso crudo", 7, 350, "1 piatto fondo ≈ 100 g", "Carboidrati"],
     ["Gnocchi", 4, 130, "1 porzione ≈ 250 g", "Carboidrati"],
     ["Cous cous crudo", 12, 350, "1 piatto fondo ≈ 100 g", "Carboidrati"],
     ["Pane", 8, 270, "2 fette ≈ 50 g", "Carboidrati"],
+    ["Cornetto (crema o nutella)", 6, 410, "1 cornetto ≈ 55 g", "Carboidrati"],
     ["Pane integrale", 9, 250, "2 fette ≈ 50 g", "Carboidrati"],
     ["Patate", 2, 77, "2 medie ≈ 300 g", "Carboidrati"],
     ["Avena", 13, 380, "3 cucchiai colmi ≈ 50 g", "Carboidrati"],
@@ -2249,6 +2305,28 @@ function updateCalcTotal(){
 document.getElementById('calcAdd').addEventListener('click', () => {
   state.calc.push({ n:FZ[0][0], g:"" }); save(); renderCalc();
 });
+
+/* ---------- ricerca nella tabella alimenti ---------- */
+const foodFind = document.getElementById('foodFind');
+const foodBody = document.getElementById('foodBody');
+const foodCount = document.getElementById('foodCount');
+const foodEmpty = document.getElementById('foodEmpty');
+const foodRows = foodBody ? [...foodBody.querySelectorAll('tr')] : [];
+const normTxt = t => String(t).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+function filterFood(){
+  const q = normTxt(foodFind.value.trim());
+  let n = 0;
+  foodRows.forEach(tr => {
+    const on = !q || normTxt(tr.textContent).includes(q);
+    tr.hidden = !on;
+    if(on) n++;
+  });
+  foodCount.textContent = q ? n + ' di ' + foodRows.length : '';
+  foodEmpty.hidden = n > 0;
+}
+foodFind.addEventListener('input', filterFood);
+foodFind.addEventListener('search', filterFood);
+filterFood();
 
 /* ---------- log ---------- */
 const logForm = document.getElementById('logForm');
