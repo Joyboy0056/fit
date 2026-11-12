@@ -308,12 +308,29 @@ ol.moves>li{border-bottom:var(--hair)}
 
 /* ============ libreria esercizi ============ */
 article.ex{border-bottom:var(--hair)}
-article.ex>.exhead{
+
+/* ascolto */
+.exheadwrap{display:flex;align-items:flex-start;gap:2px}
+.exheadwrap .exhead{flex:1;min-width:0}
+.explay{appearance:none;background:none;border:0;cursor:pointer;flex:none;color:var(--text-faint);
+  font:400 15px/1 var(--mono);padding:16px 8px 16px 14px;transition:color .15s}
+.explay:hover,.explay.on{color:var(--blue)}
+.explay.on{animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+.listenbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;padding:0 0 12px;margin:0 0 2px;border-bottom:var(--hair)}
+.listen{appearance:none;background:none;border:var(--hair);color:var(--text);cursor:pointer;
+  display:inline-flex;align-items:center;gap:8px;padding:7px 10px;
+  font:400 var(--fs-micro)/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;transition:color .15s,border-color .15s}
+.listen:hover{color:var(--text-strong);border-color:var(--border-strong)}
+.listen.on{color:var(--blue);border-color:var(--blue)}
+.listen .gl{font-size:11px;letter-spacing:0}
+.lhn{font-size:var(--fs-micro);color:var(--text-faint);letter-spacing:.04em}
+article.ex .exhead{
   width:100%;appearance:none;background:none;border:0;padding:15px 0;margin:0;cursor:pointer;
   display:flex;align-items:baseline;justify-content:space-between;gap:16px;text-align:left;
   color:var(--text-strong);font:inherit;
 }
-article.ex>.exhead:hover h3{color:var(--link)}
+article.ex .exhead:hover h3{color:var(--link)}
 article.ex .exhead .t{display:block;min-width:0}
 article.ex .exhead .m{display:block;margin-top:4px;font-size:var(--fs-micro);letter-spacing:.06em;
   text-transform:uppercase;color:var(--text-faint)}
@@ -583,7 +600,8 @@ tr:last-child td{border-bottom:0}
 
   <section id="p-ex" role="tabpanel" aria-labelledby="tab-ex" hidden>
     <h2>Come si eseguono</h2>
-    <p class="sub">Tecnica, errori da evitare, come renderlo più facile o più difficile. Tocca un esercizio.</p>
+    <p class="sub">Tecnica, errori da evitare, come renderlo più facile o più difficile. Tocca un esercizio per aprire la scheda,
+    o il <strong>▷</strong> per fartela leggere dalla voce del telefono — funziona anche senza connessione.</p>
     <div class="filters" id="filters" role="group" aria-label="Filtra per gruppo"></div>
     <div id="library"></div>
 
@@ -1508,6 +1526,7 @@ try {
 /* ---------- tabs ---------- */
 const tabs = [...document.querySelectorAll('nav.tabs button')];
 function showTab(view){
+  if(typeof stopSpeech === 'function') stopSpeech();
   tabs.forEach(b => {
     const on = b.dataset.view === view;
     b.setAttribute('aria-selected', on ? 'true' : 'false');
@@ -1536,8 +1555,12 @@ DATA.sessions.forEach(s => {
 const exById = id => DATA.ex.find(e => e.id === id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
-function detailHTML(ex){
-  return `<dl>
+function detailHTML(ex, withVoice){
+  const bar = withVoice ? `<div class="listenbar">
+    <button class="listen" data-speak="${ex.id}" aria-pressed="false" aria-label="Ascolta ${esc(ex.nome)}"><span class="gl" aria-hidden="true">▷</span><span class="lb">ascolta</span></button>
+    <span class="lhn">legge nome e passi · ${Math.max(20, Math.round(speechText(ex).length / 15))} s circa</span>
+  </div>` : '';
+  return `${bar}<dl>
     ${ex.what ? `<div><dt>In breve</dt><dd>${esc(ex.what)}</dd></div>` : ''}
     <div><dt>Esecuzione</dt><dd>
       ${ex.fig || ''}
@@ -1580,7 +1603,7 @@ function renderSession(){
             <span class="presc"><b>${m.s}×${m.r}</b><span class="load">${m.kg}</span></span>
             <span class="rec">${m.rec}</span>
             <span class="muscle">${ex.m}</span>
-            <div class="detail" id="d-${s.key}-${m.id}">${detailHTML(ex)}</div>
+            <div class="detail" id="d-${s.key}-${m.id}">${detailHTML(ex, true)}</div>
           </div>
         </li>`;
       }).join('')}
@@ -1620,6 +1643,9 @@ function wireSession(){
       const open = det.classList.toggle('open');
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
+  });
+  document.querySelectorAll('#sessionBody .listen').forEach(btn => {
+    btn.addEventListener('click', e => { e.preventDefault(); speakEx(btn.dataset.speak); });
   });
   const st = document.getElementById('shortToggle');
   if(st) st.addEventListener('click', () => { state.short = !state.short; save(); renderSession(); });
@@ -1744,12 +1770,18 @@ function renderLibrary(){
   const list = DATA.ex.filter(e => activeGroup === 'all' || e.grp === activeGroup);
   document.getElementById('library').innerHTML = list.map(e => `
     <article class="ex" data-g="${e.grp}">
-      <button class="exhead" aria-expanded="false" data-ex="${e.id}">
-        <span class="t"><h3>${e.nome}</h3><span class="m">${e.m}</span></span>
-        <span class="plus" aria-hidden="true">+</span>
-      </button>
+      <div class="exheadwrap">
+        <button class="exhead" aria-expanded="false" data-ex="${e.id}">
+          <span class="t"><h3>${e.nome}</h3><span class="m">${e.m}</span></span>
+          <span class="plus" aria-hidden="true">+</span>
+        </button>
+        <button class="explay" data-speak="${e.id}" aria-pressed="false" aria-label="Ascolta ${esc(e.nome)}" title="Ascolta"><span class="gl" aria-hidden="true">▷</span></button>
+      </div>
       <div class="body" id="b-${e.id}">${detailHTML(e)}</div>
     </article>`).join('');
+  document.querySelectorAll('.explay').forEach(btn => {
+    btn.addEventListener('click', e => { e.stopPropagation(); speakEx(btn.dataset.speak); });
+  });
   document.querySelectorAll('.exhead').forEach(btn => {
     btn.addEventListener('click', () => {
       const body = document.getElementById('b-' + btn.dataset.ex);
@@ -1757,6 +1789,58 @@ function renderLibrary(){
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
   });
+}
+
+/* ---------- voce ---------- */
+const SR = ('speechSynthesis' in window) ? window.speechSynthesis : null;
+let speaking = null;
+
+function speechText(ex){
+  return [ex.nome + '.', ex.what || ''].concat(ex.steps || []).filter(Boolean).join(' ');
+}
+function paintSpeech(){
+  document.querySelectorAll('[data-speak]').forEach(b => {
+    const on = !!(speaking && b.dataset.speak === speaking.id);
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    b.classList.toggle('on', on);
+    const g = b.querySelector('.gl'); if(g) g.textContent = on ? '■' : '▷';
+    const lb = b.querySelector('.lb'); if(lb) lb.textContent = on ? 'stop' : 'ascolta';
+  });
+}
+function stopSpeech(){
+  if(SR) SR.cancel();
+  speaking = null;
+  paintSpeech();
+}
+function voiceFor(){
+  if(!SR) return null;
+  const vs = SR.getVoices() || [];
+  return vs.find(v => /^it[-_]IT/i.test(v.lang)) || vs.find(v => /^it/i.test(v.lang)) || null;
+}
+function speakEx(id){
+  if(!SR) return;
+  const wasSpeaking = !!speaking;
+  if(wasSpeaking && speaking.id === id){ stopSpeech(); return; }
+  stopSpeech();
+  const ex = exById(id);
+  if(!ex) return;
+  const chunks = (speechText(ex).replace(/\s+/g, ' ').match(/[^.!?…]+[.!?…]*/g) || [])
+    .map(x => x.trim()).filter(Boolean);
+  if(!chunks.length) return;
+  speaking = { id: id, i: 0 };
+  paintSpeech();
+  const next = () => {
+    if(!speaking || speaking.id !== id) return;
+    if(speaking.i >= chunks.length){ stopSpeech(); return; }
+    const u = new SpeechSynthesisUtterance(chunks[speaking.i++]);
+    const v = voiceFor(); if(v) u.voice = v;
+    u.lang = 'it-IT'; u.rate = 0.98; u.pitch = 1;
+    u.onend = next;
+    u.onerror = () => setTimeout(next, 40);
+    SR.speak(u);
+  };
+  /* cancel() seguito subito da speak() a volte perde le prime parole: un attimo di respiro */
+  if(wasSpeaking) setTimeout(next, 90); else next();
 }
 
 /* ---------- food ---------- */
