@@ -237,7 +237,11 @@ ol.moves>li{border-bottom:var(--hair)}
 .move .presc .load{font-size:var(--fs-micro);color:var(--text-muted)}
 .move .rec{grid-area:rec;text-align:right;font-size:var(--fs-meta);color:var(--text-muted);white-space:nowrap}
 .move .muscle{grid-area:muscle;margin-top:4px;font-size:var(--fs-micro);letter-spacing:.06em;
-  text-transform:uppercase;color:var(--text-faint)}
+  text-transform:uppercase;color:var(--text-faint);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.move .rowplay{appearance:none;background:none;border:0;cursor:pointer;color:var(--text-faint);
+  font:400 13px/1 var(--mono);padding:6px 2px 6px 10px;margin:-6px -2px -6px 0;transition:color .15s;flex:none}
+.move .rowplay:hover,.move .rowplay.on{color:var(--blue)}
+.move .rowplay.on{animation:pulse 1.4s ease-in-out infinite}
 .move .detail{grid-area:detail;display:none}
 .move .detail.open{display:block;animation:rise .18s ease-out}
 @keyframes rise{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
@@ -318,6 +322,7 @@ article.ex{border-bottom:var(--hair)}
 .explay.on{animation:pulse 1.4s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
 .listenbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;padding:0 0 12px;margin:0 0 2px;border-bottom:var(--hair)}
+.listenbar.plain{border-bottom:0;padding:0 0 10px;margin:-4px 0 0}
 .listen{appearance:none;background:none;border:var(--hair);color:var(--text);cursor:pointer;
   display:inline-flex;align-items:center;gap:8px;padding:7px 10px;
   font:400 var(--fs-micro)/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;transition:color .15s,border-color .15s}
@@ -566,8 +571,12 @@ tr:last-child td{border-bottom:0}
     <div id="sessionBody"></div>
 
     <h3 style="margin-top:46px">Prima: cinque minuti di riscaldamento</h3>
+    <div class="listenbar plain">
+      <button class="listen" data-speak="warmup" aria-pressed="false" aria-label="Ascolta il riscaldamento"><span class="gl" aria-hidden="true">▷</span><span class="lb">ascolta</span></button>
+      <span class="lhn" data-len="warmup"></span>
+    </div>
     <p class="sub">Sempre uguale, anche quando hai fretta. Serve a scaldare articolazioni e tendini, non a stancarti.</p>
-    <table>
+    <table id="tbl-warmup">
       <tbody>
         <tr><td>Marcia sul posto o jumping jack</td><td class="n">60 s</td></tr>
         <tr><td>Cerchi con le braccia, avanti e indietro</td><td class="n">10 + 10</td></tr>
@@ -579,9 +588,13 @@ tr:last-child td{border-bottom:0}
     <p class="sub">Poi una serie leggera del primo esercizio della seduta: metà carico, otto ripetizioni pulite.</p>
 
     <h3 style="margin-top:44px">Mobilità: otto minuti, anche nei giorni di riposo</h3>
+    <div class="listenbar plain">
+      <button class="listen" data-speak="mobility" aria-pressed="false" aria-label="Ascolta la mobilità"><span class="gl" aria-hidden="true">▷</span><span class="lb">ascolta</span></button>
+      <span class="lhn" data-len="mobility"></span>
+    </div>
     <p class="sub">Se non ti tocchi le punte il problema è quasi sempre a monte: femorali corti e anca che si piega poco.
     Non forzare la schiena — lavora su quei due, con costanza.</p>
-    <table>
+    <table id="tbl-mobility">
       <tbody>
         <tr><td>Femorali con elastico</td><td class="n">45 s per lato</td></tr>
         <tr><td>Polpacci al muro</td><td class="n">45 s per lato</td></tr>
@@ -590,7 +603,7 @@ tr:last-child td{border-bottom:0}
         <tr><td>Apertura petto alla porta</td><td class="n">45 s per lato</td></tr>
       </tbody>
     </table>
-    <div class="note">
+    <div class="note" id="note-punte">
       <span class="label">Le punte</span>
       Non si conquistano tirando con la schiena: si conquistano allungando i femorali e sbloccando l'anca.
       3-4 volte a settimana, 8 minuti, e in 6-10 settimane la distanza cala di 5-10 cm. Se dopo un mese non si muove niente,
@@ -1602,7 +1615,7 @@ function renderSession(){
             </button>
             <span class="presc"><b>${m.s}×${m.r}</b><span class="load">${m.kg}</span></span>
             <span class="rec">${m.rec}</span>
-            <span class="muscle">${ex.m}</span>
+            <span class="muscle">${ex.m}<button class="rowplay" data-speak="${m.id}" aria-pressed="false" aria-label="Ascolta ${esc(ex.nome)}" title="Ascolta"><span class="gl" aria-hidden="true">▷</span></button></span>
             <div class="detail" id="d-${s.key}-${m.id}">${detailHTML(ex, true)}</div>
           </div>
         </li>`;
@@ -1644,9 +1657,7 @@ function wireSession(){
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
   });
-  document.querySelectorAll('#sessionBody .listen').forEach(btn => {
-    btn.addEventListener('click', e => { e.preventDefault(); speakEx(btn.dataset.speak); });
-  });
+  wireSpeak(document.getElementById('sessionBody'));
   const st = document.getElementById('shortToggle');
   if(st) st.addEventListener('click', () => { state.short = !state.short; save(); renderSession(); });
   document.querySelectorAll('[data-timer]').forEach(btn => {
@@ -1695,7 +1706,7 @@ function unlockAudio(){
   }catch(e){}
 }
 ['pointerdown','touchstart','keydown'].forEach(ev =>
-  document.addEventListener(ev, unlockAudio, { once:true, passive:true })
+  document.addEventListener(ev, unlockAudio, { passive:true })
 );
 function ensureAudio(){
   try {
@@ -1708,26 +1719,38 @@ function ensureAudio(){
 function blip(freq, delay, dur, vol){
   const ctx = ensureAudio();
   if(!ctx) return;
-  const t0 = ctx.currentTime + delay;
-  const o = ctx.createOscillator();
-  const g = ctx.createGain();
-  o.type = 'sine';
-  o.frequency.value = freq;
-  g.gain.setValueAtTime(0.0001, t0);
-  g.gain.exponentialRampToValueAtTime(vol, t0 + 0.015);
-  g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-  o.connect(g).connect(ctx.destination);
-  o.start(t0); o.stop(t0 + dur + 0.05);
+  const fire = () => {
+    try{
+      const t0 = ctx.currentTime + delay;
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'sine';
+      o.frequency.value = freq;
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(vol, t0 + 0.015);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+      o.connect(g).connect(ctx.destination);
+      o.start(t0); o.stop(t0 + dur + 0.05);
+    }catch(e){}
+  };
+  /* se il contesto è sospeso (succede dopo la sintesi vocale o al ritorno in pagina)
+     le note programmate andrebbero perse: si riparte quando è davvero attivo */
+  if(ctx.state === 'running') fire();
+  else ctx.resume().then(fire).catch(() => {});
 }
 
 /* tre note che salgono: breve, riconoscibile, volume da telefono in tasca */
 function chime(){
   if(state.sound === false) return;
-  unlockAudio();
-  blip(880,    0,    0.50, 0.30);
-  blip(1318.5, 0.11, 0.45, 0.24);
-  blip(1760,   0.22, 0.60, 0.16);
-  if(navigator.vibrate) navigator.vibrate([130, 70, 130]);
+  const ctx = ensureAudio();
+  if(!ctx) return;
+  const go = () => {
+    blip(880,    0,    0.50, 0.30);
+    blip(1318.5, 0.11, 0.45, 0.24);
+    blip(1760,   0.22, 0.60, 0.16);
+    if(navigator.vibrate) navigator.vibrate([130, 70, 130]);
+  };
+  if(ctx.state === 'running') go(); else ctx.resume().then(go).catch(() => {});
 }
 
 function startTimer(sec){
@@ -1779,9 +1802,7 @@ function renderLibrary(){
       </div>
       <div class="body" id="b-${e.id}">${detailHTML(e)}</div>
     </article>`).join('');
-  document.querySelectorAll('.explay').forEach(btn => {
-    btn.addEventListener('click', e => { e.stopPropagation(); speakEx(btn.dataset.speak); });
-  });
+  wireSpeak(document.getElementById('library'));
   document.querySelectorAll('.exhead').forEach(btn => {
     btn.addEventListener('click', () => {
       const body = document.getElementById('b-' + btn.dataset.ex);
@@ -1798,6 +1819,29 @@ let speaking = null;
 function speechText(ex){
   return [ex.nome + '.', ex.what || ''].concat(ex.steps || []).filter(Boolean).join(' ');
 }
+function tableText(id){
+  const t = document.getElementById(id);
+  if(!t) return '';
+  return [...t.querySelectorAll('tbody tr')].map(tr => {
+    const c = [...tr.children].map(td => td.textContent.replace(/\s+/g, ' ').trim());
+    if(c.length >= 2) return `${c[0]}: ${c[1]}.`;
+    return c.join(', ') + '.';
+  }).join(' ');
+}
+const BLOCKS = {
+  warmup: () => 'Riscaldamento, cinque minuti, prima di ogni seduta. ' + tableText('tbl-warmup') +
+    ' Poi una serie leggera del primo esercizio: metà carico, otto ripetizioni pulite.',
+  mobility: () => {
+    const note = document.getElementById('note-punte');
+    return 'Mobilità, otto minuti, anche nei giorni di riposo. ' + tableText('tbl-mobility') +
+      (note ? ' ' + note.textContent.replace(/\s+/g, ' ').trim() : '');
+  }
+};
+function speechFor(id){
+  if(BLOCKS[id]) return BLOCKS[id]();
+  const ex = exById(id);
+  return ex ? speechText(ex) : '';
+}
 function paintSpeech(){
   document.querySelectorAll('[data-speak]').forEach(b => {
     const on = !!(speaking && b.dataset.speak === speaking.id);
@@ -1805,6 +1849,13 @@ function paintSpeech(){
     b.classList.toggle('on', on);
     const g = b.querySelector('.gl'); if(g) g.textContent = on ? '■' : '▷';
     const lb = b.querySelector('.lb'); if(lb) lb.textContent = on ? 'stop' : 'ascolta';
+  });
+}
+function wireSpeak(root){
+  (root || document).querySelectorAll('[data-speak]').forEach(b => {
+    if(b.dataset.wired) return;
+    b.dataset.wired = '1';
+    b.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); speak(b.dataset.speak); });
   });
 }
 function stopSpeech(){
@@ -1817,14 +1868,14 @@ function voiceFor(){
   const vs = SR.getVoices() || [];
   return vs.find(v => /^it[-_]IT/i.test(v.lang)) || vs.find(v => /^it/i.test(v.lang)) || null;
 }
-function speakEx(id){
+function speak(id){
   if(!SR) return;
   const wasSpeaking = !!speaking;
   if(wasSpeaking && speaking.id === id){ stopSpeech(); return; }
   stopSpeech();
-  const ex = exById(id);
-  if(!ex) return;
-  const chunks = (speechText(ex).replace(/\s+/g, ' ').match(/[^.!?…]+[.!?…]*/g) || [])
+  const text = speechFor(id);
+  if(!text) return;
+  const chunks = (text.replace(/\s+/g, ' ').match(/[^.!?…]+[.!?…]*/g) || [])
     .map(x => x.trim()).filter(Boolean);
   if(!chunks.length) return;
   speaking = { id: id, i: 0 };
@@ -2207,6 +2258,12 @@ function renderDiary(){
 renderSession();
 renderDiary();
 renderLibrary();
+wireSpeak(document);
+document.querySelectorAll('[data-len]').forEach(el => {
+  const t = speechFor(el.dataset.len);
+  if(!t) return;
+  el.textContent = `legge la lista · ${Math.max(15, Math.round(t.length / 15))} s circa`;
+});
 renderMeals();
 renderPlanner();
 renderCalc();
