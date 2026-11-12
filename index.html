@@ -238,10 +238,7 @@ ol.moves>li{border-bottom:var(--hair)}
 .move .rec{grid-area:rec;text-align:right;font-size:var(--fs-meta);color:var(--text-muted);white-space:nowrap}
 .move .muscle{grid-area:muscle;margin-top:4px;font-size:var(--fs-micro);letter-spacing:.06em;
   text-transform:uppercase;color:var(--text-faint);display:flex;align-items:center;justify-content:space-between;gap:10px}
-.move .rowplay{appearance:none;background:none;border:0;cursor:pointer;color:var(--text-faint);
-  font:400 13px/1 var(--mono);padding:6px 2px 6px 10px;margin:-6px -2px -6px 0;transition:color .15s;flex:none}
-.move .rowplay:hover,.move .rowplay.on{color:var(--blue)}
-.move .rowplay.on{animation:pulse 1.4s ease-in-out infinite}
+.move .rowplay{margin:-6px -2px -6px 0}
 .move .detail{grid-area:detail;display:none}
 .move .detail.open{display:block;animation:rise .18s ease-out}
 @keyframes rise{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
@@ -319,6 +316,10 @@ article.ex{border-bottom:var(--hair)}
 .explay{appearance:none;background:none;border:0;cursor:pointer;flex:none;color:var(--text-faint);
   font:400 15px/1 var(--mono);padding:16px 8px 16px 14px;transition:color .15s}
 .explay:hover,.explay.on{color:var(--blue)}
+.rowplay{appearance:none;background:none;border:0;cursor:pointer;color:var(--text-faint);
+  font:400 13px/1 var(--mono);padding:6px 2px 6px 10px;transition:color .15s;flex:none}
+.rowplay:hover,.rowplay.on{color:var(--blue)}
+.rowplay.on{animation:pulse 1.4s ease-in-out infinite}
 .explay.on{animation:pulse 1.4s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
 .listenbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;padding:0 0 12px;margin:0 0 2px;border-bottom:var(--hair)}
@@ -339,6 +340,8 @@ article.ex .exhead:hover h3{color:var(--link)}
 article.ex .exhead .t{display:block;min-width:0}
 article.ex .exhead .m{display:block;margin-top:4px;font-size:var(--fs-micro);letter-spacing:.06em;
   text-transform:uppercase;color:var(--text-faint)}
+article.ex .exhead .m .dose{text-transform:none;letter-spacing:0;margin-left:10px;
+  color:var(--text-muted);font-family:var(--mono);font-size:11px}
 article.ex[data-g="trazione"] .exhead .m{color:var(--blue)}
 article.ex[data-g="spinta"] .exhead .m{color:var(--red)}
 article.ex[data-g="gambe"] .exhead .m{color:var(--yellow)}
@@ -352,6 +355,22 @@ article.ex .exhead[aria-expanded="true"] .plus{transform:rotate(45deg);color:var
 article.ex .body{display:none;padding:0 0 22px}
 article.ex .body.open{display:block;animation:rise .18s ease-out}
 article.ex .body h3{font-size:var(--fs-small);margin:18px 0 8px}
+
+/* prima e mobilità */
+.cues{list-style:none;margin:0;padding:0;border-top:var(--hair)}
+.cues>li{border-bottom:var(--hair);padding:13px 0}
+.cuehead{display:flex;align-items:baseline;gap:12px}
+.cuehead .idx{font:400 var(--fs-micro)/1 var(--mono);color:var(--green);width:22px;flex:none}
+.cuehead .cuenm{flex:1;min-width:0;color:var(--text-strong);font-size:var(--fs-ui);line-height:1.35}
+.cuehead .dose{flex:none;font:400 var(--fs-meta)/1 var(--mono);color:var(--text-muted);white-space:nowrap}
+.cuebody{margin:7px 0 0 34px;font-size:var(--fs-small);color:var(--text-muted);line-height:1.6;max-width:62ch}
+@media (max-width:599px){
+  .cuehead .dose{font-size:11px}
+  .cuebody{margin-left:0;margin-top:9px}
+}
+@media (max-width:959px){
+  nav.tabs{flex-wrap:nowrap}
+}
 
 /* figure */
 .fig{margin:0 0 16px;display:flex;gap:10px;flex-wrap:wrap}
@@ -529,8 +548,8 @@ tr:last-child td{border-bottom:0}
   *{animation:none!important;transition:none!important}
 }
 @media (max-width:479px){
-  nav.tabs{display:grid;grid-template-columns:repeat(4,1fr);overflow:visible}
-  nav.tabs button{padding:11px 4px;font-size:11.5px;text-align:center;justify-content:center}
+  nav.tabs{display:grid;grid-template-columns:repeat(5,1fr);overflow:visible}
+  nav.tabs button{padding:11px 2px;font-size:11px;text-align:center;justify-content:center}
   nav.tabs button:first-child{padding-left:4px}
 }
 </style>
@@ -548,6 +567,7 @@ tr:last-child td{border-bottom:0}
 </header>
 
 <nav class="tabs" role="tablist" aria-label="Sezioni">
+  <button role="tab" id="tab-prep" aria-controls="p-prep" aria-selected="false" data-view="prep">Start & End</button>
   <button role="tab" id="tab-all" aria-controls="p-all" aria-selected="true" data-view="all">Allenamento</button>
   <button role="tab" id="tab-ex" aria-controls="p-ex" aria-selected="false" data-view="ex">Esercizi</button>
   <button role="tab" id="tab-food" aria-controls="p-food" aria-selected="false" data-view="food">Cibo</button>
@@ -561,49 +581,27 @@ tr:last-child td{border-bottom:0}
     <p class="standfirst">Tre allenamenti a casa, quattro porzioni di proteine al giorno, un metro da sarto.
   Il resto è costanza. Se hai mezz'ora, accendi «versione breve» e fai solo gli esercizi marcati minimo: conta come fatto.</p>
   </header>
-  <section id="p-all" role="tabpanel" aria-labelledby="tab-all">
-    <h2>Le tre sedute</h2>
-    <p class="sub">Full body, 2-3 volte a settimana, sempre a un giorno di distanza. Mai due giorni di fila.
-    La formula è sempre <strong>serie × ripetizioni</strong>: <em>4×8-10</em> significa quattro serie da 8-10 ripetizioni.
-    Prima di ogni seduta, cinque minuti di riscaldamento: lo trovi in fondo a questa pagina, insieme alla mobilità.
-    <strong>10+10 kg</strong> significa un manubrio da 10 kg per mano, non due serie da 10: le serie sono quelle della colonna «serie × rip».</p>
-    <div class="seg" id="segDays" role="group" aria-label="Scegli la seduta"></div>
-    <div id="sessionBody"></div>
+  <section id="p-prep" role="tabpanel" aria-labelledby="tab-prep" hidden>
+    <h2>Warm-up e mobilità</h2>
+    <p class="sub">Cinque minuti prima di ogni seduta, otto minuti di mobilità anche nei giorni di riposo.
+    Il riscaldamento non deve stancarti, la mobilità non è stretching a caso: è quella che serve agli esercizi che fai.</p>
 
-    <h3 style="margin-top:46px">Prima: cinque minuti di riscaldamento</h3>
-    <div class="listenbar plain">
-      <button class="listen" data-speak="warmup" aria-pressed="false" aria-label="Ascolta il riscaldamento"><span class="gl" aria-hidden="true">▷</span><span class="lb">ascolta</span></button>
-      <span class="lhn" data-len="warmup"></span>
+    <div class="session-head">
+      <h3>Riscaldamento</h3>
+      <span class="dur">5 min</span>
     </div>
-    <p class="sub">Sempre uguale, anche quando hai fretta. Serve a scaldare articolazioni e tendini, non a stancarti.</p>
-    <table id="tbl-warmup">
-      <tbody>
-        <tr><td>Marcia sul posto o jumping jack</td><td class="n">60 s</td></tr>
-        <tr><td>Cerchi con le braccia, avanti e indietro</td><td class="n">10 + 10</td></tr>
-        <tr><td>Squat a corpo libero, discesa lenta</td><td class="n">10</td></tr>
-        <tr><td>Scapole alla sbarra: appeso, spalle che salgono e scendono</td><td class="n">10</td></tr>
-        <tr><td>Rotazioni del busto in quadrupedia</td><td class="n">8 per lato</td></tr>
-      </tbody>
-    </table>
-    <p class="sub">Poi una serie leggera del primo esercizio della seduta: metà carico, otto ripetizioni pulite.</p>
+    <p class="sub">Sempre uguale, sempre nello stesso ordine. Se hai poco tempo fai i primi tre, poi una serie leggera
+    del primo esercizio: metà carico, otto ripetizioni pulite.</p>
+    <ol class="cues" id="warmList"></ol>
 
-    <h3 style="margin-top:44px">Mobilità: otto minuti, anche nei giorni di riposo</h3>
-    <div class="listenbar plain">
-      <button class="listen" data-speak="mobility" aria-pressed="false" aria-label="Ascolta la mobilità"><span class="gl" aria-hidden="true">▷</span><span class="lb">ascolta</span></button>
-      <span class="lhn" data-len="mobility"></span>
+    <div class="session-head" style="margin-top:46px">
+      <h3>Mobilità</h3>
+      <span class="dur">8 min</span>
     </div>
-    <p class="sub">Se non ti tocchi le punte il problema è quasi sempre a monte: femorali corti e anca che si piega poco.
-    Non forzare la schiena — lavora su quei due, con costanza.</p>
-    <table id="tbl-mobility">
-      <tbody>
-        <tr><td>Femorali con elastico</td><td class="n">45 s per lato</td></tr>
-        <tr><td>Polpacci al muro</td><td class="n">45 s per lato</td></tr>
-        <tr><td>Anca in affondo (psoas)</td><td class="n">45 s per lato</td></tr>
-        <tr><td>Rotazione toracica in quadrupedia</td><td class="n">8 per lato</td></tr>
-        <tr><td>Apertura petto alla porta</td><td class="n">45 s per lato</td></tr>
-      </tbody>
-    </table>
-    <div class="note" id="note-punte">
+    <p class="sub">In quest'ordine, senza forzare e senza rimbalzare. Tocca un esercizio per i passaggi, il <strong>▷</strong> per fartelo leggere.</p>
+    <div id="mobList"></div>
+
+    <div class="note">
       <span class="label">Le punte</span>
       Non si conquistano tirando con la schiena: si conquistano allungando i femorali e sbloccando l'anca.
       3-4 volte a settimana, 8 minuti, e in 6-10 settimane la distanza cala di 5-10 cm. Se dopo un mese non si muove niente,
@@ -611,7 +609,19 @@ tr:last-child td{border-bottom:0}
     </div>
   </section>
 
-  <section id="p-ex" role="tabpanel" aria-labelledby="tab-ex" hidden>
+  <section id="p-all" role="tabpanel" aria-labelledby="tab-all">
+    <h2>Le tre sedute</h2>
+    <p class="sub">Full body, 2-3 volte a settimana, sempre a un giorno di distanza. Mai due giorni di fila.
+    La formula è sempre <strong>serie × ripetizioni</strong>: <em>4×8-10</em> significa quattro serie da 8-10 ripetizioni.
+    Prima di ogni seduta, cinque minuti di riscaldamento: sono nella scheda <strong>Warm-up</strong>, insieme alla mobilità.
+    <strong>10+10 kg</strong> significa un manubrio da 10 kg per mano, non due serie da 10: le serie sono quelle della colonna «serie × rip».</p>
+    <div class="seg" id="segDays" role="group" aria-label="Scegli la seduta"></div>
+    <div id="sessionBody"></div>
+
+  </section>
+
+  
+<section id="p-ex" role="tabpanel" aria-labelledby="tab-ex" hidden>
     <h2>Come si eseguono</h2>
     <p class="sub">Tecnica, errori da evitare, come renderlo più facile o più difficile. Tocca un esercizio per aprire la scheda,
     o il <strong>▷</strong> per fartela leggere dalla voce del telefono — funziona anche senza connessione.</p>
@@ -1009,7 +1019,7 @@ const DATA = {
       what:"Curl con i palmi verso il basso: lavora l'avambraccio, non il bicipite.", m:"avambracci · brachioradiale", grp:"braccia",
       steps:[
         "Presa prona: palmi verso il basso, mani alla larghezza delle spalle, gomiti fermi ai fianchi.",
-        "Carico: circa la metà del curl normale, 7,5-10 kg. Con la presa prona si solleva molto meno, ed è normale.",
+        "Carico: circa due terzi del curl normale — con il curl a 15 kg, il reverse sta sui 10 kg. Con la presa prona si solleva meno, ed è normale.",
         "Sali piegando solo i gomiti, polsi dritti e rigidi. Fermati quando la barra arriva all'altezza del petto.",
         "Scendi in 3 secondi fino a braccia quasi distese, senza lasciar cadere la barra."
       ],
@@ -1355,15 +1365,15 @@ const DATA = {
       ]},
     { key:"B", nome:"Spinta e femorali", focus:"petto · spalle · femorali · braccia",
       dur:"45 min", min:"30 min",
-      nota:"Curl e reverse curl restano in superserie: una serie di curl, senza pausa il reverse a metà carico, poi un solo recupero.",
+      nota:"Qui niente superserie: curl e reverse usano lo stesso bilanciere a carichi diversi, e cambiare i dischi a ogni giro ti fa perdere il ritmo. Prima tutte le serie di curl, poi tutte quelle di reverse: i dischi si cambiano una volta sola. Superserie solo tra esercizi che usano gli stessi manubri allo stesso carico, come in C.",
       moves:[
         { id:"rdl", s:"4", r:"10-12", kg:"30 kg", rec:"2 min", minVer:true },
         { id:"piegamenti", s:"4", r:"8-12", kg:"manici", rec:"2 min", minVer:true },
         { id:"pike", s:"3", r:"6-10", kg:"elastico", rec:"2 min", minVer:true },
         { id:"reversecrunch", s:"3", r:"12-15", kg:"corpo", rec:"45 s", minVer:true },
         { id:"ringdip", s:"3", r:"6-10", kg:"corpo", rec:"2 min" },
-        { id:"curl", s:"3", r:"10-12", kg:"15 kg", rec:"in superserie" },
-        { id:"revcurl", s:"3", r:"10-12", kg:"7,5 kg", rec:"in superserie" }
+        { id:"curl", s:"3", r:"8-12", kg:"15 kg", rec:"90 s" },
+        { id:"revcurl", s:"3", r:"12-15", kg:"10 kg", rec:"90 s" }
       ]},
     { key:"C", nome:"Tutto il corpo", focus:"gambe · trazione · spalle · addome",
       dur:"45 min", min:"35 min",
@@ -1788,28 +1798,76 @@ groups.forEach(g => {
   filters.appendChild(b);
 });
 
-function renderLibrary(){
-  [...filters.children].forEach(b => b.setAttribute('aria-pressed', b.dataset.g === activeGroup ? 'true' : 'false'));
-  const list = DATA.ex.filter(e => activeGroup === 'all' || e.grp === activeGroup);
-  document.getElementById('library').innerHTML = list.map(e => `
-    <article class="ex" data-g="${e.grp}">
-      <div class="exheadwrap">
-        <button class="exhead" aria-expanded="false" data-ex="${e.id}">
-          <span class="t"><h3>${e.nome}</h3><span class="m">${e.m}</span></span>
-          <span class="plus" aria-hidden="true">+</span>
-        </button>
-        <button class="explay" data-speak="${e.id}" aria-pressed="false" aria-label="Ascolta ${esc(e.nome)}" title="Ascolta"><span class="gl" aria-hidden="true">▷</span></button>
-      </div>
-      <div class="body" id="b-${e.id}">${detailHTML(e)}</div>
-    </article>`).join('');
-  wireSpeak(document.getElementById('library'));
-  document.querySelectorAll('.exhead').forEach(btn => {
+function cardHTML(ex, ns, dose){
+  const bid = `${ns}-${ex.id}`;
+  return `<article class="ex" data-g="${ex.grp}">
+    <div class="exheadwrap">
+      <button class="exhead" aria-expanded="false" data-target="${bid}">
+        <span class="t"><h3>${esc(ex.nome)}</h3><span class="m">${esc(ex.m)}${dose ? `<span class="dose">${esc(dose)}</span>` : ''}</span></span>
+        <span class="plus" aria-hidden="true">+</span>
+      </button>
+      <button class="explay" data-speak="${ex.id}" aria-pressed="false" aria-label="Ascolta ${esc(ex.nome)}" title="Ascolta"><span class="gl" aria-hidden="true">▷</span></button>
+    </div>
+    <div class="body" id="${bid}">${detailHTML(ex)}</div>
+  </article>`;
+}
+function wireCards(root){
+  root.querySelectorAll('.exhead').forEach(btn => {
+    if(btn.dataset.wired) return;
+    btn.dataset.wired = '1';
     btn.addEventListener('click', () => {
-      const body = document.getElementById('b-' + btn.dataset.ex);
+      const body = document.getElementById(btn.dataset.target);
       const open = body.classList.toggle('open');
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
   });
+  wireSpeak(root);
+}
+function renderLibrary(){
+  [...filters.children].forEach(b => b.setAttribute('aria-pressed', b.dataset.g === activeGroup ? 'true' : 'false'));
+  const list = DATA.ex.filter(e => activeGroup === 'all' || e.grp === activeGroup);
+  const box = document.getElementById('library');
+  box.innerHTML = list.map(e => cardHTML(e, 'b')).join('');
+  wireCards(box);
+}
+
+/* ---------- prima e mobilità ---------- */
+const WARMUP = [
+  { id:'wmarcia', nome:'Marcia sul posto o jumping jack', dose:'60 s',
+    cue:'Alza le ginocchia e muovi le braccia. Serve ad alzare battito e temperatura, non a stancarti: se arrivi da scale o bici, dimezza.' },
+  { id:'wcerchi', nome:'Cerchi con le braccia', dose:'10 + 10',
+    cue:'Dieci avanti e dieci indietro, braccia tese, cerchi larghi e lenti. Scaldano la spalla in tutto l\'arco: contano per trazioni e pike.' },
+  { id:'wsquat', nome:'Squat a corpo libero', dose:'10',
+    cue:'Discesa in due secondi, talloni a terra. Scaldi anca e ginocchia con lo stesso movimento che userai sotto carico.' },
+  { id:'wscapole', nome:'Scapole alla sbarra', dose:'10',
+    cue:'Appeso, spalle che salgono verso le orecchie e poi giù, braccia distese. È l\'accensione dei dorsali prima delle trazioni.' },
+  { id:'wrotazioni', nome:'Rotazioni del busto in quadrupedia', dose:'8 per lato',
+    cue:'Mano dietro la testa, gomito verso il soffitto, bacino fermo. Sblocca la schiena alta che serve in rematore e pike.' }
+];
+const MOBILITA = [
+  { id:'femorali', dose:'45 s per lato' },
+  { id:'polpacci', dose:'45 s per lato' },
+  { id:'psoas',    dose:'45 s per lato' },
+  { id:'toracica', dose:'8 per lato' },
+  { id:'petto',    dose:'45 s per lato' }
+];
+function renderPrep(){
+  document.getElementById('warmList').innerHTML = WARMUP.map((w, i) => `<li class="cue">
+    <div class="cuehead">
+      <span class="idx">${String(i+1).padStart(2,'0')}</span>
+      <span class="cuenm">${esc(w.nome)}</span>
+      <span class="dose">${esc(w.dose)}</span>
+      <button class="rowplay" data-speak="${w.id}" aria-pressed="false" aria-label="Ascolta ${esc(w.nome)}" title="Ascolta"><span class="gl" aria-hidden="true">▷</span></button>
+    </div>
+    <p class="cuebody">${esc(w.cue)}</p>
+  </li>`).join('');
+  const box = document.getElementById('mobList');
+  box.innerHTML = MOBILITA.map(m => {
+    const ex = exById(m.id);
+    return ex ? cardHTML(ex, 'm', m.dose) : '';
+  }).join('');
+  wireCards(box);
+  wireSpeak(document.getElementById('warmList'));
 }
 
 /* ---------- voce ---------- */
@@ -1819,26 +1877,9 @@ let speaking = null;
 function speechText(ex){
   return [ex.nome + '.', ex.what || ''].concat(ex.steps || []).filter(Boolean).join(' ');
 }
-function tableText(id){
-  const t = document.getElementById(id);
-  if(!t) return '';
-  return [...t.querySelectorAll('tbody tr')].map(tr => {
-    const c = [...tr.children].map(td => td.textContent.replace(/\s+/g, ' ').trim());
-    if(c.length >= 2) return `${c[0]}: ${c[1]}.`;
-    return c.join(', ') + '.';
-  }).join(' ');
-}
-const BLOCKS = {
-  warmup: () => 'Riscaldamento, cinque minuti, prima di ogni seduta. ' + tableText('tbl-warmup') +
-    ' Poi una serie leggera del primo esercizio: metà carico, otto ripetizioni pulite.',
-  mobility: () => {
-    const note = document.getElementById('note-punte');
-    return 'Mobilità, otto minuti, anche nei giorni di riposo. ' + tableText('tbl-mobility') +
-      (note ? ' ' + note.textContent.replace(/\s+/g, ' ').trim() : '');
-  }
-};
 function speechFor(id){
-  if(BLOCKS[id]) return BLOCKS[id]();
+  const w = (typeof WARMUP !== 'undefined') ? WARMUP.find(x => x.id === id) : null;
+  if(w) return `${w.nome}. ${w.dose}. ${w.cue}`;
   const ex = exById(id);
   return ex ? speechText(ex) : '';
 }
@@ -2258,18 +2299,14 @@ function renderDiary(){
 renderSession();
 renderDiary();
 renderLibrary();
+renderPrep();
 wireSpeak(document);
-document.querySelectorAll('[data-len]').forEach(el => {
-  const t = speechFor(el.dataset.len);
-  if(!t) return;
-  el.textContent = `legge la lista · ${Math.max(15, Math.round(t.length / 15))} s circa`;
-});
 renderMeals();
 renderPlanner();
 renderCalc();
 renderLog();
 const initial = (location.hash || '').replace('#','');
-showTab(['all','ex','food','log'].includes(initial) ? initial : 'all');
+showTab(['all','prep','ex','food','log'].includes(initial) ? initial : 'all');
 </script>
 </body>
 </html>
