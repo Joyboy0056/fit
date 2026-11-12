@@ -388,14 +388,8 @@ article.ex .body h3{font-size:var(--fs-small);margin:18px 0 8px}
 .fignote b{color:var(--text-strong);font-weight:500}
 
 /* ============ cibo ============ */
-.find{display:flex;align-items:center;gap:12px;border:var(--hair);background:var(--bg-weak);padding:0 12px;margin:0 0 14px}
-.find:focus-within{border-color:var(--link)}
-.find label{font:400 var(--fs-micro)/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);flex:none;padding-right:12px;border-right:var(--hair);align-self:stretch;display:flex;align-items:center}
-.find input{flex:1;min-width:0;appearance:none;background:none;border:0;padding:11px 0;color:var(--text-strong);font:400 var(--fs-small)/1.2 var(--mono)}
-.find input:focus{outline:none}
-.find input::placeholder{color:var(--text-faint)}
-.find input::-webkit-search-cancel-button{filter:invert(.55)}
-.findn{font:400 var(--fs-micro)/1 var(--mono);color:var(--text-faint);flex:none;white-space:nowrap}
+.fview{padding-top:2px}
+.fview>h3:first-child{margin-top:6px}
 .meals{border-top:var(--hair)}
 .meal{padding:16px 0;border-bottom:var(--hair)}
 .meal .top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
@@ -405,39 +399,37 @@ article.ex .body h3{font-size:var(--fs-small);margin:18px 0 8px}
 .meal ul{list-style:none;margin:10px 0 0;padding:0}
 .meal li{display:flex;align-items:baseline;gap:10px;padding:5px 0;font-size:var(--fs-small)}
 .meal li .p{margin-left:auto;flex:none;white-space:nowrap;font-size:var(--fs-meta);color:var(--green)}
-.meal li label{cursor:pointer;color:var(--text);flex:1;min-width:0}
-.meal li input{
-  appearance:none;flex:none;width:14px;height:14px;border:1px solid var(--border-strong);
-  background:none;margin:0;cursor:pointer;position:relative;top:2px;
-}
-.meal li input:hover{border-color:var(--text-muted)}
-.meal li input:checked{background:var(--text-strong);border-color:var(--text-strong)}
-.meal li input:checked::after{
-  content:"";position:absolute;left:4px;top:1px;width:4px;height:8px;
-  border:solid #0c0c0c;border-width:0 1.5px 1.5px 0;transform:rotate(42deg);
-}
-.meal li input:checked+label{color:var(--text-muted);text-decoration:line-through;
-  text-decoration-color:var(--border-strong)}
+.meal li .t{color:var(--text);flex:1;min-width:0}
 
-.totalbar{
-  position:sticky;bottom:0;z-index:10;display:flex;align-items:center;gap:16px;
-  margin:0;padding:14px 0;
-  background:var(--bg-deep);border-top:1px solid var(--border-strong);
-  box-shadow:0 -14px 28px rgba(0,0,0,.35);
+/* contatore della giornata: una linea, non una barra */
+.dcount{
+  position:sticky;top:0;z-index:12;margin:18px 0 2px;padding:12px 0 14px;
+  background:var(--bg);
 }
-.totalbar .nums{font-size:var(--fs-micro);letter-spacing:.04em;color:var(--text-muted);white-space:nowrap}
-.totalbar .nums b{display:block;font-size:20px;line-height:1.2;font-weight:500;color:var(--green)}
-.totalbar .nums small{display:block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)}
-.totalbar #pState{display:block;font-size:var(--fs-ui);color:var(--text-strong)}
-.meter{flex:1;height:2px;background:var(--border);position:relative;min-width:60px}
-.meter i{position:absolute;inset:0;background:var(--green);transform-origin:left center;
-  transform:scaleX(var(--p,0));transition:transform .35s cubic-bezier(.16,1,.3,1)}
-.meter .goal{position:absolute;top:-3px;bottom:-3px;width:1px;background:var(--yellow)}
-@media (max-width:479px){
-  .totalbar{flex-wrap:wrap;gap:6px 14px;padding:10px 0}
-  .totalbar .nums b{font-size:17px}
-  .meter{order:3;flex:1 0 100%;margin-bottom:2px}
+.dmnums{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:11px}
+.dmval{display:flex;align-items:baseline;gap:6px;white-space:nowrap}
+.dmval b{font-family:var(--mono);font-weight:500;font-size:22px;line-height:1;letter-spacing:-.02em;
+  color:var(--green)}
+.dmval i{font:400 11px/1 var(--mono);font-style:normal;color:var(--text-faint)}
+.dmval.k b{color:var(--orange)}
+.dmline{position:relative;height:1px;background:var(--border)}
+.dmlaser{position:absolute;left:0;top:0;bottom:0;width:100%;height:1px;
+  transform:scaleX(0);transform-origin:left center;
+  background:linear-gradient(90deg,rgba(86,182,194,.2),var(--cyan) 45%,var(--green));
+  box-shadow:0 0 10px rgba(152,195,121,.55),0 0 2px rgba(152,195,121,.9);
+  transition:transform .5s cubic-bezier(.16,1,.3,1),background .3s,box-shadow .3s}
+.dmlaser::after{
+  content:"";position:absolute;right:0;top:50%;width:2px;height:9px;margin-top:-4.5px;
+  background:var(--text-strong);box-shadow:0 0 9px rgba(152,195,121,.95);
+  transform:scaleX(calc(1 / var(--f,1)));transform-origin:right center;
+  opacity:0;transition:opacity .18s
 }
+.dmlaser.on::after{opacity:1}
+.dmlaser.over{
+  background:linear-gradient(90deg,rgba(229,192,123,.2),var(--yellow));
+  box-shadow:0 0 10px rgba(229,192,123,.55),0 0 2px rgba(229,192,123,.9);
+}
+.dmgoal{position:absolute;right:0;top:-4px;bottom:-4px;width:1px;background:var(--yellow);opacity:.75}
 
 /* planner */
 .planner{margin-top:34px;padding-top:20px;border-top:var(--hair)}
@@ -461,28 +453,72 @@ article.ex .body h3{font-size:var(--fs-small);margin:18px 0 8px}
 .pverdict{margin:14px 0 0;font-size:var(--fs-small);line-height:1.6;color:var(--text);max-width:var(--measure)}
 .pverdict b{color:var(--yellow);font-weight:500}
 
-/* calcolatore */
-.calc{border-top:var(--hair);margin:26px 0 18px}
-.calcrow{display:grid;grid-template-columns:minmax(0,1fr) 132px 108px;gap:10px;align-items:center;
-  padding:9px 0;border-bottom:var(--hair)}
-@media (max-width:599px){.calcrow{grid-template-columns:minmax(0,1fr) 96px 84px;gap:8px}}
-.calcrow label{font-size:var(--fs-small);color:var(--text);min-width:0}
-.calcrow select,.calcrow input{
+/* righe del piatto */
+.calc{border-top:var(--hair);margin:22px 0 16px}
+.calcrow{display:grid;grid-template-columns:minmax(0,1fr) 84px 118px 20px;column-gap:12px;align-items:start;
+  padding:10px 0;border-bottom:var(--hair)}
+.calcrow .selwrap{min-width:0}
+.calcrow .inpwrap{position:relative}
+.calcrow input{
   appearance:none;background:var(--bg-weak);border:var(--hair);color:var(--text-strong);
-  font:400 var(--fs-meta)/1.2 var(--mono);padding:7px 8px;width:100%;border-radius:0;
+  font:400 var(--fs-meta)/1.2 var(--mono);padding:7px 9px;width:100%;border-radius:0;
 }
-.calcrow select{cursor:pointer}
-.calcrow select:focus,.calcrow input:focus{border-color:var(--link);outline:none}
+.calcrow input:focus{border-color:var(--link);outline:none}
 .calcrow input::placeholder{color:var(--text-faint)}
-.calcrow .val{text-align:right;font-size:var(--fs-meta);color:var(--text-muted)}
-.calcrow .val small{color:var(--text-faint)}
+.calcrow .eq{display:block;margin-top:6px;font:400 11px/1.3 var(--mono);color:var(--text-faint);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.calcrow .grwrap{display:flex;align-items:center;gap:6px;height:31px;min-width:0}
+.calcrow .grwrap input{flex:1;min-width:0}
+.calcrow .grwrap>span{font:400 var(--fs-meta)/1 var(--mono);color:var(--text-faint)}
+.calcrow .val{display:flex;align-items:center;justify-content:flex-end;gap:7px;height:31px;
+  font:400 var(--fs-meta)/1 var(--mono);white-space:nowrap;color:var(--text-faint)}
+.calcrow .val b{color:var(--green);font-weight:400}
+.calcrow .val small{color:var(--text-faint);font-size:11px}
 .calcrow .del{appearance:none;background:none;border:0;color:var(--text-faint);cursor:pointer;
-  font:400 var(--fs-meta)/1 var(--mono);padding:0 2px;justify-self:end}
-.calcrow .del:hover{color:var(--link)}
-.calcnums{display:flex;flex-wrap:wrap;gap:8px 28px;align-items:baseline;margin:0 0 10px}
-.calcnums .num{font-size:26px;line-height:1.1;color:var(--green);letter-spacing:-.02em}
-.calcnums .of{font-size:var(--fs-meta);color:var(--text-faint)}
-.calcnums .hint{flex:1 0 100%;font-size:var(--fs-micro);color:var(--text-faint)}
+  font:400 15px/1 var(--mono);padding:0;height:31px}
+.calcrow .del:hover{color:var(--red)}
+.calcacts{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.calchint{margin:10px 0 0;font-size:var(--fs-small);color:var(--text-muted)}
+@media (max-width:599px){
+  .calcrow{grid-template-columns:92px minmax(0,1fr) 20px;
+    grid-template-areas:"sel sel del" "gr val del";row-gap:6px;column-gap:10px}
+  .calcrow>.selwrap{grid-area:sel}
+  .calcrow>.grwrap{grid-area:gr}
+  .calcrow .val{grid-area:val}
+  .calcrow .del{grid-area:del;align-self:center}
+  .calcrow input{font-size:16px;padding:8px 9px}
+  .calcrow .grwrap,.calcrow .val,.calcrow .del{height:34px}
+}
+@media (max-width:479px){
+  .dcount{padding:10px 0 13px}
+  .dmnums{margin-bottom:9px}
+  .dmval b{font-size:19px}
+}
+
+/* tendina alimenti */
+.fpop{position:absolute;left:0;right:0;top:calc(100% + 2px);z-index:30;max-height:44vh;overflow:auto;
+  background:var(--bg-deep);border:1px solid var(--border-strong);
+  box-shadow:0 20px 40px rgba(0,0,0,.55);padding:6px 0}
+.fcat{display:flex;align-items:center;gap:7px;padding:8px 11px 6px;
+  font:400 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}
+.cdot{width:6px;height:6px;flex:none;display:block}
+.c-green{background:var(--green)}
+.c-blue{background:var(--blue)}
+.c-yellow{background:var(--yellow)}
+.c-magenta{background:var(--magenta)}
+.c-cyan{background:var(--cyan)}
+.c-orange{background:var(--orange)}
+.fopt{display:flex;align-items:baseline;gap:12px;width:100%;text-align:left;
+  background:none;border:0;cursor:pointer;padding:6px 11px;
+  font:400 var(--fs-meta)/1.25 var(--mono);color:var(--text)}
+.fopt .fn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fopt .fm{flex:none;color:var(--text-faint);font-size:11px}
+.fopt .fm b{color:var(--green);font-weight:400}
+.fopt .fm em{font-style:normal;color:var(--border-strong);padding:0 4px}
+.fopt:hover,.fopt.on{background:var(--bg-weaker);color:var(--text-strong)}
+.fopt mark{background:none;color:var(--blue);font-weight:400}
+.fpop.up{top:auto;bottom:calc(100% + 2px)}
+.fempty{padding:10px 11px;font:400 var(--fs-meta)/1.4 var(--mono);color:var(--text-faint)}
 
 /* ============ misure ============ */
 .field{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:0 0 14px}
@@ -551,6 +587,8 @@ th,td{text-align:left;padding:9px 10px 9px 0;border-bottom:var(--hair);vertical-
 th{font-size:var(--fs-micro);letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);
   font-weight:400;border-bottom-color:var(--border-strong)}
 td.n{text-align:right;color:var(--text-strong);white-space:nowrap}
+td.pv{color:var(--green)}
+td.kv{color:var(--orange)}
 tr:last-child td{border-bottom:0}
 
 @media (prefers-reduced-motion:reduce){
@@ -657,77 +695,94 @@ tr:last-child td{border-bottom:0}
     <h2>Quattro porzioni di proteine al giorno</h2>
     <p class="sub">Obiettivo <strong>120-140 g</strong> di proteine e <strong>~2.500 kcal</strong> al giorno, surplus incluso.
     Una porzione è grande come il palmo aperto, dita escluse, spessa due dita: <strong>150 g di carne o pesce</strong>,
-    cioè 30-35 g di proteine. Uova, yogurt e legumi contano meno di una porzione intera: la tabella in fondo dice quanto.</p>
+    cioè 30-35 g di proteine. Uova, yogurt e legumi contano meno di una porzione intera: la scheda <strong>Oggi</strong> dice quanto, alimento per alimento.</p>
 
-    <div class="note">
-      <span class="label">Il palmo è la tua mano, non una media</span>
-      Palmo aperto e spesso due dita: per carne e pesce sono 150 g circa, cioè 30-35 g di proteine.
-      Se hai la mano piccola, la porzione è più piccola — per questo la tabella in fondo riporta anche i grammi.
-      Quattro porzioni al giorno sono il minimo: 30 × 4 = 120 g, e il resto arriva da pasta, latte, pane.
+    <div class="seg" id="segFood" role="group" aria-label="Cosa vuoi fare">
+      <button type="button" data-fv="traccia" aria-current="true">Traccia</button>
+      <button type="button" data-fv="oggi" aria-current="false">Oggi</button>
+      <button type="button" data-fv="regole" aria-current="false">Regole</button>
     </div>
 
-    <p class="sub">Spunta quello che mangi, il conto si aggiorna da solo.</p>
+    <div class="fview" id="f-oggi">
 
-    <div class="mealwrap">
+    <p class="sub">Un giorno tipo, non una lista da spuntare: quattro pasti che insieme fanno
+    <strong>~130 g</strong> di proteine e <strong>~2.500 kcal</strong>. Quello che mangi davvero lo conti
+    nella scheda <strong>Oggi</strong>.</p>
+
     <div class="meals" id="meals"></div>
-
-    <div class="totalbar">
-      <div class="nums"><b id="pTotal">0</b><small>proteine</small></div>
-      <div class="meter" aria-hidden="true"><i id="pBar" style="--p:0"></i><span class="goal" style="left:85.7%"></span></div>
-      <div class="nums" style="text-align:right"><small id="kTotal">0 kcal</small><span id="pState">0 / 130</span></div>
-    </div>
-    </div>
 
     <h3 style="margin-top:44px">Se la giornata è diversa</h3>
     <p class="sub">Mensa a pranzo, pizza stasera, due bicchieri di vino: dimmi com'è la giornata e ti dico
     quanti grammi restano da mettere nel piatto. Il conto parte da 2.500 kcal e 130 g di proteine.</p>
     <div class="planner" id="planner"></div>
 
-    <h3 style="margin-top:44px">Calcolatore: cosa ho in casa</h3>
-    <p class="sub">Scegli l'alimento, scrivi i grammi, leggi le proteine. Valori per 100 g <strong>crudo</strong>:
-    se pesi già cotto, aggiungi un 20-25% al risultato.</p>
-    <div class="calc" id="calcRows"></div>
-    <button class="ghost" id="calcAdd" type="button">+ alimento</button>
-    <div class="calcnums" id="calcNums"></div>
+    </div>
 
-    <h3 style="margin-top:44px">Le porzioni, a occhio</h3>
+    <div class="fview" id="f-alimenti" hidden>
+    <h3>Cosa c'è nel piatto</h3>
+    <p class="sub">Scrivi il nome: l'elenco si apre diviso per gruppi e la scritta filtra. Scegli l'alimento, poi i grammi.
+    Valori per 100 g <strong>crudo</strong>: se pesi già cotto, aggiungi un 20-25% al risultato.</p>
+    <div class="dcount" id="calcBar">
+      <div class="dmnums">
+        <span class="dmval"><b id="pTotal">0</b><i>/ 130 g</i></span>
+        <span class="dmval k"><b id="kTotal">0</b><i>/ 2.500 kcal</i></span>
+      </div>
+      <div class="dmline" aria-hidden="true">
+        <i class="dmlaser" id="pLaser"></i>
+        <i class="dmgoal"></i>
+      </div>
+    </div>
+
+    <div class="calc" id="calcRows"></div>
+    <div class="calcacts">
+      <button class="ghost" id="calcAdd" type="button">+ alimento</button>
+      <button class="ghost" id="calcClear" type="button">azzera la giornata</button>
+    </div>
+
+    <p class="calchint" id="calcHint"></p>
+
+    <div class="note" style="margin-top:26px">
+      <span class="label">Il palmo è la tua mano, non una media</span>
+      Palmo aperto e spesso due dita: per carne e pesce sono 150 g circa, cioè 30-35 g di proteine.
+      Se hai la mano piccola, la porzione è più piccola — per questo la tabella qui sotto riporta anche i grammi.
+      Quattro porzioni al giorno sono il minimo: 30 × 4 = 120 g, e il resto arriva da pasta, latte, pane.
+    </div>
+
+    <h3>Le porzioni, a occhio</h3>
     <p class="sub" style="margin-bottom:0">La colonna di mezzo è quella che conta: se non hai la bilancia, usa quella.
     I grammi sono lì solo per il calcolatore.</p>
-    <div class="find">
-      <label for="foodFind">Cerca</label>
-      <input id="foodFind" type="search" placeholder="toast, vongole, cornetto…" autocomplete="off" aria-describedby="foodCount">
-      <span class="findn" id="foodCount" aria-live="polite"></span>
-    </div>
     <table>
       <thead><tr><th>Cosa</th><th>A occhio</th><th>Prot.</th><th>Kcal</th></tr></thead>
-      <tbody id="foodBody">
-        <tr><td>Petto di pollo</td><td>un palmo grande, spesso 2 dita <em>(150 g)</em></td><td class="n">34 g</td><td class="n">165</td></tr>
-        <tr><td>Cosce di pollo</td><td>una coscia disossata <em>(120 g)</em></td><td class="n">22 g</td><td class="n">192</td></tr>
-        <tr><td>Fettina di manzo</td><td>2 fettine sottili <em>(150 g)</em></td><td class="n">32 g</td><td class="n">195</td></tr>
-        <tr><td>Bistecca</td><td>una grande come la mano aperta <em>(150 g)</em></td><td class="n">32 g</td><td class="n">225</td></tr>
-        <tr><td>Salmone</td><td>un trancio grande come il palmo <em>(150 g)</em></td><td class="n">30 g</td><td class="n">300</td></tr>
-        <tr><td>Merluzzo</td><td>2 filetti <em>(200 g)</em></td><td class="n">34 g</td><td class="n">160</td></tr>
-        <tr><td>Moscardini / polpo</td><td>una porzione da due mani <em>(200 g)</em></td><td class="n">30 g</td><td class="n">160</td></tr>
-        <tr><td>Tonno in scatola</td><td>1 scatoletta sgocciolata <em>(80 g)</em></td><td class="n">20 g</td><td class="n">92</td></tr>
-        <tr><td>Uova</td><td>3 intere <em>(165 g)</em></td><td class="n">21 g</td><td class="n">236</td></tr>
-        <tr><td>Yogurt greco 0%</td><td>mezzo barattolo da 500 g <em>(250 g)</em></td><td class="n">25 g</td><td class="n">143</td></tr>
-        <tr><td>Yogurt proteico</td><td>1 vasetto <em>(150 g)</em></td><td class="n">18 g</td><td class="n">105</td></tr>
-        <tr><td>Bresaola</td><td>5 fette sottili <em>(100 g)</em></td><td class="n">32 g</td><td class="n">150</td></tr>
-        <tr><td>Grana / parmigiano</td><td>una fetta spessa 2 dita <em>(30 g)</em></td><td class="n">10 g</td><td class="n">117</td></tr>
-        <tr><td>Legumi cotti</td><td>2 mestoli <em>(150 g)</em></td><td class="n">12 g</td><td class="n">172</td></tr>
-        <tr><td>Polpette</td><td>4 medie, da 300 g di macinato</td><td class="n">57 g</td><td class="n">420</td></tr>
-        <tr><td>Latte</td><td>1 bicchiere <em>(250 ml)</em></td><td class="n">8 g</td><td class="n">115</td></tr>
-        <tr><td>Pasta o riso</td><td>1 piatto fondo colmo, crudo <em>(100 g)</em></td><td class="n">11 g</td><td class="n">350</td></tr>
-        <tr><td>Pane</td><td>2 fette <em>(50 g)</em></td><td class="n">4 g</td><td class="n">135</td></tr>
-        <tr><td>Patate</td><td>2 medie <em>(300 g)</em></td><td class="n">6 g</td><td class="n">231</td></tr>
-        <tr><td>Mandorle</td><td>un pugno <em>(15 g)</em></td><td class="n">3 g</td><td class="n">90</td></tr>
-        <tr><td>Cornetto (crema o nutella)</td><td>uno <em>(55 g)</em></td><td class="n">3 g</td><td class="n">225</td></tr>
-        <tr><td>Vongole</td><td>un piatto sgusciato <em>(150 g)</em></td><td class="n">18 g</td><td class="n">105</td></tr>
-        <tr><td>Sottiletta</td><td>una <em>(20 g)</em></td><td class="n">3 g</td><td class="n">52</td></tr>
-        <tr><td>Toast: 2 fette di pane, 2 di prosciutto cotto, 1 sottiletta</td><td>un toast</td><td class="n">15 g</td><td class="n">260</td></tr>
+      <tbody>
+        <tr><td>Petto di pollo</td><td>un palmo grande, spesso 2 dita <em>(150 g)</em></td><td class="n pv">34 g</td><td class="n kv">165</td></tr>
+        <tr><td>Cosce di pollo</td><td>una coscia disossata <em>(120 g)</em></td><td class="n pv">22 g</td><td class="n kv">192</td></tr>
+        <tr><td>Fettina di manzo</td><td>2 fettine sottili <em>(150 g)</em></td><td class="n pv">32 g</td><td class="n kv">195</td></tr>
+        <tr><td>Bistecca</td><td>una grande come la mano aperta <em>(150 g)</em></td><td class="n pv">32 g</td><td class="n kv">225</td></tr>
+        <tr><td>Salmone</td><td>un trancio grande come il palmo <em>(150 g)</em></td><td class="n pv">30 g</td><td class="n kv">300</td></tr>
+        <tr><td>Merluzzo</td><td>2 filetti <em>(200 g)</em></td><td class="n pv">34 g</td><td class="n kv">160</td></tr>
+        <tr><td>Moscardini / polpo</td><td>una porzione da due mani <em>(200 g)</em></td><td class="n pv">30 g</td><td class="n kv">160</td></tr>
+        <tr><td>Tonno in scatola</td><td>1 scatoletta sgocciolata <em>(80 g)</em></td><td class="n pv">20 g</td><td class="n kv">92</td></tr>
+        <tr><td>Uova</td><td>3 intere <em>(165 g)</em></td><td class="n pv">21 g</td><td class="n kv">236</td></tr>
+        <tr><td>Frittata</td><td>un cubo da mensa <em>(120 g)</em></td><td class="n pv">14 g</td><td class="n kv">228</td></tr>
+        <tr><td>Yogurt greco 0%</td><td>mezzo barattolo da 500 g <em>(250 g)</em></td><td class="n pv">25 g</td><td class="n kv">143</td></tr>
+        <tr><td>Yogurt proteico</td><td>1 vasetto <em>(150 g)</em></td><td class="n pv">18 g</td><td class="n kv">105</td></tr>
+        <tr><td>Bresaola</td><td>5 fette sottili <em>(100 g)</em></td><td class="n pv">32 g</td><td class="n kv">150</td></tr>
+        <tr><td>Grana / parmigiano</td><td>una fetta spessa 2 dita <em>(30 g)</em></td><td class="n pv">10 g</td><td class="n kv">117</td></tr>
+        <tr><td>Legumi cotti</td><td>2 mestoli <em>(150 g)</em></td><td class="n pv">12 g</td><td class="n kv">172</td></tr>
+        <tr><td>Polpette</td><td>4 medie, da 300 g di macinato</td><td class="n pv">57 g</td><td class="n kv">420</td></tr>
+        <tr><td>Latte</td><td>1 bicchiere <em>(250 ml)</em></td><td class="n pv">8 g</td><td class="n kv">115</td></tr>
+        <tr><td>Pasta o riso</td><td>1 piatto fondo colmo, crudo <em>(100 g)</em></td><td class="n pv">11 g</td><td class="n kv">350</td></tr>
+        <tr><td>Pane</td><td>2 fette <em>(50 g)</em></td><td class="n pv">4 g</td><td class="n kv">135</td></tr>
+        <tr><td>Patate</td><td>2 medie <em>(300 g)</em></td><td class="n pv">6 g</td><td class="n kv">231</td></tr>
+        <tr><td>Fagiolini</td><td>un piatto di contorno <em>(200 g)</em></td><td class="n pv">4 g</td><td class="n kv">60</td></tr>
+        <tr><td>Mandorle</td><td>un pugno <em>(15 g)</em></td><td class="n pv">3 g</td><td class="n kv">90</td></tr>
+        <tr><td>Cornetto (crema o nutella)</td><td>uno <em>(55 g)</em></td><td class="n pv">3 g</td><td class="n kv">225</td></tr>
+        <tr><td>Vongole</td><td>un piatto sgusciato <em>(150 g)</em></td><td class="n pv">18 g</td><td class="n kv">105</td></tr>
+        <tr><td>Sottiletta</td><td>una <em>(20 g)</em></td><td class="n pv">3 g</td><td class="n kv">52</td></tr>
+        <tr><td>Pop corn, senza burro</td><td>una ciotola <em>(30 g)</em></td><td class="n pv">3 g</td><td class="n kv">120</td></tr>
+        <tr><td>Toast: 2 fette di pane, 2 di prosciutto cotto, 1 sottiletta</td><td>un toast</td><td class="n pv">15 g</td><td class="n kv">260</td></tr>
       </tbody>
     </table>
-    <p class="sub" id="foodEmpty" hidden>Nessun alimento con questo nome. Prova con una parola sola: <em>pane</em>, <em>uova</em>, <em>pesce</em>.</p>
 
     <div class="note" style="margin-top:18px">
       <span class="label">Il toast non è una porzione</span>
@@ -736,7 +791,10 @@ tr:last-child td{border-bottom:0}
       <strong>due toast</strong> (≈ 520 kcal), oppure un toast più <strong>cinque fette di bresaola</strong> (+22 g, 150 kcal).
     </div>
 
-    <h3 style="margin-top:44px">La mensa, decodificata</h3>
+    </div>
+
+    <div class="fview" id="f-regole" hidden>
+    <h3>La mensa, decodificata</h3>
     <div class="block">
       <ul>
         <li><strong>Primo + secondo + contorno</strong>: sempre tutti e tre. Le porzioni sono medio-piccole, quindi il pane è obbligatorio.</li>
@@ -765,6 +823,7 @@ tr:last-child td{border-bottom:0}
           <li>Regola: massimo 1-2 uscite infrasettimanali, mai il giorno dopo l'allenamento delle gambe.</li>
         </ul>
       </div>
+    </div>
     </div>
 
   </section>
@@ -1595,6 +1654,7 @@ const DATA = {
     ["Alici fresche", 18, 130, "6 alici ≈ 100 g", "Pesce"],
 
     ["Uova (1 ≈ 55 g)", 12.5, 143, "1 uovo ≈ 55 g", "Uova e latticini"],
+    ["Frittata (da mensa)", 12, 190, "un cubo da mensa ≈ 120 g", "Uova e latticini"],
     ["Yogurt greco 0%", 10, 57, "mezzo barattolo da 500 g ≈ 250 g", "Uova e latticini"],
     ["Yogurt proteico", 12, 70, "1 vasetto ≈ 150 g", "Uova e latticini"],
     ["Fiocchi di latte", 11, 98, "mezzo vasetto ≈ 100 g", "Uova e latticini"],
@@ -1625,6 +1685,7 @@ const DATA = {
     ["Cous cous crudo", 12, 350, "1 piatto fondo ≈ 100 g", "Carboidrati"],
     ["Pane", 8, 270, "2 fette ≈ 50 g", "Carboidrati"],
     ["Cornetto (crema o nutella)", 6, 410, "1 cornetto ≈ 55 g", "Carboidrati"],
+    ["Pop corn (in casa, poco olio)", 10, 400, "una ciotola ≈ 30 g", "Carboidrati"],
     ["Pane integrale", 9, 250, "2 fette ≈ 50 g", "Carboidrati"],
     ["Patate", 2, 77, "2 medie ≈ 300 g", "Carboidrati"],
     ["Avena", 13, 380, "3 cucchiai colmi ≈ 50 g", "Carboidrati"],
@@ -1652,6 +1713,7 @@ const DATA = {
     ["Broccoli", 3, 35, "1 porzione ≈ 200 g", "Verdura e frutta"],
     ["Spinaci", 3, 25, "1 porzione ≈ 200 g", "Verdura e frutta"],
     ["Zucchine", 1, 16, "1 porzione ≈ 200 g", "Verdura e frutta"],
+    ["Fagiolini", 2, 30, "un piatto di contorno ≈ 200 g", "Verdura e frutta"],
     ["Pomodori", 1, 18, "1 pomodoro ≈ 150 g", "Verdura e frutta"],
     ["Insalata", 1, 15, "1 ciotola ≈ 100 g", "Verdura e frutta"],
     ["Carote", 1, 40, "1 carota ≈ 80 g", "Verdura e frutta"],
@@ -1667,11 +1729,21 @@ const DATA = {
 
 /* ---------- state ---------- */
 const KEY = "piano.v1";
-let state = { day:"A", checks:{}, log:[], short:false, diary:{}, diaryDay:"A" };
+let state = { day:"A", checks:{}, log:[], short:false, diary:{}, diaryDay:"A", fview:"traccia" };
 try { state = Object.assign(state, JSON.parse(localStorage.getItem(KEY) || "{}")); } catch(e){}
 if(!state.diary || typeof state.diary !== "object" || Array.isArray(state.diary)) state.diary = {};
 if(!state.diaryDay) state.diaryDay = "A";
+/* una volta sola: i nomi vecchi delle schede (oggi/piatto) diventano traccia/oggi */
+if(state.fvmap !== 2){
+  state.fview = state.fview === "alimenti" ? "oggi" : "traccia";
+  state.fvmap = 2;
+}
+if(["traccia","oggi","regole"].indexOf(state.fview) < 0) state.fview = "traccia";
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} };
+const dayKey = () => { const d = new Date();
+  return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0"); };
+/* la lista del calcolatore è la giornata: a mezzanotte riparte vuota */
+if(state.calcDay !== dayKey()){ state.calc = [{ n:"", g:"" }]; state.calcDay = dayKey(); save(); }
 /* una tantum: il suono era rimasto muto per sbaglio, lo riaccendiamo una volta */
 try {
   if(localStorage.getItem("piano.soundFix") !== "1"){
@@ -2086,33 +2158,12 @@ function renderMeals(){
       </div>
       <ul>
         ${m.items.map(it => `
-          <li><input type="checkbox" id="${it.id}" ${state.checks[it.id] ? 'checked' : ''}>
-            <label for="${it.id}">${it.t}</label>
+          <li><span class="t">${it.t}</span>
             <span class="p">${it.p} g</span></li>`).join('')}
       </ul>
       <p class="sub" style="font-size:.88rem;margin:.5em 0 0;color:var(--muted)">${DATA.swaps[swapKey[m.time]] || ''}</p>
     </div>`;
   }).join('');
-  mealsEl.querySelectorAll('input[type=checkbox]').forEach(c => {
-    c.addEventListener('change', () => { state.checks[c.id] = c.checked; save(); updateTotal(); });
-  });
-  updateTotal();
-}
-
-function updateTotal(){
-  let total = 0, kcal = 0;
-  DATA.meals.forEach(m => m.items.forEach(it => {
-    if(state.checks[it.id]) { total += it.p; kcal += it.k; }
-  }));
-  const fmt = fmtK;
-  document.getElementById('pTotal').textContent = total;
-  document.getElementById('pBar').style.setProperty('--p', Math.min(1, total / 140).toFixed(3));
-  document.getElementById('kTotal').textContent = fmt(kcal) + ' kcal';
-  const s = document.getElementById('pState');
-  if(total === 0) s.textContent = '0 / 130';
-  else if(total < 110) s.textContent = `mancano ${110-total} g`;
-  else if(total <= 150) s.textContent = 'sei in target';
-  else s.textContent = `+${total-140} g`;
 }
 
 /* ---------- planner ---------- */
@@ -2222,40 +2273,72 @@ function renderPlanOut(){
 /* ---------- calcolatore ---------- */
 const FZ = DATA.foods;
 const calcRowsEl = document.getElementById('calcRows');
-const calcNumsEl = document.getElementById('calcNums');
-const fIdx = n => Math.max(0, FZ.findIndex(f => f[0] === n));
-const fP = n => FZ[fIdx(n)][1];
-const fK = n => FZ[fIdx(n)][2];
-const fM = n => FZ[fIdx(n)][3];
 const kcalFmt = n => Math.round(n).toLocaleString('it-IT');
 
-/* gruppi per il menu a tendina, nell'ordine in cui compaiono */
+/* gruppi per la tendina, nell'ordine in cui compaiono */
 const FOOD_GROUPS = [];
 FZ.forEach(f => {
   let g = FOOD_GROUPS.find(x => x.cat === f[4]);
   if(!g) FOOD_GROUPS.push(g = { cat: f[4], items: [] });
   g.items.push(f);
 });
-const foodOptions = sel => FOOD_GROUPS.map(g =>
-  `<optgroup label="${g.cat}">` +
-    g.items.map(f => `<option value="${f[0]}" ${f[0]===sel?'selected':''}>${f[0]}</option>`).join('') +
-  `</optgroup>`).join('');
+const CAT_COLOR = ['green','blue','yellow','magenta','cyan','orange'];
+
+const fByName = n => FZ.find(f => f[0] === String(n || '').trim());
+const normFood = t => String(t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+const fSearch = q => {
+  const n = normFood(q);
+  if(!n) return null;
+  const exact = FZ.find(f => normFood(f[0]) === n);
+  if(exact) return exact;
+  const hits = FZ.filter(f => normFood(f[0]).includes(n));
+  return hits.length === 1 ? hits[0] : null;
+};
+
+/* evidenzia la parte cercata, solo se gli accenti non spostano gli indici */
+function markName(name, q){
+  const nq = normFood(q);
+  if(!nq || normFood(name).length !== name.length) return esc(name);
+  const k = normFood(name).indexOf(nq);
+  if(k < 0) return esc(name);
+  return esc(name.slice(0, k)) + '<mark>' + esc(name.slice(k, k + nq.length)) + '</mark>' + esc(name.slice(k + nq.length));
+}
+
+function popHTML(q){
+  const nq = normFood(q);
+  let html = '', hits = 0;
+  FOOD_GROUPS.forEach((g, gi) => {
+    const items = g.items.filter(f => !nq || normFood(f[0]).includes(nq));
+    if(!items.length) return;
+    hits += items.length;
+    html += `<div class="fcat"><i class="cdot c-${CAT_COLOR[gi % CAT_COLOR.length]}"></i>${g.cat}</div>`;
+    html += items.map(f => `<button type="button" role="option" class="fopt" data-name="${esc(f[0])}">
+      <span class="fn">${markName(f[0], q)}</span>
+      <span class="fm"><b>${f[1]} g</b><em>·</em>${f[2]}</span></button>`).join('');
+  });
+  return hits ? html : '<div class="fempty">Nessun alimento con questo nome. Prova con una parola sola.</div>';
+}
 
 function valHTML(n, g){
-  if(!g) return '—';
-  return `${Math.round(fP(n) * g / 100)} g<small>${kcalFmt(fK(n) * g / 100)} kcal</small>`;
+  const ex = fByName(n);
+  if(!ex || !g) return '—';
+  return `<b>${Math.round(ex[1] * g / 100)} g</b><small>${kcalFmt(ex[2] * g / 100)} kcal</small>`;
 }
 
 function renderCalc(){
-  if(!Array.isArray(state.calc) || !state.calc.length) state.calc = [{ n:FZ[0][0], g:"" }];
-  calcRowsEl.innerHTML = state.calc.map((row,i) => {
+  if(!Array.isArray(state.calc) || !state.calc.length) state.calc = [{ n:"", g:"" }];
+  calcRowsEl.innerHTML = state.calc.map((row, i) => {
     const g = parseFloat(row.g) || 0;
+    const ex = fByName(row.n);
     return `<div class="calcrow">
       <div class="selwrap">
-        <select data-sel="${i}" aria-label="Alimento ${i+1}">
-          ${foodOptions(row.n)}
-        </select>
-        <span class="eq">${fM(row.n)}</span>
+        <div class="inpwrap">
+          <input class="fname" data-sel="${i}" value="${esc(row.n || '')}" placeholder="cerca alimento"
+            autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false"
+            aria-autocomplete="list" aria-label="Alimento ${i+1}">
+          <div class="fpop" role="listbox" hidden></div>
+        </div>
+        <span class="eq">${ex ? ex[3] : '—'}</span>
       </div>
       <div class="grwrap">
         <input type="number" inputmode="decimal" min="0" step="10" placeholder="—" value="${row.g}" data-g="${i}" aria-label="Grammi ${i+1}">
@@ -2265,10 +2348,89 @@ function renderCalc(){
       <button class="del" data-del="${i}" aria-label="Rimuovi alimento ${i+1}">×</button>
     </div>`;
   }).join('');
-  calcRowsEl.querySelectorAll('select').forEach(s => s.addEventListener('change', () => {
-    state.calc[+s.dataset.sel].n = s.value; save(); renderCalc();
-  }));
-  calcRowsEl.querySelectorAll('input').forEach(inp => inp.addEventListener('input', () => {
+
+  calcRowsEl.querySelectorAll('.fname').forEach(inp => {
+    const i = +inp.dataset.sel;
+    const rowEl = inp.closest('.calcrow');
+    const pop = rowEl.querySelector('.fpop');
+    let active = -1;
+
+    const options = () => [...pop.querySelectorAll('.fopt')];
+    const paint = () => {
+      const ex = fSearch(inp.value);
+      rowEl.querySelector('.eq').textContent = ex ? ex[3] : '—';
+      rowEl.querySelector('.val').innerHTML = valHTML(ex ? ex[0] : '', parseFloat(state.calc[i].g) || 0);
+      return ex;
+    };
+    const open = () => {
+      pop.innerHTML = popHTML(inp.value);
+      pop.hidden = false;
+      pop.classList.remove('up');
+      /* se non c'è spazio sotto, la tendina si apre verso l'alto */
+      const r = pop.getBoundingClientRect();
+      if(r.bottom > innerHeight - 8 && r.top > r.height + 12) pop.classList.add('up');
+      inp.setAttribute('aria-expanded', 'true');
+      active = -1;
+    };
+    const close = () => {
+      pop.hidden = true;
+      inp.setAttribute('aria-expanded', 'false');
+      active = -1;
+    };
+    const commit = name => {
+      inp.value = name;
+      state.calc[i].n = name;
+      paint(); updateCalcTotal(); save();
+      close();
+      const gr = rowEl.querySelector('input[data-g]');
+      if(gr) gr.focus();
+    };
+
+    inp.addEventListener('focus', open);
+    inp.addEventListener('input', () => {
+      open();
+      const ex = paint();
+      if(ex) state.calc[i].n = ex[0];
+      else if(!inp.value.trim()) state.calc[i].n = '';
+      updateCalcTotal();
+    });
+    inp.addEventListener('keydown', e => {
+      if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+        e.preventDefault();
+        if(pop.hidden) open();
+        const l = options();
+        if(!l.length) return;
+        active = (active + (e.key === 'ArrowDown' ? 1 : -1) + l.length) % l.length;
+        l.forEach((o, k) => o.classList.toggle('on', k === active));
+        l[active].scrollIntoView({ block:'nearest' });
+      } else if(e.key === 'Enter'){
+        const l = options();
+        if(!pop.hidden && l.length){
+          e.preventDefault();
+          commit((active >= 0 ? l[active] : l[0]).dataset.name);
+        }
+      } else if(e.key === 'Escape' || e.key === 'Tab'){
+        close();
+      }
+    });
+    inp.addEventListener('blur', () => {
+      setTimeout(() => {
+        close();
+        const ex = fSearch(inp.value);
+        if(ex){ inp.value = ex[0]; state.calc[i].n = ex[0]; }
+        else inp.value = state.calc[i].n || '';
+        paint(); updateCalcTotal(); save();
+      }, 90);
+    });
+    pop.addEventListener('mousedown', e => {
+      const b = e.target.closest('.fopt');
+      if(!b) return;
+      e.preventDefault();
+      commit(b.dataset.name);
+    });
+  });
+
+  calcRowsEl.querySelectorAll('input[data-g]').forEach(inp => inp.addEventListener('input', () => {
     const i = +inp.dataset.g;
     state.calc[i].g = inp.value; save();
     inp.closest('.calcrow').querySelector('.val').innerHTML =
@@ -2284,49 +2446,57 @@ function renderCalc(){
 function updateCalcTotal(){
   let total = 0, kcal = 0;
   state.calc.forEach(r => {
+    const ex = fByName(r.n);
+    if(!ex) return;
     const g = parseFloat(r.g) || 0;
-    total += fP(r.n) * g / 100;
-    kcal  += fK(r.n) * g / 100;
+    total += ex[1] * g / 100;
+    kcal  += ex[2] * g / 100;
   });
   const t = Math.round(total);
-  const missing = 130 - t;
+  document.getElementById('pTotal').textContent = t;
+  document.getElementById('kTotal').textContent = kcalFmt(kcal);
+
+  const laser = document.getElementById('pLaser');
+  const frac = Math.max(0, Math.min(1, total / 130));
+  laser.style.transform = 'scaleX(' + frac.toFixed(4) + ')';
+  laser.style.setProperty('--f', frac.toFixed(4));
+  laser.classList.toggle('on', total > 0);
+  laser.classList.toggle('over', total > 150);
+
+  const kTot = Math.round(kcal);
+  const gap = kTot - 2500;
   let hint;
-  if(t === 0) hint = 'Aggiungi un alimento per cominciare.';
-  else if(missing > 15) hint = `Mancano ${missing} g: un palmo di pollo abbondante, o 2 uova in più.`;
-  else if(missing > 0) hint = `Quasi: mancano ${missing} g, un uovo e sei a posto.`;
-  else if(t > 150) hint = `Sei sopra di ${t-140} g. Non succede tutti i giorni: va bene.`;
-  else hint = 'Sei in target: chiudi la giornata così.';
-  calcNumsEl.innerHTML = `
-    <span class="num"><b>${t}</b><span class="of">g proteine</span></span>
-    <span class="num"><b>${kcalFmt(kcal)}</b><span class="of">kcal sul piatto</span></span>
-    <span class="hint">${hint}</span>`;
+  if(t === 0 && kTot === 0) hint = 'La lista è la giornata: parte vuota ogni mattina e si riempie mentre mangi.';
+  else if(gap > 150) hint = `Sei ${fmtK(gap)} kcal sopra il bersaglio: salta lo spuntino e, se non basta, metà del primo.`;
+  else if(t < 118) hint = `Proteine a ${t} g: aggiungi una fetta di grana o un vasetto di yogurt proteico.`;
+  else if(gap < -300) hint = `Restano ${fmtK(-gap)} kcal: aggiungi una fetta di pane e un frutto, non serve andare in deficit.`;
+  else if(gap < 0) hint = `Quasi: mancano ${fmtK(-gap)} kcal, un frutto e sei a posto.`;
+  else hint = `I conti tornano: ${fmtK(kTot)} kcal e ${t} g di proteine. Non aggiungere altro.`;
+  document.getElementById('calcHint').textContent = hint;
 }
 
 document.getElementById('calcAdd').addEventListener('click', () => {
-  state.calc.push({ n:FZ[0][0], g:"" }); save(); renderCalc();
+  state.calc.push({ n:"", g:"" }); save(); renderCalc();
+});
+document.getElementById('calcClear').addEventListener('click', () => {
+  state.calc = [{ n:"", g:"" }]; state.calcDay = dayKey(); save(); renderCalc();
 });
 
-/* ---------- ricerca nella tabella alimenti ---------- */
-const foodFind = document.getElementById('foodFind');
-const foodBody = document.getElementById('foodBody');
-const foodCount = document.getElementById('foodCount');
-const foodEmpty = document.getElementById('foodEmpty');
-const foodRows = foodBody ? [...foodBody.querySelectorAll('tr')] : [];
-const normTxt = t => String(t).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-function filterFood(){
-  const q = normTxt(foodFind.value.trim());
-  let n = 0;
-  foodRows.forEach(tr => {
-    const on = !q || normTxt(tr.textContent).includes(q);
-    tr.hidden = !on;
-    if(on) n++;
+/* ---------- cibo: tre viste ---------- */
+const segFood = document.getElementById('segFood');
+const FOOD_VIEWS = { traccia:"f-oggi", oggi:"f-alimenti", regole:"f-regole" };
+function renderFoodView(){
+  [...segFood.querySelectorAll('button')].forEach(b =>
+    b.setAttribute('aria-current', b.dataset.fv === state.fview ? 'true' : 'false'));
+  Object.keys(FOOD_VIEWS).forEach(k => {
+    const el = document.getElementById(FOOD_VIEWS[k]);
+    if(el) el.hidden = k !== state.fview;
   });
-  foodCount.textContent = q ? n + ' di ' + foodRows.length : '';
-  foodEmpty.hidden = n > 0;
 }
-foodFind.addEventListener('input', filterFood);
-foodFind.addEventListener('search', filterFood);
-filterFood();
+[...segFood.querySelectorAll('button')].forEach(b => b.addEventListener('click', () => {
+  state.fview = b.dataset.fv; save(); renderFoodView();
+}));
+renderFoodView();
 
 /* ---------- log ---------- */
 const logForm = document.getElementById('logForm');
