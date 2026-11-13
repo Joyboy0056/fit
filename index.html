@@ -127,12 +127,13 @@ nav.tabs button[aria-selected="true"]{color:var(--blue);background:var(--bg-weak
 
 @media (max-width:959px){
   nav.tabs{flex-direction:row;border-top:0;border-bottom:var(--hair);margin-top:16px;overflow-x:auto}
-  nav.tabs button{border-bottom:0;border-left:var(--hair);padding:11px 14px;white-space:nowrap;
-    box-shadow:inset 0 -1px 0 transparent}
+  nav.tabs button{border-bottom:0;border-left:var(--hair);padding:11px 13px;white-space:nowrap;
+    flex:0 0 auto;box-shadow:inset 0 -1px 0 transparent}
   nav.tabs button:first-child{border-left:0;padding-left:0}
   nav.tabs button:hover{box-shadow:inset 0 -1px 0 var(--border-strong)}
   nav.tabs button[aria-selected="true"]{box-shadow:inset 0 -1px 0 var(--link)}
 }
+
 
 /* ============ sezioni ============ */
 section[hidden]{display:none}
@@ -479,9 +480,14 @@ article.ex .body h3{font-size:var(--fs-small);margin:18px 0 8px}
 .calcrow .del:hover{color:var(--red)}
 .calcacts{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
 .calchint{margin:10px 0 0;font-size:var(--fs-small);color:var(--text-muted)}
+.calcrow.draft .grwrap,.calcrow.draft .del,.calcrow.draft .val,.calcrow.draft .eq{display:none}
+.calcrow.draft{row-gap:0}
 @media (max-width:599px){
-  .calcrow{grid-template-columns:92px minmax(0,1fr) 20px;
-    grid-template-areas:"sel sel del" "gr val del";row-gap:6px;column-gap:10px}
+  .calcrow{grid-template-columns:92px minmax(0,1fr) 22px;
+    grid-template-areas:"sel sel del" "gr val del";row-gap:9px;column-gap:10px;padding:13px 0}
+  .calcacts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+  .calcacts .ghost{display:flex;align-items:center;justify-content:center;padding:10px 8px;font-size:11px}
+  .calchint{margin-top:13px}
   .calcrow>.selwrap{grid-area:sel}
   .calcrow>.grwrap{grid-area:gr}
   .calcrow .val{grid-area:val}
@@ -600,6 +606,13 @@ tr:last-child td{border-bottom:0}
   nav.tabs button{min-width:0;padding:11px 2px;font-size:10px;letter-spacing:0;
     text-align:center;justify-content:center}
   nav.tabs button:first-child{padding-left:2px;border-left:0}
+}
+/* sotto i 375 px le cinque voci non ci stanno: meglio scorrerle che sovrapporle */
+@media (max-width:374px){
+  nav.tabs{display:flex;flex-direction:row;overflow-x:auto;gap:0}
+  nav.tabs button{flex:0 0 auto;min-width:0;padding:11px 9px;font-size:10.5px;text-align:left;
+    justify-content:flex-start}
+  nav.tabs button:first-child{padding-left:0;border-left:0}
 }
 </style>
 </head>
@@ -736,7 +749,7 @@ tr:last-child td{border-bottom:0}
     <div class="calc" id="calcRows"></div>
     <div class="calcacts">
       <button class="ghost" id="calcAdd" type="button">+ alimento</button>
-      <button class="ghost" id="calcClear" type="button">azzera la giornata</button>
+      <button class="ghost" id="calcClear" type="button" aria-label="Azzera la giornata">azzera</button>
     </div>
 
     <p class="calchint" id="calcHint"></p>
@@ -764,6 +777,8 @@ tr:last-child td{border-bottom:0}
         <tr><td>Tonno in scatola</td><td>1 scatoletta sgocciolata <em>(80 g)</em></td><td class="n pv">20 g</td><td class="n kv">92</td></tr>
         <tr><td>Uova</td><td>3 intere <em>(165 g)</em></td><td class="n pv">21 g</td><td class="n kv">236</td></tr>
         <tr><td>Frittata</td><td>un cubo da mensa <em>(120 g)</em></td><td class="n pv">14 g</td><td class="n kv">228</td></tr>
+        <tr><td>Torta salata (ricotta e spinaci)</td><td>una fetta <em>(150 g)</em></td><td class="n pv">12 g</td><td class="n kv">345</td></tr>
+        <tr><td>Polpette di carne</td><td>3 polpette <em>(150 g)</em></td><td class="n pv">27 g</td><td class="n kv">345</td></tr>
         <tr><td>Yogurt greco 0%</td><td>mezzo barattolo da 500 g <em>(250 g)</em></td><td class="n pv">25 g</td><td class="n kv">143</td></tr>
         <tr><td>Yogurt proteico</td><td>1 vasetto <em>(150 g)</em></td><td class="n pv">18 g</td><td class="n kv">105</td></tr>
         <tr><td>Bresaola</td><td>5 fette sottili <em>(100 g)</em></td><td class="n pv">32 g</td><td class="n kv">150</td></tr>
@@ -774,7 +789,10 @@ tr:last-child td{border-bottom:0}
         <tr><td>Pasta o riso</td><td>1 piatto fondo colmo, crudo <em>(100 g)</em></td><td class="n pv">11 g</td><td class="n kv">350</td></tr>
         <tr><td>Pane</td><td>2 fette <em>(50 g)</em></td><td class="n pv">4 g</td><td class="n kv">135</td></tr>
         <tr><td>Patate</td><td>2 medie <em>(300 g)</em></td><td class="n pv">6 g</td><td class="n kv">231</td></tr>
+        <tr><td>Gnocchi di zucca</td><td>una porzione <em>(200 g)</em></td><td class="n pv">4 g</td><td class="n kv">260</td></tr>
+        <tr><td>Gnocchi di ceci</td><td>una porzione <em>(200 g)</em></td><td class="n pv">12 g</td><td class="n kv">320</td></tr>
         <tr><td>Fagiolini</td><td>un piatto di contorno <em>(200 g)</em></td><td class="n pv">4 g</td><td class="n kv">60</td></tr>
+        <tr><td>Puntarelle romane</td><td>un piatto <em>(200 g)</em></td><td class="n pv">3 g</td><td class="n kv">50</td></tr>
         <tr><td>Mandorle</td><td>un pugno <em>(15 g)</em></td><td class="n pv">3 g</td><td class="n kv">90</td></tr>
         <tr><td>Cornetto (crema o nutella)</td><td>uno <em>(55 g)</em></td><td class="n pv">3 g</td><td class="n kv">225</td></tr>
         <tr><td>Strudel di mele</td><td>una fetta <em>(120 g)</em></td><td class="n pv">4 g</td><td class="n kv">300</td></tr>
@@ -1702,6 +1720,9 @@ const DATA = {
     ["Biscotti secchi", 7, 430, "3 biscotti ≈ 25 g", "Carboidrati"],
     ["Miele", 0, 320, "1 cucchiaio ≈ 20 g", "Carboidrati"],
     ["Marmellata", 0, 250, "1 cucchiaio ≈ 25 g", "Carboidrati"],
+    ["Pasta sfoglia", 6, 400, "mezzo rotolo ≈ 125 g", "Carboidrati"],
+    ["Gnocchi di zucca", 2, 130, "una porzione ≈ 200 g", "Carboidrati"],
+    ["Gnocchi di ceci", 6, 160, "una porzione ≈ 200 g", "Carboidrati"],
 
     ["Mandorle", 21, 600, "1 pugno ≈ 15 g", "Frutta secca e grassi"],
     ["Noci", 15, 650, "1 pugno ≈ 20 g", "Frutta secca e grassi"],
@@ -1718,6 +1739,11 @@ const DATA = {
     ["Zucchine", 1, 16, "1 porzione ≈ 200 g", "Verdura e frutta"],
     ["Fagiolini", 2, 30, "un piatto di contorno ≈ 200 g", "Verdura e frutta"],
     ["Pomodori", 1, 18, "1 pomodoro ≈ 150 g", "Verdura e frutta"],
+    ["Pomodorini aglio, olio e peperoncino", 2, 80, "un piatto ≈ 200 g", "Verdura e frutta"],
+    ["Puntarelle romane", 1.5, 25, "un piatto ≈ 200 g", "Verdura e frutta"],
+    ["Verza", 1.5, 30, "un piatto ≈ 200 g", "Verdura e frutta"],
+    ["Cavolfiore", 2, 25, "una porzione ≈ 200 g", "Verdura e frutta"],
+    ["Cavolo nero", 2, 35, "un piatto ≈ 200 g", "Verdura e frutta"],
     ["Insalata", 1, 15, "1 ciotola ≈ 100 g", "Verdura e frutta"],
     ["Carote", 1, 40, "1 carota ≈ 80 g", "Verdura e frutta"],
     ["Birra", 0.5, 43, "1 birra ≈ 330 ml", "Bevande"],
@@ -1735,6 +1761,10 @@ const DATA = {
     ["Cioccolato fondente", 6, 550, "2 quadretti ≈ 20 g", "Dolci"],
     ["Pasticcino da bar", 5, 400, "uno ≈ 60 g", "Dolci"],
     ["Nutella", 6, 540, "1 cucchiaio raso ≈ 20 g", "Dolci"],
+
+    ["Torta salata (ricotta e spinaci)", 8, 230, "una fetta ≈ 150 g", "Piatti pronti"],
+    ["Polpette di carne", 18, 230, "3 polpette ≈ 150 g", "Piatti pronti"],
+    ["Polpette di patate e sgombro", 9, 170, "3 polpette ≈ 150 g", "Piatti pronti"],
 
     ["Proteine in polvere", 80, 380, "1 misurino ≈ 30 g", "Altro"]
   ]
@@ -2334,7 +2364,7 @@ function popHTML(q){
 
 function valHTML(n, g){
   const ex = fByName(n);
-  if(!ex || !g) return '—';
+  if(!ex || !g) return '';
   return `<b>${Math.round(ex[1] * g / 100)} g</b><small>${kcalFmt(ex[2] * g / 100)} kcal</small>`;
 }
 
@@ -2343,7 +2373,7 @@ function renderCalc(){
   calcRowsEl.innerHTML = state.calc.map((row, i) => {
     const g = parseFloat(row.g) || 0;
     const ex = fByName(row.n);
-    return `<div class="calcrow">
+    return `<div class="calcrow${ex ? '' : ' draft'}">
       <div class="selwrap">
         <div class="inpwrap">
           <input class="fname" data-sel="${i}" value="${esc(row.n || '')}" placeholder="cerca alimento"
@@ -2351,10 +2381,10 @@ function renderCalc(){
             aria-autocomplete="list" aria-label="Alimento ${i+1}">
           <div class="fpop" role="listbox" hidden></div>
         </div>
-        <span class="eq">${ex ? ex[3] : '—'}</span>
+        <span class="eq">${ex ? ex[3] : ''}</span>
       </div>
       <div class="grwrap">
-        <input type="number" inputmode="decimal" min="0" step="10" placeholder="—" value="${row.g}" data-g="${i}" aria-label="Grammi ${i+1}">
+        <input type="number" inputmode="decimal" min="0" step="10" value="${row.g}" data-g="${i}" aria-label="Grammi ${i+1}">
         <span aria-hidden="true">g</span>
       </div>
       <span class="val">${valHTML(row.n, g)}</span>
@@ -2371,7 +2401,8 @@ function renderCalc(){
     const options = () => [...pop.querySelectorAll('.fopt')];
     const paint = () => {
       const ex = fSearch(inp.value);
-      rowEl.querySelector('.eq').textContent = ex ? ex[3] : '—';
+      rowEl.classList.toggle('draft', !ex);
+      rowEl.querySelector('.eq').textContent = ex ? ex[3] : '';
       rowEl.querySelector('.val').innerHTML = valHTML(ex ? ex[0] : '', parseFloat(state.calc[i].g) || 0);
       return ex;
     };
