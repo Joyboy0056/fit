@@ -693,7 +693,7 @@ tr:last-child td{border-bottom:0}
 <aside class="side">
 <header class="top">
   <div class="meta-line">
-    <span>allenamento a casa · 3 sedute</span>
+    <span>allenamento a casa · 3 sedute + 1 da viaggio</span>
     <span>sbarra · anelli · elastico</span>
     <span>45&nbsp;kg di dischi al massimo</span>
   </div>
@@ -743,11 +743,12 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section id="p-all" role="tabpanel" aria-labelledby="tab-all">
-    <h2>Le tre sedute</h2>
+    <h2>Tre sedute, più quella da viaggio</h2>
     <p class="sub">Full body, 2-3 volte a settimana, sempre a un giorno di distanza. Mai due giorni di fila.
     La formula è sempre <strong>serie × ripetizioni</strong>: <em>4×8-10</em> significa quattro serie da 8-10 ripetizioni.
     Prima di ogni seduta, cinque minuti di riscaldamento: sono nella scheda <strong>Start &amp; End</strong>, insieme alla mobilità.
-    <strong>10+10 kg</strong> significa un manubrio da 10 kg per mano, non due serie da 10: le serie sono quelle della colonna «serie × rip».</p>
+    <strong>10+10 kg</strong> significa un manubrio da 10 kg per mano, non due serie da 10: le serie sono quelle della colonna «serie × rip».
+    La <strong>D</strong> è quella da viaggio: solo corpo libero, zero attrezzi.</p>
     <div class="seg" id="segDays" role="group" aria-label="Scegli la seduta"></div>
     <div id="sessionBody"></div>
 
@@ -1658,7 +1659,92 @@ const DATA = {
       prog:"Piedi più vicini tra loro, oppure gomiti su un rialzo.",
       regr:"Plank laterale appoggiato sulle ginocchia.",
       extra:"Marginale per il tuo obiettivo: gli obliqui lavorano già in affondi, rematore e trazioni. Se lo vuoi, mettilo al posto del hollow, non in aggiunta."
-    }
+    },
+    { id:"affondi", nome:"Affondi alternati",
+      what:"Passo avanti, ginocchio dietro che sfiora il pavimento, spinta sul tallone davanti e si torna in piedi.", m:"quadricipiti · glutei · equilibrio", grp:"gambe",
+      steps:[
+        "In piedi, mani ai fianchi. Fai un passo avanti lungo quanto basta perché, scendendo, il ginocchio dietro arrivi a due dita dal pavimento.",
+        "Scendi in verticale: il ginocchio davanti resta sopra il piede, il tallone dietro si alza, il busto resta dritto. Non inseguire il ginocchio con il naso.",
+        "Sfiora il pavimento e spingi sul tallone della gamba davanti per tornare su. Il ginocchio dietro non appoggia mai.",
+        "Alterna le gambe a ogni ripetizione. «10+10» vuol dire dieci per lato, venti passi in tutto: se li conti come dieci, ne fai la metà."
+      ],
+      err:["Passo troppo corto: il ginocchio davanti finisce oltre le dita del piede.","Busto che si piega avanti come un inchino.","Tallone davanti che si stacca: spingi con la punta e perdi il gluteo.","Rimbalzare in basso invece di fermarsi a due dita dal pavimento."],
+      prog:"Alternato → pausa di 2 secondi in basso → affondo camminato per 20 passi → affondo con salto.",
+      regr:"Mezzo affondo, con una mano appoggiata al muro o al letto per l'equilibrio."
+    },
+    { id:"piegamentiterra", nome:"Piegamenti a terra",
+      what:"Il piegamento classico: corpo in linea dalla testa ai talloni, petto a due dita dal pavimento.", m:"petto · tricipiti · spalle", grp:"spinta",
+      steps:[
+        "Mani a terra sotto le spalle, un filo più larghe. Dita aperte, gomiti che guardano indietro a 45°, non di lato.",
+        "Gambe distese, glutei e addome stretti: il corpo è una tavola. Il bacino non sale e non scende.",
+        "Scendi piegando i gomiti finché il petto è a due dita dal pavimento. Testa in linea, sguardo a un metro avanti.",
+        "Spingi e risali tutto: braccia distese, spalle lontane dalle orecchie."
+      ],
+      err:["Bacino che scende per primo: è una panca molla.","Gomiti a 90° dal busto: la spalla si lamenta.","Mezze ripetizioni contate come intere.","Collo allungato avanti per toccare prima."],
+      prog:"Mani su un rialzo alto (letto, tavolo) → mani a terra → piedi su una sedia → zaino con i libri sulla schiena.",
+      regr:"Ginocchia a terra, stessa linea dalla testa alle ginocchia. Oppure mani sul bordo del letto: più in alto è, più è facile."
+    },
+    { id:"dipsedie", nome:"Dip sulle sedie",
+      what:"Mani sul bordo di due sedie, gambe distese avanti: pieghi i gomiti e scendi col bacino, poi spingi.", m:"tricipiti · petto · spalle", grp:"spinta",
+      steps:[
+        "Due sedie stabili, senza rotelle, alla stessa altezza: una mano per sedia, palmi sul bordo. Piedi a terra, gambe distese o ginocchia piegate.",
+        "Spalle basse e lontane dalle orecchie, gomiti che guardano indietro. Scendi piegando i gomiti finché la spalla arriva appena sotto il gomito, non oltre.",
+        "Spingi sul palmo e risali senza far salire le spalle verso le orecchie.",
+        "Otto-dodici ripetizioni controllate. Se le sedie scricchiolano o hanno le rotelle, lascia stare: è l'esercizio più facoltativo della seduta."
+      ],
+      err:["Spalle che salgono alle orecchie a ogni ripetizione.","Scendere troppo: la spalla sotto il gomito è già abbastanza.","Gomiti che si aprono di lato.","Usare sedie con le rotelle o traballanti."],
+      prog:"Ginocchia piegate → gambe distese → piedi su un secondo rialzo.",
+      regr:"Mani sul bordo del letto, piedi a terra vicini: stesso movimento, meno peso."
+    },
+    { id:"raccoltagambe", nome:"Raccolta gambe al petto",
+      what:"Da sdraiato porti le ginocchia al petto e stacchi il bacino da terra di pochi centimetri.", m:"addome · flessori dell'anca", grp:"addome",
+      steps:[
+        "Sdraiato sulla schiena, mani ai lati del corpo, gambe distese.",
+        "Porta le ginocchia al petto e, nello stesso movimento, stacca il bacino da terra di pochi centimetri: sale il bacino, non corrono le gambe.",
+        "Torna giù lento senza appoggiare i piedi: la serie continua finché il movimento resta controllato.",
+        "Dodici-quindici ripetizioni lente. Senza slancio è molto più duro di un crunch."
+      ],
+      err:["Dondolare avanti e indietro.","Spingere con le mani sul pavimento.","Appoggiare i piedi a ogni ripetizione.","Trattenere il respiro."],
+      prog:"Ginocchia al petto → gambe tese → fermo di un secondo in alto.",
+      regr:"Crunch inverso: ginocchia piegate, bacino che resta a terra."
+    },
+    { id:"affondisalto", nome:"Affondi con salto",
+      what:"Affondo, salto cambiando gamba in aria, atterraggio in affondo dall'altra parte.", m:"quadricipiti · glutei · fiato", grp:"gambe",
+      steps:[
+        "Parti in affondo, ginocchio dietro a due dita dal pavimento.",
+        "Spingi forte su entrambi i piedi e salta cambiando gamba in aria. Non è un salto in alto: è uno scambio.",
+        "Atterra in affondo con la gamba opposta, ammortizzando col ginocchio e col tallone davanti per primo.",
+        "Otto per lato. Se atterri con un tonfo, torna all'affondo normale: atterrare piano è metà dell'esercizio."
+      ],
+      err:["Atterrare a gambe tese, ginocchia bloccate.","Ginocchio che cede verso l'interno nell'atterraggio.","Fare rumore: vuol dire che stai cadendo, non saltando.","Busto che si butta in avanti."],
+      prog:"Affondo alternato → salto basso → salto alto con ginocchia al petto.",
+      regr:"Affondo alternato senza salto, oppure mezzo affondo con pausa di un secondo."
+    },
+    { id:"tucksit", nome:"Tuck sit (verso l'L-sit)",
+      what:"Seduto sulle mani, ginocchia al petto e piedi sollevati: quindici secondi che bruciano.", m:"addome · flessori dell'anca · spalle", grp:"addome",
+      steps:[
+        "Mani a terra ai lati delle cosce, dita in avanti, braccia distese e spalle basse.",
+        "Piega le ginocchia e solleva i piedi da terra: il peso va sulle mani, la schiena resta lunga e non si curva.",
+        "Porta le ginocchia il più vicino possibile al petto e tieni 15-20 secondi respirando.",
+        "Quando tieni le gambe distese hai l'L-sit. Non provarci subito: prima una gamba per volta, tenuta 10 secondi."
+      ],
+      err:["Spalle che salgono verso le orecchie.","Schiena curva e bacino arrotondato.","Appoggiare i piedi prima della fine dei secondi.","Trattenere il respiro."],
+      prog:"Tuck 15 s → 20 s → una gamba distesa → L-sit completo.",
+      regr:"Ginocchia al petto con i piedi ancora a terra, oppure un piede solo sollevato."
+    },
+    { id:"australiane", nome:"Trazioni australiane al tavolo",
+      what:"Sdraiati sotto un tavolo robusto, afferri il bordo e tiri il petto verso l'alto.", m:"dorsali · bicipiti · schiena alta", grp:"trazione",
+      steps:[
+        "Sdraiati sotto un tavolo robusto, braccia distese e mani sul bordo, presa prona larga quanto le spalle. Ginocchia piegate, piedi a terra.",
+        "Il corpo resta in linea dalle spalle ai fianchi: glutei stretti, schiena che non si inarca.",
+        "Tira il petto verso il bordo portando le scapole indietro, poi scendi lento fino a distendere le braccia.",
+        "Se il tavolo si muove anche di un centimetro, smetti: non è un attrezzo su cui tirarsi."
+      ],
+      err:["Tirare col collo e col mento.","Bacino che scende verso terra.","Tavoli traballanti o con le gambe fuori squadra.","Mezze ripetizioni senza distendere le braccia."],
+      prog:"Piedi vicini → piedi lontani (più duro) → gambe distese → una gamba sola.",
+      regr:"Ginocchia piegate e piedi vicini al tavolo, corpo più verticale."
+    },
+
   ],
 
   sessions: [
@@ -1703,6 +1789,19 @@ const DATA = {
         { id:"alzatepost", s:"3", r:"15", kg:"4+4 kg", rec:"60 s" },
         { id:"facepull", s:"3", r:"15", kg:"elastico corto", rec:"45 s", minVer:true },
         { id:"hollow", s:"2", r:"20-30 s", kg:"corpo", rec:"45 s", minVer:true }
+      ]},
+    { key:"D", nome:"Solo corpo, in giro", focus:"petto · gambe · addome — il peso del corpo, niente attrezzi",
+      dur:"32 min", min:"21 min",
+      nota:"Niente sbarra, niente pesi, niente elastico: qui ci si mette in leva. I piegamenti con i piedi sul letto e il pike con i piedi sul letto sono già duri; le australiane al tavolo sono l'unico modo di tirare, quindi se il tavolo è robusto non salta il giorno di schiena. Se non c'è, la schiena alta resta ferma una settimana e non succede niente. Riscaldamento senza attrezzi: tre minuti di jumping jack, dieci squat a corpo libero, dieci piegamenti lenti, trenta secondi di hollow.",
+      moves:[
+        { id:"piegamentiterra", s:"4", r:"8-15", kg:"piedi sul letto", rec:"2 min", minVer:true },
+        { id:"pike", s:"3", r:"6-10", kg:"piedi sul letto", rec:"90 s", minVer:true },
+        { id:"dipsedie", s:"3", r:"8-12", kg:"corpo", rec:"90 s", opt:true },
+        { id:"bulgaro", s:"3", r:"10-15", kg:"corpo", rec:"90 s", minVer:true },
+        { id:"affondisalto", s:"3", r:"8+8", kg:"corpo", rec:"75 s", minVer:true },
+        { id:"australiane", s:"3", r:"8-12", kg:"tavolo", rec:"90 s", opt:true },
+        { id:"hollow", s:"3", r:"20-30 s", kg:"corpo", rec:"45 s", minVer:true },
+        { id:"tucksit", s:"3", r:"15-20 s", kg:"corpo", rec:"45 s" }
       ]}
   ],
 
@@ -1782,7 +1881,7 @@ const DATA = {
     ["Patate", 2, 77, "2 medie ≈ 300 g", "Carboidrati"],
     ["Avena", 13, 380, "3 cucchiai colmi ≈ 50 g", "Carboidrati"],
     ["Fette biscottate", 12, 400, "2 fette ≈ 20 g", "Carboidrati"],
-    ["Pizza margherita", 10, 270, "1 trancio ≈ 200 g", "Carboidrati"],
+    ["Pizza margherita", 10, 270, "1 trancio al taglio ≈ 150 g · una tonda ≈ 350 g", "Carboidrati"],
     ["Farro crudo", 12, 340, "1 piatto ≈ 80 g", "Carboidrati"],
     ["Quinoa cruda", 14, 368, "1 piatto ≈ 80 g", "Carboidrati"],
     ["Polenta (farina)", 8, 350, "1 porzione ≈ 80 g", "Carboidrati"],
@@ -2359,9 +2458,10 @@ const DIET = [
       ["Pane",50,"2 fette di pane"]
     ]},
     { letter:"G", name:"Pizza al trancio", items:[
-      ["Pizza margherita",250,"un trancio grande"],
-      ["Prosciutto crudo",50,"2 fette di crudo"],
-      ["Insalata",100,"una ciotola di insalata"]
+      ["Pizza margherita",200,"due tranci al taglio"],
+      ["Prosciutto crudo",60,"2 fette di crudo"],
+      ["Insalata",150,"una ciotola di insalata"],
+      ["Grana / parmigiano",20,"una fetta di grana"]
     ]},
     { letter:"H", name:"Piadina", items:[
       ["Piadina",100,"una piadina"],
@@ -2421,10 +2521,9 @@ const DIET = [
       ["Olio d'oliva",15,"un cucchiaio e mezzo d'olio"]
     ]},
     { letter:"C", name:"Pizza e insalata", items:[
-      ["Pizza margherita",250,"un trancio grande"],
+      ["Pizza margherita",350,"una margherita intera"],
       ["Insalata",150,"una ciotola di insalata"],
-      ["Grana / parmigiano",20,"una fetta di grana"],
-      ["Olio d'oliva",10,"1 cucchiaio d'olio"]
+      ["Grana / parmigiano",20,"una fetta di grana"]
     ]},
     { letter:"D", name:"Pollo e riso", items:[
       ["Petto di pollo",200,"un palmo abbondante di pollo"],
@@ -2481,7 +2580,8 @@ const DIET_EXTRAS = [
   { id:"pane",     grp:"poco",      n:"Pane", g:50, t:"2 fette di pane" },
   { id:"mandorle", grp:"poco",      n:"Mandorle", g:15, t:"un pugno di mandorle" },
   { id:"whey",     grp:"poco",      n:"Proteine in polvere", g:30, t:"30 g di proteine in polvere" },
-  { id:"pizza",    grp:"eccezioni", n:"Pizza margherita", g:200, t:"un trancio di pizza" },
+  { id:"pizza",    grp:"eccezioni", n:"Pizza margherita", g:150, t:"un trancio al taglio" },
+  { id:"pizzatonda", grp:"eccezioni", n:"Pizza margherita", g:350, t:"una pizza intera" },
   { id:"birra",    grp:"eccezioni", n:"Birra", g:330, t:"una birra media" },
   { id:"vino",     grp:"eccezioni", n:"Vino rosso", g:125, t:"un calice di vino" },
   { id:"grappa",   grp:"eccezioni", n:"Grappa", g:40, t:"una grappa" },
@@ -2968,10 +3068,11 @@ function hintFor(move, last){
   return 'prossima: ' + (kgish && last.kg ? last.kg.replace('.', ',') + ' kg × ' : '') + (reps + step) + unit;
 }
 function renderDiary(){
-  segDiary.innerHTML = ['A','B','C'].map(k => `<button type="button" data-dk="${k}" aria-current="${state.diaryDay===k?'true':'false'}">${k}</button>`).join('');
+  segDiary.innerHTML = DATA.sessions.map(s => `<button type="button" data-dk="${s.key}" aria-current="${state.diaryDay===s.key?'true':'false'}">${s.key}</button>`).join('');
   [...segDiary.children].forEach(b => b.addEventListener('click', () => {
     state.diaryDay = b.dataset.dk; save(); renderDiary();
   }));
+  if(!DATA.sessions.some(s => s.key === state.diaryDay)) state.diaryDay = "A";
   const se = DATA.sessions.find(x => x.key === state.diaryDay);
   const rows = se.moves.map((m, i) => {
     const ex = exById(m.id);
