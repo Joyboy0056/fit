@@ -792,8 +792,8 @@ tr:last-child td{border-bottom:0}
     <div class="fview" id="f-oggi">
 
     <p class="sub">Bersaglio <strong id="tgtShow">2.600</strong> kcal e <strong>140 g</strong> di proteine.
-    Scegli una combinazione per pasto: i conti si muovono qui sopra, gli spunti in fondo dicono cosa manca,
-    e con un tocco porti la giornata nella scheda <strong>Oggi</strong>.</p>
+    Scegli una combinazione per pasto, o lascia il pasto vuoto: i conti si muovono qui sopra, gli spunti in fondo
+    dicono cosa manca, e con un tocco porti la giornata nella scheda <strong>Oggi</strong> così com'è — anche vuota.</p>
 
     <div class="tgt" id="tgt" role="group" aria-label="Bersaglio calorie">
       <span class="tgtlab">bersaglio</span>
@@ -829,7 +829,9 @@ tr:last-child td{border-bottom:0}
 
     <div class="dietacts">
       <button class="ghost" id="dietToOggi" type="button">porta in Oggi</button>
-      <span class="dnote">sostituisce l'elenco della giornata: i grammi restano lì, li correggi come vuoi.</span>
+      <button class="ghost" id="dietClear" type="button">svuota</button>
+      <span class="dnote">Tocca di nuovo un pasto scelto per lasciarlo vuoto. «porta in Oggi» sostituisce l'elenco
+      della giornata: i grammi restano lì, li correggi come vuoi.</span>
     </div>
 
     </div>
@@ -2716,6 +2718,7 @@ function dietPick(){
   const pick = state.diet.pick;
   DIET.forEach(m => {
     const i = pick[m.key];
+    if(i === -1) return;
     if(!(i >= 0 && i < m.combos.length)) pick[m.key] = 0;
   });
   return pick;
@@ -2731,12 +2734,17 @@ function dietExtras(){
 function dietDay(){
   const pick = dietPick();
   let p = 0, k = 0;
-  DIET.forEach(m => { const v = comboVal(m.combos[pick[m.key]]); p += v.p; k += v.k; });
+  DIET.forEach(m => {
+    const c = m.combos[pick[m.key]];
+    if(!c) return;
+    const v = comboVal(c); p += v.p; k += v.k;
+  });
   dietExtras().forEach(e => { const v = extraVal(e); p += v.p; k += v.k; });
   return { p: Math.round(p), k: Math.round(k) };
 }
 
 function dietLeft(d){
+  if(!d.k && !d.p) return '<b class="kok">nessun pasto scelto</b>';
   const T = dietTarget();
   const gk = T.k - d.k, gp = T.p - d.p;
   const parts = [];
@@ -2748,6 +2756,8 @@ function dietLeft(d){
 }
 
 function dietAdvice(d){
+  if(!d.k && !d.p)
+    return `Giornata vuota: scegli solo i pasti che ti servono, oppure portala così com'è in <b>Oggi</b> e completala lì con gli alimenti.`;
   const T = dietTarget();
   const gp = T.p - d.p, gk = T.k - d.k;
   if(gk > 300 && gp > 10)
@@ -2768,9 +2778,12 @@ function paintDiet(){
     b.setAttribute('aria-pressed', String(+b.dataset.i === pick[b.dataset.meal]));
   });
   DIET.forEach(m => {
-    const v = comboVal(m.combos[pick[m.key]]);
+    const c = m.combos[pick[m.key]];
     const el = dietEl.querySelector(`.msum[data-sum="${m.key}"]`);
-    if(el) el.innerHTML = `${fmtK(v.k)} kcal · <b>${Math.round(v.p)} g</b>`;
+    if(!el) return;
+    if(!c){ el.innerHTML = 'vuoto'; return; }
+    const v = comboVal(c);
+    el.innerHTML = `${fmtK(v.k)} kcal · <b>${Math.round(v.p)} g</b>`;
   });
   extrasEl.querySelectorAll('.extra').forEach(b => {
     b.setAttribute('aria-pressed', String(state.diet.extras.indexOf(b.dataset.extra) >= 0));
@@ -2827,7 +2840,8 @@ function renderDiet(){
     </div>`).join('');
 
   dietEl.querySelectorAll('.card').forEach(b => b.addEventListener('click', () => {
-    state.diet.pick[b.dataset.meal] = +b.dataset.i;
+    const m = b.dataset.meal, i = +b.dataset.i;
+    state.diet.pick[m] = state.diet.pick[m] === i ? -1 : i;
     save(); paintDiet();
   }));
   extrasEl.querySelectorAll('.extra').forEach(b => b.addEventListener('click', () => {
@@ -2845,10 +2859,19 @@ document.querySelectorAll('#tgt button').forEach(b => b.addEventListener('click'
   save(); paintDiet(); updateCalcTotal();
 }));
 
+document.getElementById('dietClear').addEventListener('click', () => {
+  DIET.forEach(m => { state.diet.pick[m.key] = -1; });
+  state.diet.extras = [];
+  save(); paintDiet();
+});
+
 document.getElementById('dietToOggi').addEventListener('click', () => {
   const pick = dietPick();
   const rows = [];
-  DIET.forEach(m => m.combos[pick[m.key]].items.forEach(it => rows.push({ n:it[0], g:String(it[1]) })));
+  DIET.forEach(m => {
+    const c = m.combos[pick[m.key]];
+    if(c) c.items.forEach(it => rows.push({ n:it[0], g:String(it[1]) }));
+  });
   dietExtras().forEach(e => rows.push({ n:e.n, g:String(e.g) }));
   state.calc = rows.length ? rows : [{ n:"", g:"" }];
   state.calcDay = dayKey();
