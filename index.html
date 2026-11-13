@@ -551,6 +551,7 @@ article.ex .body h3{font-size:var(--fs-small);margin:18px 0 8px}
 .calcrow .del:hover{color:var(--red)}
 .calcacts{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
 .calchint{margin:10px 0 0;font-size:var(--fs-small);color:var(--text-muted)}
+.calchint b{color:var(--text-strong);font-weight:500}
 .calcrow.draft .grwrap,.calcrow.draft .del,.calcrow.draft .val,.calcrow.draft .eq{display:none}
 .calcrow.draft{row-gap:0}
 @media (max-width:599px){
@@ -1935,6 +1936,7 @@ const DATA = {
     ["Fegato di pollo", 20, 120, "1 porzione ≈ 150 g", "Carne"],
     ["Agnello", 20, 250, "2 costolette ≈ 150 g", "Carne"],
     ["Vitello", 21, 110, "1 fetta ≈ 150 g", "Carne"],
+    ["Bocconcini di manzo", 21, 140, "una manciata ≈ 150 g", "Carne"],
 
     ["Salmone", 20, 200, "1 trancio ≈ 150 g", "Pesce"],
     ["Merluzzo / platessa", 17, 80, "1 filetto ≈ 100 g", "Pesce"],
@@ -1952,6 +1954,7 @@ const DATA = {
     ["Cozze", 12, 70, "1 porzione ≈ 200 g", "Pesce"],
     ["Vongole", 12, 70, "1 porzione sgusciata ≈ 150 g", "Pesce"],
     ["Alici fresche", 18, 130, "6 alici ≈ 100 g", "Pesce"],
+    ["Salmone affumicato", 18, 145, "3 fette ≈ 50 g", "Pesce"],
 
     ["Uova (1 ≈ 55 g)", 12.5, 143, "1 uovo ≈ 55 g", "Uova e latticini"],
     ["Frittata (da mensa)", 12, 190, "un cubo da mensa ≈ 120 g", "Uova e latticini"],
@@ -2002,12 +2005,18 @@ const DATA = {
     ["Pasta sfoglia", 6, 400, "mezzo rotolo ≈ 125 g", "Carboidrati"],
     ["Gnocchi di zucca", 2, 130, "una porzione ≈ 200 g", "Carboidrati"],
     ["Gnocchi di ceci", 6, 160, "una porzione ≈ 200 g", "Carboidrati"],
+    ["Cereali (frumento e cioccolato)", 8, 385, "una scodella ≈ 40 g", "Carboidrati"],
+    ["Corn flakes", 7, 360, "una scodella ≈ 40 g", "Carboidrati"],
+    ["Pancarré", 9, 265, "2 fette ≈ 50 g", "Carboidrati"],
+    ["Grissini", 11, 400, "4 grissini ≈ 20 g", "Carboidrati"],
+    ["Gallette di riso", 8, 350, "2 gallette ≈ 16 g", "Carboidrati"],
 
     ["Mandorle", 21, 600, "1 pugno ≈ 15 g", "Frutta secca e grassi"],
     ["Noci", 15, 650, "1 pugno ≈ 20 g", "Frutta secca e grassi"],
     ["Pistacchi", 20, 560, "1 pugno ≈ 20 g", "Frutta secca e grassi"],
     ["Burro d'arachidi", 25, 590, "1 cucchiaio ≈ 15 g", "Frutta secca e grassi"],
     ["Olio d'oliva", 0, 900, "1 cucchiaio ≈ 10 g", "Frutta secca e grassi"],
+    ["Burro", 0.7, 745, "una noce ≈ 10 g", "Frutta secca e grassi"],
     ["Banana", 1, 90, "1 media ≈ 120 g", "Verdura e frutta"],
     ["Mela", 0, 52, "1 media ≈ 180 g", "Verdura e frutta"],
     ["Arancia", 1, 47, "1 media ≈ 200 g", "Verdura e frutta"],
@@ -2025,10 +2034,24 @@ const DATA = {
     ["Cavolo nero", 2, 35, "un piatto ≈ 200 g", "Verdura e frutta"],
     ["Insalata", 1, 15, "1 ciotola ≈ 100 g", "Verdura e frutta"],
     ["Carote", 1, 40, "1 carota ≈ 80 g", "Verdura e frutta"],
+    ["Pera", 0.4, 40, "1 media ≈ 170 g", "Verdura e frutta"],
+    ["Pesca", 0.9, 40, "1 media ≈ 150 g", "Verdura e frutta"],
+    ["Fragole", 0.7, 32, "una coppetta ≈ 150 g", "Verdura e frutta"],
+    ["Melone", 0.8, 33, "una fetta ≈ 200 g", "Verdura e frutta"],
+    ["Ananas", 0.5, 50, "2 fette ≈ 150 g", "Verdura e frutta"],
+    ["Mandarini", 0.8, 45, "2 mandarini ≈ 150 g", "Verdura e frutta"],
+    ["Peperoni", 1, 31, "1 peperone ≈ 200 g", "Verdura e frutta"],
+    ["Melanzane", 1, 25, "una porzione ≈ 200 g", "Verdura e frutta"],
+    ["Finocchi", 1.2, 16, "mezzo finocchio ≈ 150 g", "Verdura e frutta"],
+    ["Cetrioli", 0.7, 15, "mezzo cetriolo ≈ 150 g", "Verdura e frutta"],
+    ["Zucca", 1, 26, "una porzione ≈ 200 g", "Verdura e frutta"],
+    ["Funghi", 3, 22, "una porzione ≈ 200 g", "Verdura e frutta"],
+    ["Radicchio", 1.4, 23, "un piatto ≈ 150 g", "Verdura e frutta"],
     ["Birra", 0.5, 43, "1 birra ≈ 330 ml", "Bevande"],
     ["Vino rosso", 0, 85, "1 calice ≈ 125 ml", "Bevande"],
     ["Succo d'arancia", 0.7, 45, "1 bicchiere ≈ 200 ml", "Bevande"],
     ["Latte di soia", 3, 40, "1 bicchiere ≈ 250 ml", "Bevande"],
+    ["Latte di mandorla (bevanda)", 0.5, 24, "1 bicchiere ≈ 250 ml", "Bevande"],
     ["Coca-Cola", 0, 42, "1 lattina ≈ 330 ml", "Bevande"],
     ["Grappa", 0, 231, "1 bicchierino ≈ 40 ml", "Bevande"],
     ["Amaro", 0, 220, "1 bicchierino ≈ 40 ml", "Bevande"],
@@ -2759,16 +2782,91 @@ function dietAdvice(d){
   if(!d.k && !d.p)
     return `Giornata vuota: scegli solo i pasti che ti servono, oppure portala così com'è in <b>Oggi</b> e completala lì con gli alimenti.`;
   const T = dietTarget();
-  const gp = T.p - d.p, gk = T.k - d.k;
-  if(gk > 300 && gp > 10)
-    return `Mancano <b>${fmtK(gk)} kcal</b> e <b>${gp} g</b> di proteine: uno yogurt greco e una fetta di pane coprono quasi tutto.`;
-  if(gp > 10)
-    return `Le calorie ci sono, le proteine no: <b>${gp} g</b> in più, un vasetto di yogurt o 30 g di grana.`;
-  if(gk > 250)
-    return `Proteine a posto, restano <b>${fmtK(gk)} kcal</b>: un dolce, un pugno di mandorle o un frutto.`;
-  if(gk < -250)
-    return `Sei <b>${fmtK(-gk)} kcal</b> sopra il bersaglio: salta lo spuntino o dimezza il primo a cena.`;
-  return `Giornata chiusa: <b>${fmtK(d.k)} kcal</b> e <b>${d.p} g</b> di proteine. Così va bene.`;
+  const gp = Math.round(T.p - d.p), gk = Math.round(T.k - d.k);
+  if(gk < -200)
+    return `Sei <b>${fmtK(-gk)} kcal</b> sopra il bersaglio${gp < -10 ? ' e anche le proteine sono sopra' : ''}: salta lo spuntino, e se non basta metà del primo.`;
+  if(gk <= 150 && Math.abs(gp) <= 12)
+    return `Giornata chiusa: <b>${fmtK(d.k)} kcal</b> e <b>${d.p} g</b> di proteine. Così va bene.`;
+  return fillLead(gk, gp) + fillSentence(gk, gp, d.k, d.p, T);
+}
+
+/* ---------- come completare la giornata ---------- */
+const FILL_MEALS = [
+  { t:"pasta col tonno", items:[["Pasta cruda",150],["Tonno sgocciolato",120],["Olio d'oliva",10]] },
+  { t:"pasta al ragù", items:[["Pasta cruda",150],["Macinato magro",150],["Olio d'oliva",10]] },
+  { t:"riso col pollo", items:[["Riso crudo",170],["Petto di pollo",200],["Olio d'oliva",10]] },
+  { t:"uova e patate", items:[["Patate",300],["Uova (1 ≈ 55 g)",165],["Olio d'oliva",10]] },
+  { t:"pizza al trancio", items:[["Pizza margherita",300],["Mandorle",20]] },
+  { t:"piadina col tonno", items:[["Piadina",100],["Tonno sgocciolato",120],["Mandorle",15]] },
+  { t:"lenticchie e pane", items:[["Lenticchie cotte",300],["Pane",100],["Olio d'oliva",10]] },
+  { t:"merluzzo e patate", items:[["Merluzzo / platessa",200],["Patate",350],["Pane",80]] }
+];
+const FILL_SNACKS = [
+  { t:"pane e burro d'arachidi", items:[["Pane",100],["Burro d'arachidi",15]] },
+  { t:"latte e mandorle", items:[["Latte",300],["Mandorle",30]] },
+  { t:"banana e pane", items:[["Banana",120],["Pane",80]] },
+  { t:"due uova sode", items:[["Uova (1 ≈ 55 g)",110],["Pane",60]] },
+  { t:"piadina e bresaola", items:[["Piadina",100],["Bresaola",80]] },
+  { t:"tonno e pane", items:[["Tonno sgocciolato",80],["Pane",80]] }
+];
+const FILL_PROT = [
+  { t:"una scatoletta di tonno", items:[["Tonno sgocciolato",80]] },
+  { t:"due uova", items:[["Uova (1 ≈ 55 g)",110]] },
+  { t:"la bresaola", items:[["Bresaola",100]] },
+  { t:"il pollo", items:[["Petto di pollo",150]] }
+];
+const FILL_NAME = {
+  "Pasta cruda":"pasta", "Riso crudo":"riso", "Tonno sgocciolato":"tonno", "Olio d'oliva":"olio",
+  "Petto di pollo":"pollo", "Uova (1 ≈ 55 g)":"uova", "Pizza margherita":"pizza", "Macinato magro":"ragù",
+  "Lenticchie cotte":"lenticchie", "Merluzzo / platessa":"merluzzo", "Burro d'arachidi":"burro d'arachidi"
+};
+const fillShort = n => FILL_NAME[n] || n.split('(')[0].split('/')[0].trim().toLowerCase();
+const fillSum = items => items.reduce((o, it) => {
+  const v = foodVal(it[0], it[1]); o.k += v.k; o.p += v.p; return o;
+}, { k:0, p:0 });
+const fillList = items => items.map(it => `${fillShort(it[0])} ${it[1]} g`).join(' + ');
+
+function fillSuggest(gk, gp){
+  const score = (k, p) => Math.abs(k - gk) + 7 * Math.max(0, gp * 0.8 - p) + 0.5 * Math.max(0, p - gp - 45);
+  let best = null;
+  const tryCombo = blocks => {
+    const v = blocks.reduce((o, b) => { const s = fillSum(b.items); o.k += s.k; o.p += s.p; return o; }, { k:0, p:0 });
+    const sc = score(v.k, v.p);
+    if(!best || sc < best.sc) best = { blocks, v, sc };
+  };
+  [...FILL_MEALS, ...FILL_SNACKS, ...FILL_PROT].forEach(b => tryCombo([b]));
+  if(gk >= 550) FILL_MEALS.forEach(m => FILL_SNACKS.forEach(s => tryCombo([m, s])));
+  if(gk >= 1200) FILL_MEALS.forEach(m => FILL_MEALS.forEach(n => { if(m !== n) tryCombo([m, n]); }));
+  return best;
+}
+
+/* frase unica usata sia dal contatore sia dalla scheda Diet */
+function fillSentence(gk, gp, curK, curP, T){
+  const b = fillSuggest(gk, gp);
+  if(!b) return '';
+  const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+  const parts = b.blocks.map(x => {
+    const v = fillSum(x.items);
+    return `${fillList(x.items)} = <b>${fmtK(v.k)} kcal</b>`;
+  });
+  parts[0] = cap(parts[0]);
+  const endK = curK + b.v.k;
+  const endP = curP + b.v.p;
+  const over = endP > T.p + 25;
+  const left = T.k - endK;
+  return `${parts.join(', più ')}: in tutto <b>${fmtK(b.v.k)} kcal</b>, così arrivi a <b>${fmtK(endK)} kcal</b>.` +
+    (over
+      ? ` Le proteine salgono a <b>${Math.round(endP)} g</b>: meglio sopra che sotto.`
+      : (left > 250 ? ` Restano <b>${fmtK(left)} kcal</b>: chiudile con uno spuntino più tardi.` : ''));
+}
+
+/* cosa manca, detto una volta sola */
+function fillLead(gk, gp){
+  const parts = [];
+  if(gk > 60) parts.push(`<b>${fmtK(gk)} kcal</b>`);
+  if(gp > 12) parts.push(`<b>${gp} g</b> di proteine`);
+  if(!parts.length) return '';
+  return `Mancano ${parts.join(' e ')}. `;
 }
 
 function paintDiet(){
@@ -3078,15 +3176,15 @@ function updateCalcTotal(){
   laser.classList.toggle('over', total > T.p + 10);
 
   const kTot = Math.round(kcal);
-  const gap = kTot - T.k;
+  const gk = T.k - kTot, gp = Math.round(T.p - t);
   let hint;
   if(t === 0 && kTot === 0) hint = 'La lista è la giornata: parte vuota ogni mattina e si riempie mentre mangi.';
-  else if(gap > 150) hint = `Sei ${fmtK(gap)} kcal sopra il bersaglio: salta lo spuntino e, se non basta, metà del primo.`;
-  else if(t < T.p * 0.9) hint = `Proteine a ${t} g: aggiungi una fetta di grana o un vasetto di yogurt proteico.`;
-  else if(gap < -300) hint = `Restano ${fmtK(-gap)} kcal: aggiungi una fetta di pane e un frutto, non serve andare in deficit.`;
-  else if(gap < -60) hint = `Quasi: mancano ${fmtK(-gap)} kcal, un frutto e sei a posto.`;
-  else hint = `I conti tornano: ${fmtK(kTot)} kcal e ${t} g di proteine. Non aggiungere altro.`;
-  document.getElementById('calcHint').textContent = hint;
+  else if(gk < -200)
+    hint = `Sei <b>${fmtK(-gk)} kcal</b> sopra il bersaglio${gp < -10 ? ' e anche le proteine sono sopra' : ''}: salta lo spuntino, e se non basta metà del primo.`;
+  else if(gk <= 150 && Math.abs(gp) <= 12)
+    hint = `I conti tornano: <b>${fmtK(kTot)} kcal</b> e <b>${t} g</b> di proteine. Non aggiungere altro.`;
+  else hint = fillLead(gk, gp) + fillSentence(gk, gp, kTot, t, T);
+  document.getElementById('calcHint').innerHTML = hint;
 }
 
 document.getElementById('calcAdd').addEventListener('click', () => {
