@@ -391,16 +391,109 @@ article.ex .body h3{font-size:var(--fs-small);margin:18px 0 8px}
 /* ============ cibo ============ */
 .fview{padding-top:2px}
 .fview>h3:first-child{margin-top:6px}
-.meals{border-top:var(--hair)}
-.meal{padding:16px 0;border-bottom:var(--hair)}
-.meal .top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
-.meal .clock{font-size:var(--fs-micro);letter-spacing:.06em;color:var(--cyan)}
-.meal .title{font-size:var(--fs-ui);font-weight:500;color:var(--text-strong)}
-.meal .grams{margin-left:auto;font-size:var(--fs-meta);color:var(--orange)}
-.meal ul{list-style:none;margin:10px 0 0;padding:0}
-.meal li{display:flex;align-items:baseline;gap:10px;padding:5px 0;font-size:var(--fs-small)}
-.meal li .p{margin-left:auto;flex:none;white-space:nowrap;font-size:var(--fs-meta);color:var(--green)}
-.meal li .t{color:var(--text);flex:1;min-width:0}
+/* ---------- dieta: la giornata che scegli ---------- */
+.tgt{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:18px 0 0}
+.tgt .tgtlab{font:400 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}
+.tgt button{
+  appearance:none;background:transparent;border:1px solid var(--border);color:var(--text-muted);
+  font:400 var(--fs-meta)/1 var(--mono);padding:8px 11px;cursor:pointer;
+  transition:background .15s,color .15s,border-color .15s;
+}
+.tgt button:hover{color:var(--text-strong);border-color:var(--border-strong)}
+.tgt button[aria-pressed="true"]{background:var(--cyan);border-color:var(--cyan);color:var(--bg-deep)}
+.tgtnote{margin:10px 0 0;font-size:var(--fs-meta);line-height:1.6;color:var(--text-faint);max-width:var(--measure)}
+.diet{margin-top:4px}
+.dmeal{margin-top:26px}
+.dmeal[data-meal="colazione"]{--accent:var(--cyan)}
+.dmeal[data-meal="pranzo"]{--accent:var(--blue)}
+.dmeal[data-meal="spuntino"]{--accent:var(--green)}
+.dmeal[data-meal="cena"]{--accent:var(--magenta)}
+.dmhead{position:relative;display:flex;align-items:center;gap:9px;padding-bottom:10px}
+.dmhead::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
+  background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 30%,var(--border)) 40%,var(--border))}
+.dmhead .ddot{width:8px;height:8px;flex:none;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 16%,transparent)}
+.dmhead .mtime{font:400 11px/1 var(--mono);color:var(--text-faint);letter-spacing:.08em}
+.dmhead .mname{font-size:var(--fs-ui);font-weight:500;color:var(--text-strong);letter-spacing:-.01em}
+.dmhead .msum{margin-left:auto;font:400 var(--fs-meta)/1 var(--mono);color:var(--text-muted);white-space:nowrap}
+.dmhead .msum b{color:var(--accent);font-weight:400}
+.dleft{margin:9px 0 0;font:400 11px/1.4 var(--mono);letter-spacing:.04em;color:var(--text-faint)}
+.dleft b{font-weight:400}
+.dleft .ko{color:var(--orange)}
+.dleft .kc{color:var(--yellow)}
+.dleft .kp{color:var(--green)}
+.dleft .kq{color:var(--yellow)}
+.dleft .kok{color:var(--green)}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:11px}
+.card{
+  appearance:none;display:flex;flex-direction:column;gap:9px;text-align:left;cursor:pointer;
+  padding:12px 13px 13px;color:var(--text);font:inherit;
+  background-color:var(--bg-weak);
+  border:1px solid var(--border);border-top:2px solid color-mix(in srgb,var(--accent) 45%,var(--border));
+  background-image:linear-gradient(180deg,color-mix(in srgb,var(--accent) 10%,transparent),transparent 85%);
+  transition:background-image .15s,border-color .15s,box-shadow .15s;
+}
+.card:hover{border-color:var(--border-strong);border-top-color:color-mix(in srgb,var(--accent) 70%,var(--border))}
+.card[aria-pressed="true"]{
+  border-color:color-mix(in srgb,var(--accent) 55%,var(--border));
+  border-top-color:var(--accent);
+  background-image:linear-gradient(180deg,color-mix(in srgb,var(--accent) 22%,transparent),color-mix(in srgb,var(--accent) 7%,transparent));
+  box-shadow:0 14px 26px -22px rgba(0,0,0,.65);
+}
+.card .ctop{display:flex;align-items:center;gap:9px}
+.card .clett{
+  font:500 11px/1 var(--mono);padding:3px 6px;flex:none;
+  color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 60%,transparent);
+  background:color-mix(in srgb,var(--accent) 14%,transparent);
+  transition:background .15s,color .15s;
+}
+.card[aria-pressed="true"] .clett{color:var(--bg-deep);background:var(--accent);border-color:var(--accent)}
+.card .cname{font-size:var(--fs-small);color:var(--text-strong);line-height:1.25}
+.card .cnum{display:flex;align-items:baseline;gap:12px;font:400 14px/1 var(--mono)}
+.card .cnum b{color:var(--green);font-weight:400}
+.card .cnum i{color:var(--orange);font-style:normal;font-size:13px}
+.card .citems{font:400 12px/1.55 var(--mono);color:var(--text-muted)}
+.card[aria-pressed="true"] .citems{color:var(--text)}
+
+.spunti{
+  margin-top:32px;padding:16px 16px 14px;border:1px solid var(--border);background-color:var(--bg-deep);
+  background-image:linear-gradient(180deg,color-mix(in srgb,var(--yellow) 7%,transparent),transparent 70%);
+}
+.spunti .slabel{display:block;font:400 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--yellow)}
+.spunti p{margin:10px 0 0;font-size:var(--fs-small);color:var(--text);max-width:var(--measure)}
+.spunti p b{color:var(--text-strong);font-weight:500}
+.exgrp{margin-top:14px}
+.exgrp+.exgrp{margin-top:15px;padding-top:13px;border-top:1px solid var(--border)}
+.exgrp[data-g="poco"]{--ex:var(--green)}
+.exgrp[data-g="eccezioni"]{--ex:var(--yellow)}
+.exlab{display:block;font:400 11px/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--ex)}
+.exchips{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}
+.extra{
+  appearance:none;display:inline-flex;align-items:baseline;gap:8px;cursor:pointer;
+  background:var(--bg-weak);border:1px solid var(--border);color:var(--text);
+  font:400 var(--fs-meta)/1 var(--mono);padding:8px 10px;
+  transition:background .15s,border-color .15s,color .15s;
+}
+.extra span{color:var(--green)}
+.extra:hover{border-color:var(--border-strong);color:var(--text-strong)}
+.extra[aria-pressed="true"]{border-color:var(--ex);color:var(--text-strong);
+  background:color-mix(in srgb,var(--ex) 13%,var(--bg-weak))}
+.dietacts{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:18px}
+.dietacts .ghost{border-color:var(--border-strong);color:var(--text-strong)}
+.dietacts .ghost:hover{border-color:var(--green);color:var(--green)}
+.dnote{margin:0;font-size:11px;line-height:1.5;color:var(--text-faint);flex:1;min-width:180px}
+@media (max-width:599px){
+  .cards{grid-template-columns:1fr;gap:8px}
+  .card{padding:12px 13px 13px}
+}
+@media (max-width:479px){
+  .exchips{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .extra{flex-direction:column;align-items:flex-start;gap:4px;font-size:12px;line-height:1.3;padding:9px 10px}
+  .tgt{gap:8px}
+  .tgt .tgtlab{flex-basis:100%}
+  .tgt button{flex:1 1 0;padding:9px 0;text-align:center}
+  .tgt button+button{border-left:0}
+}
 
 /* contatore della giornata: una linea, non una barra */
 .dcount{
@@ -431,28 +524,6 @@ article.ex .body h3{font-size:var(--fs-small);margin:18px 0 8px}
   box-shadow:0 0 10px rgba(229,192,123,.55),0 0 2px rgba(229,192,123,.9);
 }
 .dmgoal{position:absolute;right:0;top:-4px;bottom:-4px;width:1px;background:var(--yellow);opacity:.75}
-
-/* planner */
-.planner{margin-top:34px;padding-top:20px;border-top:var(--hair)}
-.pgroup{margin-bottom:18px}
-.pgroup>.plabel{display:block;font-size:var(--fs-micro);letter-spacing:.08em;text-transform:uppercase;
-  color:var(--text-faint);margin-bottom:8px}
-.pgroup .filters{margin-bottom:0}
-.pgroup .filters button{text-transform:none;letter-spacing:0;font-size:var(--fs-meta)}
-.pbudget{font-size:var(--fs-meta);color:var(--text-muted);margin:16px 0 6px}
-.pbudget b{color:var(--orange);font-weight:500}
-.pout{border-top:var(--hair);margin-bottom:6px}
-.prow{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:baseline;
-  padding:8px 0;border-bottom:var(--hair);font-size:var(--fs-small)}
-.prow .pn{color:var(--text)}
-.prow .pt{color:var(--orange);font-size:var(--fs-meta);text-align:right;min-width:64px}
-.prow .pf{color:var(--green);font-size:var(--fs-meta);text-align:right;min-width:52px}
-.prow .pt em{color:var(--text-faint)}
-.prow.tot{border-bottom:0;border-top:1px solid var(--border-strong);margin-top:4px}
-.prow.tot .pn{color:var(--text-strong)}
-.prow.tot .pt,.prow.tot .pf{color:var(--text-strong)}
-.pverdict{margin:14px 0 0;font-size:var(--fs-small);line-height:1.6;color:var(--text);max-width:var(--measure)}
-.pverdict b{color:var(--yellow);font-weight:500}
 
 /* righe del piatto */
 .calc{border-top:var(--hair);margin:22px 0 16px}
@@ -706,28 +777,59 @@ tr:last-child td{border-bottom:0}
 
   <section id="p-food" role="tabpanel" aria-labelledby="tab-food" hidden>
     <h2>Quattro porzioni di proteine al giorno</h2>
-    <p class="sub">Obiettivo <strong>120-140 g</strong> di proteine e <strong>~2.500 kcal</strong> al giorno, surplus incluso.
+    <p class="sub">Obiettivo <strong>140 g</strong> di proteine al giorno e un surplus piccolo, non una scorpacciata.
     Una porzione è grande come il palmo aperto, dita escluse, spessa due dita: <strong>150 g di carne o pesce</strong>,
-    cioè 30-35 g di proteine. Uova, yogurt e legumi contano meno di una porzione intera: la scheda <strong>Oggi</strong> dice quanto, alimento per alimento.</p>
+    cioè 30-35 g di proteine. Il bersaglio calorico lo scegli nella scheda <strong>Diet</strong>; la scheda
+    <strong>Oggi</strong> dice quanto, alimento per alimento.</p>
 
     <div class="seg" id="segFood" role="group" aria-label="Cosa vuoi fare">
-      <button type="button" data-fv="traccia" aria-current="true">Traccia</button>
+      <button type="button" data-fv="traccia" aria-current="true">Diet</button>
       <button type="button" data-fv="oggi" aria-current="false">Oggi</button>
       <button type="button" data-fv="regole" aria-current="false">Regole</button>
     </div>
 
     <div class="fview" id="f-oggi">
 
-    <p class="sub">Un giorno tipo, non una lista da spuntare: quattro pasti che insieme fanno
-    <strong>~130 g</strong> di proteine e <strong>~2.500 kcal</strong>. Quello che mangi davvero lo conti
-    nella scheda <strong>Oggi</strong>.</p>
+    <p class="sub">Bersaglio <strong id="tgtShow">2.600</strong> kcal e <strong>140 g</strong> di proteine.
+    Scegli una combinazione per pasto: i conti si muovono qui sopra, gli spunti in fondo dicono cosa manca,
+    e con un tocco porti la giornata nella scheda <strong>Oggi</strong>.</p>
 
-    <div class="meals" id="meals"></div>
+    <div class="tgt" id="tgt" role="group" aria-label="Bersaglio calorie">
+      <span class="tgtlab">bersaglio</span>
+      <button type="button" data-k="2400" aria-pressed="false">2.400</button>
+      <button type="button" data-k="2600" aria-pressed="true">2.600</button>
+      <button type="button" data-k="2800" aria-pressed="false">2.800</button>
+      <button type="button" data-k="3000" aria-pressed="false">3.000</button>
+    </div>
+    <p class="tgtnote">Fuori dalla palestra la giornata è quasi ferma: il mantenimento sta intorno alle 2.200-2.400 kcal.
+    2.600 è già un surplus, 2.800-3.000 lo sono se corri o fai un lavoro pesante. Poi decide la bilancia:
+    +200-300 g a settimana va bene, +500 è troppo.</p>
 
-    <h3 style="margin-top:44px">Se la giornata è diversa</h3>
-    <p class="sub">Mensa a pranzo, pizza stasera, due bicchieri di vino: dimmi com'è la giornata e ti dico
-    quanti grammi restano da mettere nel piatto. Il conto parte da 2.500 kcal e 130 g di proteine.</p>
-    <div class="planner" id="planner"></div>
+    <div class="dcount dietbar" id="dietBar">
+      <div class="dmnums">
+        <span class="dmval"><b id="dP">0</b><i>/ 140 g</i></span>
+        <span class="dmval k"><b id="dK">0</b><i>/ <span id="dKGoal">2.600</span> kcal</i></span>
+      </div>
+      <div class="dmline" aria-hidden="true">
+        <i class="dmlaser" id="dLaser"></i>
+        <i class="dmgoal"></i>
+      </div>
+      <p class="dleft" id="dLeft"></p>
+    </div>
+
+    <div class="diet" id="diet"></div>
+
+    <div class="spunti">
+      <span class="slabel">Per arrivare in fondo</span>
+      <p id="dietHint"></p>
+      <div class="extras" id="extras"></div>
+      <p class="dnote">Tocca uno spunto per aggiungerlo alla giornata, tocca di nuovo per toglierlo.</p>
+    </div>
+
+    <div class="dietacts">
+      <button class="ghost" id="dietToOggi" type="button">porta in Oggi</button>
+      <span class="dnote">sostituisce l'elenco della giornata: i grammi restano lì, li correggi come vuoi.</span>
+    </div>
 
     </div>
 
@@ -737,8 +839,8 @@ tr:last-child td{border-bottom:0}
     Valori per 100 g <strong>crudo</strong>: se pesi già cotto, aggiungi un 20-25% al risultato.</p>
     <div class="dcount" id="calcBar">
       <div class="dmnums">
-        <span class="dmval"><b id="pTotal">0</b><i>/ 130 g</i></span>
-        <span class="dmval k"><b id="kTotal">0</b><i>/ 2.500 kcal</i></span>
+        <span class="dmval"><b id="pTotal">0</b><i>/ 140 g</i></span>
+        <span class="dmval k"><b id="kTotal">0</b><i>/ <span id="kTotalGoal">2.600</span> kcal</i></span>
       </div>
       <div class="dmline" aria-hidden="true">
         <i class="dmlaser" id="pLaser"></i>
@@ -1604,37 +1706,6 @@ const DATA = {
       ]}
   ],
 
-  meals: [
-    { time:"7:30", title:"Colazione",
-      items:[
-        { t:"Yogurt greco 0% — metà barattolo da 500 g", p:25, k:143, id:"b1" },
-        { t:"Avena — 3 cucchiai colmi", p:7, k:190, id:"b2" },
-        { t:"Mandorle — un pugno", p:3, k:90, id:"b3" },
-        { t:"Caffè (zucchero facoltativo)", p:0, k:5, id:"b4" }
-      ] },
-    { time:"12:30", title:"Mensa",
-      items:[
-        { t:"Primo — un piatto fondo colmo", p:11, k:350, id:"l1" },
-        { t:"Secondo — un trancio grande come il palmo", p:33, k:165, id:"l2" },
-        { t:"Contorno — 2 mestoli di legumi", p:12, k:172, id:"l3" },
-        { t:"Pane — 2 fette", p:4, k:135, id:"l4" }
-      ] },
-    { time:"16:30", title:"Spuntino",
-      items:[
-        { t:"Yogurt proteico — 1 vasetto", p:18, k:105, id:"s1" }
-      ] },
-    { time:"20:00", title:"Cena",
-      items:[
-        { t:"Uova — 3 intere (o 200 g di pesce)", p:21, k:236, id:"d1" },
-        { t:"Pasta o riso — un piatto fondo colmo", p:11, k:350, id:"d2" }
-      ] }
-  ],
-
-  swaps: {    b: "In alternativa: 1 bicchiere di latte + 2 fette di pane con marmellata + una fetta di grana (≈ 28 g).",
-    l: "Secondo vegetariano? 2 mestoli di legumi come contorno e una fetta di grana (≈ +22 g).",
-    s: "In alternativa: 5 fette di bresaola (32 g), oppure 1 bicchiere di latte + una fetta di grana (18 g).",
-    d: "In alternativa: 2 filetti di merluzzo o un palmo grande di pollo al posto delle uova. Una fetta di grana in più sono +10 g."
-  },
 
   /* proteine, kcal e misura casalinga per 100 g di alimento crudo */
   foods: [
@@ -1751,6 +1822,9 @@ const DATA = {
     ["Succo d'arancia", 0.7, 45, "1 bicchiere ≈ 200 ml", "Bevande"],
     ["Latte di soia", 3, 40, "1 bicchiere ≈ 250 ml", "Bevande"],
     ["Coca-Cola", 0, 42, "1 lattina ≈ 330 ml", "Bevande"],
+    ["Grappa", 0, 231, "1 bicchierino ≈ 40 ml", "Bevande"],
+    ["Amaro", 0, 220, "1 bicchierino ≈ 40 ml", "Bevande"],
+    ["Spritz / cocktail", 0, 110, "1 calice ≈ 200 ml", "Bevande"],
 
     ["Strudel di mele", 3, 250, "una fetta ≈ 120 g", "Dolci"],
     ["Cannolo siciliano", 6, 340, "uno ≈ 100 g", "Dolci"],
@@ -1765,6 +1839,7 @@ const DATA = {
     ["Torta salata (ricotta e spinaci)", 8, 230, "una fetta ≈ 150 g", "Piatti pronti"],
     ["Polpette di carne", 18, 230, "3 polpette ≈ 150 g", "Piatti pronti"],
     ["Polpette di patate e sgombro", 9, 170, "3 polpette ≈ 150 g", "Piatti pronti"],
+    ["Polpette di legumi", 8, 180, "3 polpette ≈ 150 g", "Piatti pronti"],
 
     ["Proteine in polvere", 80, 380, "1 misurino ≈ 30 g", "Altro"]
   ]
@@ -1772,7 +1847,8 @@ const DATA = {
 
 /* ---------- state ---------- */
 const KEY = "piano.v1";
-let state = { day:"A", checks:{}, log:[], short:false, diary:{}, diaryDay:"A", fview:"traccia" };
+let state = { day:"A", checks:{}, log:[], short:false, diary:{}, diaryDay:"A", fview:"traccia",
+              diet:{ pick:{}, extras:[], target:2600 } };
 try { state = Object.assign(state, JSON.parse(localStorage.getItem(KEY) || "{}")); } catch(e){}
 if(!state.diary || typeof state.diary !== "object" || Array.isArray(state.diary)) state.diary = {};
 if(!state.diaryDay) state.diaryDay = "A";
@@ -1782,6 +1858,9 @@ if(state.fvmap !== 2){
   state.fvmap = 2;
 }
 if(["traccia","oggi","regole"].indexOf(state.fview) < 0) state.fview = "traccia";
+if(!state.diet || typeof state.diet !== "object") state.diet = { pick:{}, extras:[] };
+if(!state.diet.pick || typeof state.diet.pick !== "object") state.diet.pick = {};
+if(!Array.isArray(state.diet.extras)) state.diet.extras = [];
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} };
 const dayKey = () => { const d = new Date();
   return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0"); };
@@ -2185,133 +2264,393 @@ function speak(id){
   if(wasSpeaking) setTimeout(next, 90); else next();
 }
 
-/* ---------- food ---------- */
-const mealsEl = document.getElementById('meals');
-const swapKey = { "7:30":"b", "12:30":"l", "16:30":"s", "20:00":"d" };
-function renderMeals(){
-  mealsEl.innerHTML = DATA.meals.map(m => {
-    const p = m.items.reduce((a,b)=>a+b.p,0);
-    const k = m.items.reduce((a,b)=>a+b.k,0);
-    return `
-    <div class="meal">
-      <div class="top">
-        <span class="clock">${m.time}</span>
-        <span class="title">${m.title}</span>
-        <span class="grams">${p} g · ${k} kcal</span>
-      </div>
-      <ul>
-        ${m.items.map(it => `
-          <li><span class="t">${it.t}</span>
-            <span class="p">${it.p} g</span></li>`).join('')}
-      </ul>
-      <p class="sub" style="font-size:.88rem;margin:.5em 0 0;color:var(--muted)">${DATA.swaps[swapKey[m.time]] || ''}</p>
-    </div>`;
-  }).join('');
-}
-
-/* ---------- planner ---------- */
-const PLAN = {
-  target:{ kcal:2500, p:130 },
-  breakfast:{
-    full:{ kcal:508, p:36, items:"Yogurt greco 0% — mezzo barattolo da 500 g · avena 3 cucchiai colmi · mandorle un pugno · caffè · 1 frutto" },
-    light:{ kcal:275, p:30, items:"Yogurt greco 0% — mezzo barattolo da 500 g · avena 2 cucchiai · caffè. Il grasso oggi lo porta la cena" }
-  },
-  lunches:{
-    casa:{ label:"A casa", kcal:606, p:43,
-      items:"Pollo 150 g (un palmo spesso 2 dita) alla piastra · 2 patate medie · verdura · 1 cucchiaio d'olio · 1 frutto" },
-    mensa:{ label:"In mensa", kcal:822, p:60,
-      items:"Primo (piatto fondo colmo) · secondo (un trancio grande come il palmo) · 2 mestoli di legumi · 2 fette di pane" }
-  },
-  dinners:{
-    pizza:{ label:"Pizza", kcal:1000, p:40,
-      items:"Una margherita. Con quattro formaggi sono +350 kcal, e stasera il grasso non ti serve." },
-    risto:{ label:"Ristorante", kcal:850, p:42,
-      items:"Carne o pesce alla griglia + contorno. Un primo solo, niente fritti, niente cestino del pane." },
-    casa:{ label:"A casa", kcal:700, p:35,
-      items:"3 uova o 150 g di pesce · un piatto di pasta o 2 patate · verdura · 1 frutto" }
-  },
-  drinks:{
-    no:{ label:"Niente", kcal:0, p:0, items:"" },
-    two:{ label:"2 bicchieri", kcal:250, p:0, items:"Vino secco, 150 ml a bicchiere. Un amaro sono ~100 kcal in più." },
-    more:{ label:"3 o più", kcal:430, p:0, items:"Sopra i due bicchieri il conto lo paga il sonno, non la bilancia di domani." }
-  },
-  snack:{ kcal:105, p:18, items:"1 yogurt proteico. Serve ad arrivare in tavola non affamato." }
+/* ---------- dieta: costruisci la giornata ---------- */
+const fmtK = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+const DIET_P = 140;
+const DIET_KS = [2400, 2600, 2800, 3000];
+const dietTarget = () => {
+  const k = +state.diet.target;
+  return { k: DIET_KS.indexOf(k) >= 0 ? k : 2600, p: DIET_P };
 };
 
-const plannerEl = document.getElementById('planner');
-const fmtK = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+/* ogni voce: [nome nell'elenco alimenti, grammi, come si legge a occhio] */
+const DIET = [
+  { meal:"Colazione", key:"colazione", time:"7:30", combos:[
+    { letter:"A", name:"Uova e pane", items:[
+      ["Uova (1 ≈ 55 g)",165,"3 uova"],
+      ["Pane",50,"2 fette di pane"],
+      ["Grana / parmigiano",20,"una fetta di grana"],
+      ["Olio d'oliva",10,"1 cucchiaio d'olio"],
+      ["Latte",200,"un bicchiere di latte"]
+    ]},
+    { letter:"B", name:"Pane e burro d'arachidi", items:[
+      ["Pane",80,"3 fette di pane"],
+      ["Burro d'arachidi",25,"1 cucchiaio colmo"],
+      ["Banana",120,"una banana"],
+      ["Latte scremato",300,"un bicchiere abbondante"],
+      ["Grana / parmigiano",20,"una fetta di grana"]
+    ]},
+    { letter:"C", name:"Porridge e fiocchi di latte", items:[
+      ["Avena",60,"4 cucchiai colmi di avena"],
+      ["Latte",250,"un bicchiere di latte"],
+      ["Fiocchi di latte",150,"un vasetto e mezzo"],
+      ["Mandorle",15,"un pugno di mandorle"],
+      ["Banana",120,"una banana"]
+    ]},
+    { letter:"D", name:"Cornetto al bar", items:[
+      ["Cornetto (crema o nutella)",55,"un cornetto"],
+      ["Latte",250,"un bicchiere di latte"],
+      ["Arancia",200,"un'arancia"],
+      ["Grana / parmigiano",20,"una fetta di grana"],
+      ["Mandorle",20,"un pugno di mandorle"]
+    ]},
+    { letter:"E", name:"Yogurt e avena", items:[
+      ["Yogurt greco 0%",300,"un barattolo e mezzo"],
+      ["Avena",50,"3 cucchiai colmi di avena"],
+      ["Mandorle",20,"un pugno di mandorle"],
+      ["Miele",10,"mezzo cucchiaio di miele"],
+      ["Banana",120,"una banana"]
+    ]}
+  ]},
+  { meal:"Pranzo", key:"pranzo", time:"12:30", combos:[
+    { letter:"A", name:"Mensa: pasta e pollo", items:[
+      ["Pasta cruda",90,"un piatto fondo di pasta"],
+      ["Pomodorini aglio, olio e peperoncino",200,"pomodorini saltati"],
+      ["Petto di pollo",130,"un palmo di pollo alla piastra"],
+      ["Insalata",100,"una ciotola di insalata"],
+      ["Olio d'oliva",10,"1 cucchiaio d'olio"],
+      ["Grana / parmigiano",15,"una spolverata di grana"]
+    ]},
+    { letter:"B", name:"Mensa: pasta e merluzzo", items:[
+      ["Pasta cruda",90,"un piatto fondo di pasta"],
+      ["Merluzzo / platessa",200,"un filetto grande al forno"],
+      ["Patate",250,"2 patate al forno"],
+      ["Olio d'oliva",10,"1 cucchiaio d'olio"],
+      ["Grana / parmigiano",15,"una spolverata di grana"]
+    ]},
+    { letter:"C", name:"Mensa: pasta e frittata", items:[
+      ["Pasta cruda",90,"un piatto fondo di pasta"],
+      ["Frittata (da mensa)",180,"un pezzo di frittata"],
+      ["Insalata",150,"una ciotola di insalata"],
+      ["Olio d'oliva",10,"1 cucchiaio d'olio"],
+      ["Grana / parmigiano",20,"una fetta di grana"]
+    ]},
+    { letter:"D", name:"Mensa: polpette di legumi", items:[
+      ["Pasta cruda",90,"un piatto fondo di pasta"],
+      ["Polpette di legumi",200,"4 polpette di legumi"],
+      ["Pomodori",200,"2 pomodori"],
+      ["Olio d'oliva",10,"1 cucchiaio d'olio"],
+      ["Grana / parmigiano",20,"una fetta di grana"]
+    ]},
+    { letter:"E", name:"Riso e tonno", items:[
+      ["Riso crudo",100,"un piatto di riso"],
+      ["Tonno sgocciolato",80,"1 scatoletta di tonno"],
+      ["Pomodorini aglio, olio e peperoncino",200,"pomodorini saltati"],
+      ["Olio d'oliva",10,"1 cucchiaio d'olio"],
+      ["Grana / parmigiano",20,"una fetta di grana"],
+      ["Pane",30,"una fetta di pane"]
+    ]},
+    { letter:"F", name:"Pasta al ragù", items:[
+      ["Pasta cruda",100,"un piatto fondo di pasta"],
+      ["Macinato magro",120,"un mestolo di ragù"],
+      ["Pomodori",200,"2 pomodori"],
+      ["Olio d'oliva",10,"1 cucchiaio d'olio"],
+      ["Grana / parmigiano",20,"una fetta di grana"],
+      ["Pane",50,"2 fette di pane"]
+    ]},
+    { letter:"G", name:"Pizza al trancio", items:[
+      ["Pizza margherita",250,"un trancio grande"],
+      ["Prosciutto crudo",50,"2 fette di crudo"],
+      ["Insalata",100,"una ciotola di insalata"]
+    ]},
+    { letter:"H", name:"Piadina", items:[
+      ["Piadina",100,"una piadina"],
+      ["Prosciutto cotto",100,"3 fette di prosciutto cotto"],
+      ["Mozzarella",60,"mezzo panetto di mozzarella"],
+      ["Insalata",100,"una ciotola di insalata"],
+      ["Olio d'oliva",10,"1 cucchiaio d'olio"]
+    ]},
+    { letter:"I", name:"Insalata di ceci", items:[
+      ["Ceci cotti",250,"2 mestoli di ceci"],
+      ["Tonno sgocciolato",80,"1 scatoletta di tonno"],
+      ["Pomodorini aglio, olio e peperoncino",200,"pomodorini saltati"],
+      ["Olio d'oliva",15,"un cucchiaio e mezzo d'olio"],
+      ["Pane",30,"una fetta di pane"],
+      ["Grana / parmigiano",20,"una fetta di grana"]
+    ]}
+  ]},
+  { meal:"Spuntino", key:"spuntino", time:"16:30", combos:[
+    { letter:"A", name:"Pane e bresaola", items:[
+      ["Pane",50,"2 fette di pane"],
+      ["Bresaola",50,"4 fette di bresaola"],
+      ["Pomodorini aglio, olio e peperoncino",100,"una manciata di pomodorini"]
+    ]},
+    { letter:"B", name:"Panino e crudo", items:[
+      ["Pane",60,"3 fette di pane"],
+      ["Prosciutto crudo",60,"2 fette di crudo"],
+      ["Carote",100,"una carota"]
+    ]},
+    { letter:"C", name:"Fiocchi di latte e noci", items:[
+      ["Fiocchi di latte",200,"un vasetto di fiocchi di latte"],
+      ["Noci",20,"un pugno di noci"],
+      ["Miele",10,"mezzo cucchiaio di miele"]
+    ]},
+    { letter:"D", name:"Yogurt e mandorle", items:[
+      ["Yogurt proteico",150,"un vasetto di yogurt proteico"],
+      ["Mandorle",20,"un pugno di mandorle"]
+    ]},
+    { letter:"E", name:"Frutta e grana", items:[
+      ["Banana",120,"una banana"],
+      ["Grana / parmigiano",40,"una fetta spessa di grana"],
+      ["Pane",50,"2 fette di pane"]
+    ]}
+  ]},
+  { meal:"Cena", key:"cena", time:"20:00", combos:[
+    { letter:"A", name:"Salmone e patate", items:[
+      ["Salmone",150,"un trancio di salmone"],
+      ["Patate",300,"2 patate medie"],
+      ["Verza",200,"un piatto di verza"],
+      ["Olio d'oliva",20,"2 cucchiai d'olio"],
+      ["Pane",30,"una fetta di pane"]
+    ]},
+    { letter:"B", name:"Uova e pasta", items:[
+      ["Uova (1 ≈ 55 g)",165,"3 uova"],
+      ["Pasta cruda",110,"un piatto fondo di pasta"],
+      ["Grana / parmigiano",25,"una fetta di grana"],
+      ["Zucchine",200,"una porzione di zucchine"],
+      ["Olio d'oliva",15,"un cucchiaio e mezzo d'olio"]
+    ]},
+    { letter:"C", name:"Pizza e insalata", items:[
+      ["Pizza margherita",250,"un trancio grande"],
+      ["Insalata",150,"una ciotola di insalata"],
+      ["Grana / parmigiano",20,"una fetta di grana"],
+      ["Olio d'oliva",10,"1 cucchiaio d'olio"]
+    ]},
+    { letter:"D", name:"Pollo e riso", items:[
+      ["Petto di pollo",200,"un palmo abbondante di pollo"],
+      ["Riso crudo",90,"un piatto di riso"],
+      ["Broccoli",250,"un piatto di broccoli"],
+      ["Olio d'oliva",15,"un cucchiaio e mezzo d'olio"],
+      ["Pane",40,"una fetta di pane"]
+    ]},
+    { letter:"E", name:"Merluzzo e verdure", items:[
+      ["Merluzzo / platessa",250,"2 filetti di merluzzo"],
+      ["Patate",300,"2 patate medie"],
+      ["Fagiolini",200,"un piatto di fagiolini"],
+      ["Olio d'oliva",20,"2 cucchiai d'olio"],
+      ["Pane",50,"2 fette di pane"]
+    ]},
+    { letter:"F", name:"Polpette e patate", items:[
+      ["Polpette di carne",200,"3 polpette"],
+      ["Patate",250,"2 patate medie"],
+      ["Insalata",150,"una ciotola di insalata"],
+      ["Olio d'oliva",15,"un cucchiaio e mezzo d'olio"],
+      ["Pane",40,"una fetta di pane"]
+    ]},
+    { letter:"G", name:"Pasta e vongole", items:[
+      ["Pasta cruda",100,"un piatto fondo di pasta"],
+      ["Vongole",200,"una porzione di vongole"],
+      ["Pomodorini aglio, olio e peperoncino",200,"pomodorini saltati"],
+      ["Olio d'oliva",20,"2 cucchiai d'olio"],
+      ["Pane",50,"2 fette di pane"]
+    ]},
+    { letter:"H", name:"Frittata e patate", items:[
+      ["Frittata (da mensa)",150,"un pezzo di frittata"],
+      ["Patate",250,"2 patate medie"],
+      ["Pomodori",200,"2 pomodori"],
+      ["Olio d'oliva",10,"1 cucchiaio d'olio"],
+      ["Pane",50,"2 fette di pane"],
+      ["Grana / parmigiano",20,"una fetta di grana"]
+    ]},
+    { letter:"I", name:"Tagliere", items:[
+      ["Bresaola",80,"5 fette di bresaola"],
+      ["Mozzarella",80,"mezzo panetto di mozzarella"],
+      ["Pane",100,"4 fette di pane"],
+      ["Pomodori",200,"2 pomodori"],
+      ["Olio d'oliva",15,"un cucchiaio e mezzo d'olio"],
+      ["Grana / parmigiano",20,"una fetta di grana"]
+    ]}
+  ]}
+];
 
-function chipGroup(label, key, opts){
-  const cur = state.plan[key];
-  return `<div class="pgroup"><span class="plabel">${label}</span>
-    <div class="filters" role="group" aria-label="${label}">
-      ${Object.keys(opts).map(id => `<button type="button" data-pk="${key}" data-pv="${id}" aria-pressed="${cur === id ? 'true' : 'false'}">${opts[id].label}</button>`).join('')}
-    </div></div>`;
-}
+/* gli spunti: quello che aggiungi quando manca poco, e le eccezioni da vedere */
+const DIET_EXTRAS = [
+  { id:"yogurt",   grp:"poco",      n:"Yogurt greco 0%", g:200, t:"200 g di yogurt greco" },
+  { id:"grana",    grp:"poco",      n:"Grana / parmigiano", g:30, t:"30 g di grana" },
+  { id:"bresaola", grp:"poco",      n:"Bresaola", g:50, t:"50 g di bresaola" },
+  { id:"pane",     grp:"poco",      n:"Pane", g:50, t:"2 fette di pane" },
+  { id:"mandorle", grp:"poco",      n:"Mandorle", g:15, t:"un pugno di mandorle" },
+  { id:"whey",     grp:"poco",      n:"Proteine in polvere", g:30, t:"30 g di proteine in polvere" },
+  { id:"pizza",    grp:"eccezioni", n:"Pizza margherita", g:200, t:"un trancio di pizza" },
+  { id:"birra",    grp:"eccezioni", n:"Birra", g:330, t:"una birra media" },
+  { id:"vino",     grp:"eccezioni", n:"Vino rosso", g:125, t:"un calice di vino" },
+  { id:"grappa",   grp:"eccezioni", n:"Grappa", g:40, t:"una grappa" },
+  { id:"amaro",    grp:"eccezioni", n:"Amaro", g:40, t:"un amaro" },
+  { id:"spritz",   grp:"eccezioni", n:"Spritz / cocktail", g:200, t:"uno spritz" },
+  { id:"coca",     grp:"eccezioni", n:"Coca-Cola", g:330, t:"una coca-cola" },
+  { id:"cornetto", grp:"eccezioni", n:"Cornetto (crema o nutella)", g:55, t:"un cornetto" },
+  { id:"gelato",   grp:"eccezioni", n:"Gelato", g:100, t:"2 palline di gelato" }
+];
+const EXTRA_GROUPS = [
+  { key:"poco", label:"Se manca poco" },
+  { key:"eccezioni", label:"Le eccezioni" }
+];
 
-function renderPlanner(){
-  if(!state.plan) state.plan = {};
-  if(!(state.plan.lunch in PLAN.lunches)) state.plan.lunch = "casa";
-  if(!(state.plan.dinner in PLAN.dinners)) state.plan.dinner = "pizza";
-  if(!(state.plan.drink in PLAN.drinks)) state.plan.drink = "two";
-  plannerEl.innerHTML =
-    chipGroup("Pranzo","lunch",PLAN.lunches) +
-    chipGroup("Cena","dinner",PLAN.dinners) +
-    chipGroup("Bevande","drink",PLAN.drinks) +
-    '<div id="planOut"></div>';
-  plannerEl.querySelectorAll('[data-pk]').forEach(b => {
-    b.addEventListener('click', () => {
-      state.plan[b.dataset.pk] = b.dataset.pv;
-      save();
-      plannerEl.querySelectorAll(`[data-pk="${b.dataset.pk}"]`).forEach(x =>
-        x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
-      renderPlanOut();
-    });
+const dietEl = document.getElementById('diet');
+const extrasEl = document.getElementById('extras');
+const foodVal = (n, g) => { const f = fByName(n); return f ? { p:f[1]*g/100, k:f[2]*g/100 } : { p:0, k:0 }; };
+const comboVal = c => c.items.reduce((t, it) => {
+  const v = foodVal(it[0], it[1]); t.p += v.p; t.k += v.k; return t;
+}, { p:0, k:0 });
+const extraVal = e => foodVal(e.n, e.g);
+
+function dietPick(){
+  if(!state.diet || !state.diet.pick) state.diet = { pick:{}, extras:[], target:2600 };
+  const pick = state.diet.pick;
+  DIET.forEach(m => {
+    const i = pick[m.key];
+    if(!(i >= 0 && i < m.combos.length)) pick[m.key] = 0;
   });
-  renderPlanOut();
+  return pick;
 }
 
-function renderPlanOut(){
-  const s = state.plan;
-  const L = PLAN.lunches[s.lunch], D = PLAN.dinners[s.dinner], A = PLAN.drinks[s.drink];
-  const free = PLAN.target.kcal - D.kcal - A.kcal;
-  const freeP = PLAN.target.p - D.p;
-  const bf = (free - L.kcal - PLAN.snack.kcal) >= PLAN.breakfast.full.kcal ? PLAN.breakfast.full : PLAN.breakfast.light;
+function dietExtras(){
+  if(!Array.isArray(state.diet.extras)) state.diet.extras = [];
+  const ids = DIET_EXTRAS.map(e => e.id);
+  state.diet.extras = state.diet.extras.filter(id => ids.indexOf(id) >= 0);
+  return DIET_EXTRAS.filter(e => state.diet.extras.indexOf(e.id) >= 0);
+}
 
-  const cena = A.kcal ? `${D.items} <em style="font-style:normal;color:var(--muted)">${A.items}</em>` : D.items;
-  const rows = [
-    ["Colazione","7:30", bf],
-    ["Pranzo","12:30", L],
-    ["Spuntino","16:30", PLAN.snack],
-    ["Cena","20:00", { kcal:D.kcal + A.kcal, p:D.p, items:cena }]
-  ];
-  const totalK = rows.reduce((a,r) => a + r[2].kcal, 0);
-  const totalP = rows.reduce((a,r) => a + r[2].p, 0);
-  const diff = totalK - PLAN.target.kcal;
+function dietDay(){
+  const pick = dietPick();
+  let p = 0, k = 0;
+  DIET.forEach(m => { const v = comboVal(m.combos[pick[m.key]]); p += v.p; k += v.k; });
+  dietExtras().forEach(e => { const v = extraVal(e); p += v.p; k += v.k; });
+  return { p: Math.round(p), k: Math.round(k) };
+}
 
-  let verdict;
-  if(diff > 80) verdict = `Sei <b>${fmtK(diff)}</b> kcal sopra il bersaglio: salta lo spuntino (−105 kcal) e, se non basta, metà del primo.`;
-  else if(totalP < 118) verdict = `Proteine a <b>${totalP} g</b>, troppo poche: aggiungi una fetta di grana o un vasetto di yogurt proteico.`;
-  else if(diff < -250) verdict = `Resti <b>${fmtK(-diff)}</b> kcal sotto: aggiungi una fetta di pane e un frutto, non serve andare in deficit.`;
-  else verdict = `I conti tornano: <b>${fmtK(totalK)}</b> kcal e <b>${totalP} g</b> di proteine. Non aggiungere altro.`;
+function dietLeft(d){
+  const T = dietTarget();
+  const gk = T.k - d.k, gp = T.p - d.p;
+  const parts = [];
+  if(gk > 50) parts.push(`mancano <b class="ko">${fmtK(gk)} kcal</b>`);
+  else if(gk < -50) parts.push(`<b class="kc">${fmtK(-gk)} kcal</b> sopra`);
+  if(gp > 5) parts.push(`<b class="kp">${gp} g</b> di proteine`);
+  else if(gp < -15) parts.push(`<b class="kq">${-gp} g</b> di proteine in più`);
+  return parts.length ? parts.join(' · ') : '<b class="kok">giornata in target</b>';
+}
 
-  document.getElementById('planOut').innerHTML = `
-    <p class="pbudget">Restano per colazione, pranzo e spuntino: <b>${fmtK(free)}</b> kcal e <b>${freeP} g</b> di proteine.</p>
-    <div class="pout">
-      ${rows.map(([name,time,m]) => `
-        <div class="prow">
-          <span class="pt">${name} <em>${time}</em></span>
-          <span class="pf">${m.items}</span>
-          <span class="pn">${fmtK(m.kcal)} kcal<br>${m.p} g</span>
-        </div>`).join('')}
-      <div class="prow tot">
-        <span class="pt">Giornata</span>
-        <span class="pf">Colazione + pranzo + spuntino + cena${A.kcal ? ' + bevande' : ''}</span>
-        <span class="pn">${fmtK(totalK)} kcal<br>${totalP} g</span>
+function dietAdvice(d){
+  const T = dietTarget();
+  const gp = T.p - d.p, gk = T.k - d.k;
+  if(gk > 300 && gp > 10)
+    return `Mancano <b>${fmtK(gk)} kcal</b> e <b>${gp} g</b> di proteine: uno yogurt greco e una fetta di pane coprono quasi tutto.`;
+  if(gp > 10)
+    return `Le calorie ci sono, le proteine no: <b>${gp} g</b> in più, un vasetto di yogurt o 30 g di grana.`;
+  if(gk > 250)
+    return `Proteine a posto, restano <b>${fmtK(gk)} kcal</b>: un dolce, un pugno di mandorle o un frutto.`;
+  if(gk < -250)
+    return `Sei <b>${fmtK(-gk)} kcal</b> sopra il bersaglio: salta lo spuntino o dimezza il primo a cena.`;
+  return `Giornata chiusa: <b>${fmtK(d.k)} kcal</b> e <b>${d.p} g</b> di proteine. Così va bene.`;
+}
+
+function paintDiet(){
+  const T = dietTarget();
+  const pick = dietPick();
+  dietEl.querySelectorAll('.card').forEach(b => {
+    b.setAttribute('aria-pressed', String(+b.dataset.i === pick[b.dataset.meal]));
+  });
+  DIET.forEach(m => {
+    const v = comboVal(m.combos[pick[m.key]]);
+    const el = dietEl.querySelector(`.msum[data-sum="${m.key}"]`);
+    if(el) el.innerHTML = `${fmtK(v.k)} kcal · <b>${Math.round(v.p)} g</b>`;
+  });
+  extrasEl.querySelectorAll('.extra').forEach(b => {
+    b.setAttribute('aria-pressed', String(state.diet.extras.indexOf(b.dataset.extra) >= 0));
+  });
+  document.querySelectorAll('#tgt button').forEach(b => {
+    b.setAttribute('aria-pressed', String(+b.dataset.k === T.k));
+  });
+  document.getElementById('tgtShow').textContent = fmtK(T.k);
+  document.getElementById('dKGoal').textContent = fmtK(T.k);
+  const kGoal = document.getElementById('kTotalGoal');
+  if(kGoal) kGoal.textContent = fmtK(T.k);
+
+  const d = dietDay();
+  document.getElementById('dP').textContent = d.p;
+  document.getElementById('dK').textContent = fmtK(d.k);
+  const laser = document.getElementById('dLaser');
+  const frac = Math.max(0, Math.min(1, d.p / T.p));
+  laser.style.transform = 'scaleX(' + frac.toFixed(4) + ')';
+  laser.style.setProperty('--f', frac.toFixed(4));
+  laser.classList.toggle('on', d.p > 0);
+  laser.classList.toggle('over', d.p > T.p + 10);
+  document.getElementById('dietHint').innerHTML = dietAdvice(d);
+  document.getElementById('dLeft').innerHTML = dietLeft(d);
+}
+
+function renderDiet(){
+  dietEl.innerHTML = DIET.map(m => `<div class="dmeal" data-meal="${m.key}">
+      <div class="dmhead">
+        <i class="ddot" aria-hidden="true"></i>
+        <span class="mtime">${m.time}</span>
+        <span class="mname">${m.meal}</span>
+        <span class="msum" data-sum="${m.key}"></span>
       </div>
-    </div>
-    <p class="pverdict">${verdict}</p>`;
+      <div class="cards">
+        ${m.combos.map((c, i) => {
+          const v = comboVal(c);
+          return `<button type="button" class="card" data-meal="${m.key}" data-i="${i}" aria-pressed="false">
+            <span class="ctop"><span class="clett">${c.letter}</span><span class="cname">${c.name}</span></span>
+            <span class="cnum"><b>${Math.round(v.p)} g</b><i>${fmtK(v.k)} kcal</i></span>
+            <span class="citems">${c.items.map(it => it[2]).join(' · ')}</span>
+          </button>`;
+        }).join('')}
+      </div>
+    </div>`).join('');
+
+  extrasEl.innerHTML = EXTRA_GROUPS.map(g => `<div class="exgrp" data-g="${g.key}">
+      <span class="exlab">${g.label}</span>
+      <div class="exchips">${DIET_EXTRAS.filter(e => e.grp === g.key).map(e => {
+        const v = extraVal(e);
+        const tag = e.grp === 'eccezioni' ? `+${fmtK(v.k)} kcal`
+          : (v.p >= 3 ? `+${Math.round(v.p)} g` : `+${fmtK(v.k)} kcal`);
+        return `<button type="button" class="extra" data-extra="${e.id}" aria-pressed="false">${e.t}<span>${tag}</span></button>`;
+      }).join('')}</div>
+    </div>`).join('');
+
+  dietEl.querySelectorAll('.card').forEach(b => b.addEventListener('click', () => {
+    state.diet.pick[b.dataset.meal] = +b.dataset.i;
+    save(); paintDiet();
+  }));
+  extrasEl.querySelectorAll('.extra').forEach(b => b.addEventListener('click', () => {
+    const id = b.dataset.extra;
+    const at = state.diet.extras.indexOf(id);
+    if(at >= 0) state.diet.extras.splice(at, 1); else state.diet.extras.push(id);
+    save(); paintDiet();
+  }));
+
+  paintDiet();
 }
+
+document.querySelectorAll('#tgt button').forEach(b => b.addEventListener('click', () => {
+  state.diet.target = +b.dataset.k;
+  save(); paintDiet(); updateCalcTotal();
+}));
+
+document.getElementById('dietToOggi').addEventListener('click', () => {
+  const pick = dietPick();
+  const rows = [];
+  DIET.forEach(m => m.combos[pick[m.key]].items.forEach(it => rows.push({ n:it[0], g:String(it[1]) })));
+  dietExtras().forEach(e => rows.push({ n:e.n, g:String(e.g) }));
+  state.calc = rows.length ? rows : [{ n:"", g:"" }];
+  state.calcDay = dayKey();
+  state.fview = 'oggi';
+  save();
+  renderCalc();
+  renderFoodView();
+  document.getElementById('calcBar').scrollIntoView({ block:'start' });
+});
 
 /* ---------- calcolatore ---------- */
 const FZ = DATA.foods;
@@ -2500,21 +2839,22 @@ function updateCalcTotal(){
   document.getElementById('pTotal').textContent = t;
   document.getElementById('kTotal').textContent = kcalFmt(kcal);
 
+  const T = dietTarget();
   const laser = document.getElementById('pLaser');
-  const frac = Math.max(0, Math.min(1, total / 130));
+  const frac = Math.max(0, Math.min(1, total / T.p));
   laser.style.transform = 'scaleX(' + frac.toFixed(4) + ')';
   laser.style.setProperty('--f', frac.toFixed(4));
   laser.classList.toggle('on', total > 0);
-  laser.classList.toggle('over', total > 150);
+  laser.classList.toggle('over', total > T.p + 10);
 
   const kTot = Math.round(kcal);
-  const gap = kTot - 2500;
+  const gap = kTot - T.k;
   let hint;
   if(t === 0 && kTot === 0) hint = 'La lista è la giornata: parte vuota ogni mattina e si riempie mentre mangi.';
   else if(gap > 150) hint = `Sei ${fmtK(gap)} kcal sopra il bersaglio: salta lo spuntino e, se non basta, metà del primo.`;
-  else if(t < 118) hint = `Proteine a ${t} g: aggiungi una fetta di grana o un vasetto di yogurt proteico.`;
+  else if(t < T.p * 0.9) hint = `Proteine a ${t} g: aggiungi una fetta di grana o un vasetto di yogurt proteico.`;
   else if(gap < -300) hint = `Restano ${fmtK(-gap)} kcal: aggiungi una fetta di pane e un frutto, non serve andare in deficit.`;
-  else if(gap < 0) hint = `Quasi: mancano ${fmtK(-gap)} kcal, un frutto e sei a posto.`;
+  else if(gap < -60) hint = `Quasi: mancano ${fmtK(-gap)} kcal, un frutto e sei a posto.`;
   else hint = `I conti tornano: ${fmtK(kTot)} kcal e ${t} g di proteine. Non aggiungere altro.`;
   document.getElementById('calcHint').textContent = hint;
 }
@@ -2672,8 +3012,7 @@ renderDiary();
 renderLibrary();
 renderPrep();
 wireSpeak(document);
-renderMeals();
-renderPlanner();
+renderDiet();
 renderCalc();
 renderLog();
 const initial = (location.hash || '').replace('#','');
