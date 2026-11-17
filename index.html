@@ -88,7 +88,7 @@ footer{grid-column:1/-1;margin-top:56px;padding-top:18px;border-top:var(--hair);
 footer a{color:var(--text-faint);border-bottom-color:var(--border-strong)}
 footer a:hover{color:var(--text-strong)}
 
-@media (max-width:599px){.standfirst{font-size:var(--fs-small)}}
+@media (max-width:599px){.logo{width:112px}}
 @media (max-width:959px){
   .wrap{display:block;padding-bottom:56px}
   .side{position:static;padding:24px 0 0}
@@ -102,14 +102,15 @@ footer a:hover{color:var(--text-strong)}
 }
 
 header.page{padding-bottom:26px;margin-bottom:26px;border-bottom:var(--hair)}
-h1{
-  font-size:var(--fs-h1);font-weight:500;line-height:1.1;letter-spacing:-.03em;
-  color:var(--text-strong);margin:0 0 12px;text-wrap:balance;
-}
-h1 em{color:var(--blue);font-weight:400}
-.standfirst{
-  margin:0;max-width:46ch;font-size:var(--fs-read);line-height:1.6;color:var(--text-muted);
-}
+header.page.hero{display:flex;justify-content:center;padding:2px 0 26px;margin-bottom:26px}
+.logo{display:block;width:152px;height:auto;overflow:visible}
+.logo path,.logo circle{stroke-linecap:round;stroke-linejoin:round}
+.logo .lg-roof{stroke:var(--blue)}
+.logo .lg-frame{stroke:var(--border-strong)}
+.logo .lg-bar{stroke:var(--cyan)}
+.logo .lg-ring,.logo .lg-strap{stroke:var(--green)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap;border:0}
 
 /* ============ navigazione ============ */
 nav.tabs{display:flex;flex-direction:column;border-top:var(--hair);margin-top:4px}
@@ -482,6 +483,23 @@ article.ex .body h3{font-size:var(--fs-small);margin:18px 0 8px}
 .dietacts .ghost{border-color:var(--border-strong);color:var(--text-strong)}
 .dietacts .ghost:hover{border-color:var(--green);color:var(--green)}
 .dnote{margin:0;font-size:11px;line-height:1.5;color:var(--text-faint);flex:1;min-width:180px}
+.spesa{margin-top:30px;padding:16px;border:1px solid var(--border);background-color:var(--bg-deep);
+  background-image:linear-gradient(180deg,color-mix(in srgb,var(--cyan) 7%,transparent),transparent 70%)}
+.spesah{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.spesa .slabel{display:block;font:400 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--cyan)}
+.speseright{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.spesan{font:400 11px/1 var(--mono);color:var(--text-faint)}
+.sdays{display:flex;gap:0;border:1px solid var(--border)}
+.sdays button{padding:4px 8px;border:0;background:none;color:var(--text-faint);font:400 11px/1 var(--mono);cursor:pointer}
+.sdays button+button{border-left:1px solid var(--border)}
+.sdays button[aria-pressed="true"]{background:var(--bg-raised);color:var(--text-strong)}
+.sdays button:hover{color:var(--cyan)}
+.sgroup{margin-top:14px}
+.sgroup+.sgroup{margin-top:12px;padding-top:11px;border-top:1px solid var(--border)}
+.scat{display:block;font:400 11px/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--text-faint)}
+.sitems{margin:8px 0 0;font-size:var(--fs-small);line-height:1.65;color:var(--text-muted)}
+.sitems b{color:var(--text-strong);font-weight:500}
+.sitems em{font-style:normal;color:var(--text-faint)}
 @media (max-width:599px){
   .cards{grid-template-columns:1fr;gap:8px}
   .card{padding:12px 13px 13px}
@@ -710,15 +728,22 @@ tr:last-child td{border-bottom:0}
 </aside>
 
 <main>
-  <header class="page">
-    <h1>Direzione<br><em>terza dimensione</em></h1>
-    <p class="standfirst">Tre allenamenti a casa, quattro porzioni di proteine al giorno, un metro da sarto.
-  Il resto è costanza. Se hai mezz'ora, accendi «versione breve» e fai solo gli esercizi marcati minimo: conta come fatto.</p>
+  <header class="page hero">
+    <h1 class="sr-only">Allenamento a casa, dieta e diario</h1>
+    <svg class="logo" viewBox="0 0 168 122" role="img" aria-labelledby="lgTitle" fill="none">
+      <title id="lgTitle">Una casa con la sbarra e gli anelli</title>
+      <path class="lg-roof" d="M22 60 L84 20 L146 60" stroke-width="9"/>
+      <path class="lg-frame" d="M40 66 V104 M128 66 V104 M30 104 H138" stroke-width="4"/>
+      <path class="lg-bar" d="M30 76 H138" stroke-width="6"/>
+      <path class="lg-strap" d="M66 76 V84 M102 76 V84" stroke-width="3"/>
+      <circle class="lg-ring" cx="66" cy="92.5" r="8.5" stroke-width="5"/>
+      <circle class="lg-ring" cx="102" cy="92.5" r="8.5" stroke-width="5"/>
+    </svg>
   </header>
   <section id="p-prep" role="tabpanel" aria-labelledby="tab-prep" hidden>
     <h2>Warm-up e mobilità</h2>
-    <p class="sub">Cinque minuti prima di ogni seduta, otto minuti di mobilità anche nei giorni di riposo.
-    Il riscaldamento non deve stancarti, la mobilità non è stretching a caso: è quella che serve agli esercizi che fai.</p>
+    <p class="sub">Cinque minuti prima di ogni seduta, otto di mobilità anche nei giorni di riposo.
+    Il riscaldamento non deve stancarti; la mobilità è solo quella che serve agli esercizi che fai.</p>
 
     <div class="session-head">
       <h3>Riscaldamento</h3>
@@ -737,9 +762,9 @@ tr:last-child td{border-bottom:0}
 
     <div class="note">
       <span class="label">Le punte</span>
-      Non si conquistano tirando con la schiena: si conquistano allungando i femorali e sbloccando l'anca.
-      3-4 volte a settimana, 8 minuti, e in 6-10 settimane la distanza cala di 5-10 cm. Se dopo un mese non si muove niente,
-      il limite non è la flessibilità: è che ti allunghi solo prima dell'allenamento, quando il muscolo è già stanco.
+      Servono femorali lunghi e un'anca che si apre: la schiena non c'entra. 3-4 volte a settimana, 8 minuti,
+      e in 6-10 settimane la distanza cala di 5-10 cm. Se dopo un mese non si muove niente, quasi sempre è perché
+      ti allunghi solo prima dell'allenamento, a muscolo già stanco.
     </div>
   </section>
 
@@ -758,8 +783,8 @@ tr:last-child td{border-bottom:0}
   
 <section id="p-ex" role="tabpanel" aria-labelledby="tab-ex" hidden>
     <h2>Come si eseguono</h2>
-    <p class="sub">Tecnica, errori da evitare, come renderlo più facile o più difficile. Tocca un esercizio per aprire la scheda,
-    o il <strong>▷</strong> per fartela leggere dalla voce del telefono — funziona anche senza connessione.</p>
+    <p class="sub">Tecnica, errori da evitare, varianti facili e difficili. Tocca un esercizio per aprire la scheda,
+    o il <strong>▷</strong> per ascoltarla: funziona anche senza connessione.</p>
     <div class="filters" id="filters" role="group" aria-label="Filtra per gruppo"></div>
     <div id="library"></div>
 
@@ -779,10 +804,10 @@ tr:last-child td{border-bottom:0}
 
   <section id="p-food" role="tabpanel" aria-labelledby="tab-food" hidden>
     <h2>Quattro porzioni di proteine al giorno</h2>
-    <p class="sub">Obiettivo <strong>140 g</strong> di proteine al giorno e un surplus piccolo, non una scorpacciata.
-    Una porzione è grande come il palmo aperto, dita escluse, spessa due dita: <strong>150 g di carne o pesce</strong>,
-    cioè 30-35 g di proteine. Il bersaglio calorico lo scegli nella scheda <strong>Diet</strong>; la scheda
-    <strong>Oggi</strong> dice quanto, alimento per alimento.</p>
+    <p class="sub"><strong>140 g</strong> di proteine al giorno, con un surplus piccolo.
+    Una porzione è un palmo aperto, spesso due dita: <strong>150 g di carne o pesce</strong>, 30-35 g di proteine.
+    Il bersaglio calorico si sceglie nella scheda <strong>Diet</strong>; <strong>Oggi</strong> dice quanto,
+    alimento per alimento.</p>
 
     <div class="seg" id="segFood" role="group" aria-label="Cosa vuoi fare">
       <button type="button" data-fv="traccia" aria-current="true">Diet</button>
@@ -793,8 +818,8 @@ tr:last-child td{border-bottom:0}
     <div class="fview" id="f-oggi">
 
     <p class="sub">Bersaglio <strong id="tgtShow">2.600</strong> kcal e <strong>140 g</strong> di proteine.
-    Scegli una combinazione per pasto, o lascia il pasto vuoto: i conti si muovono qui sopra, gli spunti in fondo
-    dicono cosa manca, e con un tocco porti la giornata nella scheda <strong>Oggi</strong> così com'è — anche vuota.</p>
+    Si parte da zero: tocca le schede che mangi, anche più di una nello stesso pasto, o lascialo vuoto.
+    I conti si muovono qui sopra, gli spunti in fondo dicono cosa manca.</p>
 
     <div class="tgt" id="tgt" role="group" aria-label="Bersaglio calorie">
       <span class="tgtlab">bersaglio</span>
@@ -804,7 +829,7 @@ tr:last-child td{border-bottom:0}
       <button type="button" data-k="3000" aria-pressed="false">3.000</button>
     </div>
     <p class="tgtnote">Fuori dalla palestra la giornata è quasi ferma: il mantenimento sta intorno alle 2.200-2.400 kcal.
-    2.600 è già un surplus, 2.800-3.000 lo sono se corri o fai un lavoro pesante. Poi decide la bilancia:
+    2.600 è già un surplus; 2.800-3.000 se corri o fai un lavoro pesante. Poi decide la bilancia:
     +200-300 g a settimana va bene, +500 è troppo.</p>
 
     <div class="dcount dietbar" id="dietBar">
@@ -831,8 +856,22 @@ tr:last-child td{border-bottom:0}
     <div class="dietacts">
       <button class="ghost" id="dietToOggi" type="button">porta in Oggi</button>
       <button class="ghost" id="dietClear" type="button">svuota</button>
-      <span class="dnote">Tocca di nuovo un pasto scelto per lasciarlo vuoto. «porta in Oggi» sostituisce l'elenco
-      della giornata: i grammi restano lì, li correggi come vuoi.</span>
+      <span class="dnote">Tocca una scheda per aggiungerla, tocca di nuovo per toglierla. «porta in Oggi» sostituisce
+      l'elenco della giornata: i grammi restano lì, li correggi come vuoi.</span>
+    </div>
+
+    <div class="spesa">
+      <div class="spesah">
+        <span class="slabel">La spesa</span>
+        <span class="speseright">
+          <span class="spesan" id="spesaNote"></span>
+          <span class="sdays" id="spesaDays">
+            <button type="button" data-days="1" aria-pressed="true">×1</button>
+            <button type="button" data-days="2" aria-pressed="false">×2</button>
+          </span>
+        </span>
+      </div>
+      <div id="spesaList"></div>
     </div>
 
     </div>
@@ -861,15 +900,14 @@ tr:last-child td{border-bottom:0}
     <p class="calchint" id="calcHint"></p>
 
     <div class="note" style="margin-top:26px">
-      <span class="label">Il palmo è la tua mano, non una media</span>
-      Palmo aperto e spesso due dita: per carne e pesce sono 150 g circa, cioè 30-35 g di proteine.
-      Se hai la mano piccola, la porzione è più piccola — per questo la tabella qui sotto riporta anche i grammi.
-      Quattro porzioni al giorno sono il minimo: 30 × 4 = 120 g, e il resto arriva da pasta, latte, pane.
+      <span class="label">Il palmo è la tua mano</span>
+      Palmo aperto, spesso due dita: per carne e pesce sono 150 g circa, 30-35 g di proteine.
+      Con una mano piccola la porzione è più piccola, per questo la tabella qui sotto riporta anche i grammi.
+      Quattro porzioni al giorno sono il minimo: 120 g, e il resto arriva da pasta, latte e pane.
     </div>
 
     <h3>Le porzioni, a occhio</h3>
-    <p class="sub" style="margin-bottom:0">La colonna di mezzo è quella che conta: se non hai la bilancia, usa quella.
-    I grammi sono lì solo per il calcolatore.</p>
+    <p class="sub" style="margin-bottom:0">Senza bilancia usa la colonna «a occhio»: i grammi servono al calcolatore.</p>
     <table>
       <thead><tr><th>Cosa</th><th>A occhio</th><th>Prot.</th><th>Kcal</th></tr></thead>
       <tbody>
@@ -915,7 +953,7 @@ tr:last-child td{border-bottom:0}
       <span class="label">Il toast non è una porzione</span>
       Pane, prosciutto cotto e sottiletta fanno <strong>15 g di proteine in 260 kcal</strong>: metà porzione
       con il doppio delle calorie. Va bene come spuntino, non come secondo. Per arrivare a 30 g:
-      <strong>due toast</strong> (≈ 520 kcal), oppure un toast più <strong>cinque fette di bresaola</strong> (+22 g, 150 kcal).
+      <strong>due toast</strong> (≈ 520 kcal), oppure un toast con un uovo e un bicchiere di latte (+15 g, ~195 kcal).
     </div>
 
     </div>
@@ -927,7 +965,7 @@ tr:last-child td{border-bottom:0}
         <li><strong>Primo + secondo + contorno</strong>: sempre tutti e tre. Le porzioni sono medio-piccole, quindi il pane è obbligatorio.</li>
         <li><strong>Il secondo è la proteina</strong>: carne o pesce, 4 giorni su 5. Il vegetariano (uova, hummus, legumi) va bene ma aggiungi un contorno freddo di legumi.</li>
         <li><strong>Se puoi pagare il bis del secondo, fallo</strong>: è il modo più economico di aggiungere 30 g di proteine.</li>
-        <li><strong>Olio a crudo, sempre</strong>: un cucchiaio sono 10 g e ~90 kcal che non ti accorgi di mangiare.</li>
+        <li><strong>Olio a crudo, sempre</strong>: un cucchiaio sono 10 g e ~90 kcal.</li>
         <li><strong>Frutta a fine pasto</strong>, non al posto del secondo.</li>
       </ul>
     </div>
@@ -937,7 +975,7 @@ tr:last-child td{border-bottom:0}
       <div class="block">
         <h4>Surplus</h4>
         <ul class="good">
-          <li>+200/250 kcal al giorno, non +500. Non devi "mettere su peso", devi mettere su muscolo.</li>
+          <li>+200/250 kcal al giorno, non +500: il peso che sale deve essere muscolo.</li>
           <li>Peso +0,15/0,25 kg a settimana. Se in 2 settimane è fermo, aggiungi una porzione di carboidrati al giorno.</li>
           <li>Vita stabile (±1 cm). Se sale di 2-3 cm, togli 200 kcal.</li>
         </ul>
@@ -945,8 +983,8 @@ tr:last-child td{border-bottom:0}
       <div class="block">
         <h4>Alcol</h4>
         <ul class="err">
-          <li>0,5 g/kg riduce la sintesi proteica per ~24 ore: è il contrario di quello che vuoi.</li>
-          <li>Distrugge il sonno profondo, e il sonno è la prima cosa che salta.</li>
+          <li>0,5 g/kg riducono la sintesi proteica per ~24 ore.</li>
+          <li>Rovina il sonno profondo, e il sonno è la prima cosa che salta.</li>
           <li>Regola: massimo 1-2 uscite infrasettimanali, mai il giorno dopo l'allenamento delle gambe.</li>
         </ul>
       </div>
@@ -957,16 +995,15 @@ tr:last-child td{border-bottom:0}
 
   <section id="p-log" role="tabpanel" aria-labelledby="tab-log" hidden>
     <h2>Il diario dei carichi</h2>
-    <p class="sub">Quello che scrivi qui è la scheda della prossima volta. La progressione non si vede allo specchio:
-    si vede qui. Scegli la seduta, scrivi la serie migliore di oggi, e alla prossima sai da dove ripartire.
-    Resta tutto nel browser.</p>
+    <p class="sub">Quello che scrivi qui è la scheda della prossima volta. Scegli la seduta, annota la serie
+    migliore di oggi: alla prossima sai da dove ripartire. Resta tutto nel browser.</p>
 
     <div class="seg" id="segDiary" role="group" aria-label="Scegli la seduta da annotare"></div>
     <div id="diary"></div>
 
     <h3 style="margin-top:44px">Check-in ogni due settimane</h3>
     <p class="sub">Peso e vita al mattino appena sveglio, trazioni e piegamenti come serie massima con tecnica pulita.
-    Conta la tendenza, non il giorno singolo.</p>
+    Conta la tendenza, non il singolo giorno.</p>
 
     <form class="log" id="logForm">
       <div class="field">
@@ -1004,15 +1041,15 @@ tr:last-child td{border-bottom:0}
 
     <div class="note">
       <span class="label">Il segnale più veloce</span>
-      Non le foto: il diario. Se in due settimane non hai aggiunto una ripetizione da nessuna parte,
+      Il diario, non le foto. Se in due settimane non hai aggiunto una ripetizione da nessuna parte,
       il problema è cibo o sonno, non la scheda.
     </div>
 
     <div class="note">
       <span class="label">Ogni 6-8 settimane: scarico</span>
-      Una settimana a metà volume, stesso carico: puoi fare metà delle serie, o togliere gli ultimi due esercizi di ogni seduta.
-      Serve dopo un periodo in cui sei arrivato davvero vicino al cedimento. Se ti alleni sempre a 2-3 ripetizioni di riserva
-      non è obbligatorio, ma se due sedute di fila si bloccano, quella è la settimana giusta.
+      Una settimana a metà volume, stesso carico: metà delle serie, o via gli ultimi due esercizi di ogni seduta.
+      Serve dopo un periodo di lavoro davvero vicino al cedimento. Se ti alleni sempre a 2-3 ripetizioni di riserva
+      non è obbligatorio; se due sedute di fila si bloccano, è la settimana giusta.
     </div>
   </section>
 </main>
@@ -1937,6 +1974,10 @@ const DATA = {
     ["Agnello", 20, 250, "2 costolette ≈ 150 g", "Carne"],
     ["Vitello", 21, 110, "1 fetta ≈ 150 g", "Carne"],
     ["Bocconcini di manzo", 21, 140, "una manciata ≈ 150 g", "Carne"],
+    ["Spezzatino di manzo", 26, 200, "un mestolo ≈ 150 g", "Carne"],
+    ["Salsiccia", 17, 310, "1 salsiccia ≈ 100 g", "Carne"],
+    ["Guanciale", 10, 690, "2 fette ≈ 30 g", "Carne"],
+    ["Pancetta", 15, 400, "2 fette ≈ 40 g", "Carne"],
 
     ["Salmone", 20, 200, "1 trancio ≈ 150 g", "Pesce"],
     ["Merluzzo / platessa", 17, 80, "1 filetto ≈ 100 g", "Pesce"],
@@ -1972,9 +2013,13 @@ const DATA = {
     ["Stracchino", 10, 320, "2 cucchiai ≈ 50 g", "Uova e latticini"],
     ["Philadelphia", 6, 250, "2 cucchiai ≈ 50 g", "Uova e latticini"],
     ["Sottiletta", 13, 260, "1 sottiletta ≈ 20 g", "Uova e latticini"],
+    ["Besciamella", 3.5, 130, "2 cucchiai ≈ 30 g", "Uova e latticini"],
+    ["Scamorza", 25, 300, "1 fetta ≈ 40 g", "Uova e latticini"],
 
     ["Lenticchie cotte", 9, 116, "2 mestoli ≈ 150 g", "Legumi e soia"],
     ["Ceci cotti", 7, 120, "2 mestoli ≈ 150 g", "Legumi e soia"],
+    ["Fagioli in scatola", 7, 110, "2 mestoli ≈ 150 g", "Legumi e soia"],
+    ["Lenticchie cotte", 9, 116, "2 mestoli ≈ 150 g", "Legumi e soia"],
     ["Fagioli cotti", 7, 110, "2 mestoli ≈ 150 g", "Legumi e soia"],
     ["Tofu", 12, 140, "mezzo panetto ≈ 125 g", "Legumi e soia"],
     ["Seitan", 22, 120, "1 fetta ≈ 100 g", "Legumi e soia"],
@@ -1984,6 +2029,8 @@ const DATA = {
 
     ["Pasta cruda", 11, 350, "1 piatto fondo ≈ 100 g", "Carboidrati"],
     ["Riso crudo", 7, 350, "1 piatto fondo ≈ 100 g", "Carboidrati"],
+    ["Riso venere", 8, 340, "un piatto ≈ 90 g", "Carboidrati"],
+    ["Pane grattugiato", 11, 380, "2 cucchiai ≈ 20 g", "Carboidrati"],
     ["Gnocchi", 4, 130, "1 porzione ≈ 250 g", "Carboidrati"],
     ["Cous cous crudo", 12, 350, "1 piatto fondo ≈ 100 g", "Carboidrati"],
     ["Pane", 8, 270, "2 fette ≈ 50 g", "Carboidrati"],
@@ -2008,14 +2055,21 @@ const DATA = {
     ["Cereali (frumento e cioccolato)", 8, 385, "una scodella ≈ 40 g", "Carboidrati"],
     ["Corn flakes", 7, 360, "una scodella ≈ 40 g", "Carboidrati"],
     ["Pancarré", 9, 265, "2 fette ≈ 50 g", "Carboidrati"],
+    ["Pancarré integrale", 9, 250, "2 fette ≈ 50 g", "Carboidrati"],
     ["Grissini", 11, 400, "4 grissini ≈ 20 g", "Carboidrati"],
     ["Gallette di riso", 8, 350, "2 gallette ≈ 16 g", "Carboidrati"],
+    ["Risotto allo zafferano", 4.5, 185, "1 piatto ≈ 300 g", "Carboidrati"],
+    ["Risotto alle verdure", 3.5, 150, "1 piatto ≈ 300 g", "Carboidrati"],
+    ["Risotto con salsiccia", 7, 210, "1 piatto ≈ 300 g", "Carboidrati"],
+    ["Risotto ai funghi", 4, 165, "1 piatto ≈ 300 g", "Carboidrati"],
 
     ["Mandorle", 21, 600, "1 pugno ≈ 15 g", "Frutta secca e grassi"],
     ["Noci", 15, 650, "1 pugno ≈ 20 g", "Frutta secca e grassi"],
     ["Pistacchi", 20, 560, "1 pugno ≈ 20 g", "Frutta secca e grassi"],
     ["Burro d'arachidi", 25, 590, "1 cucchiaio ≈ 15 g", "Frutta secca e grassi"],
     ["Olio d'oliva", 0, 900, "1 cucchiaio ≈ 10 g", "Frutta secca e grassi"],
+    ["Salsa di soia", 8, 60, "un cucchiaio ≈ 15 g", "Frutta secca e grassi"],
+    ["Sesamo", 18, 570, "un cucchiaio ≈ 10 g", "Frutta secca e grassi"],
     ["Burro", 0.7, 745, "una noce ≈ 10 g", "Frutta secca e grassi"],
     ["Banana", 1, 90, "1 media ≈ 120 g", "Verdura e frutta"],
     ["Mela", 0, 52, "1 media ≈ 180 g", "Verdura e frutta"],
@@ -2046,6 +2100,7 @@ const DATA = {
     ["Cetrioli", 0.7, 15, "mezzo cetriolo ≈ 150 g", "Verdura e frutta"],
     ["Zucca", 1, 26, "una porzione ≈ 200 g", "Verdura e frutta"],
     ["Funghi", 3, 22, "una porzione ≈ 200 g", "Verdura e frutta"],
+    ["Zenzero fresco", 1, 80, "un pezzetto ≈ 15 g", "Verdura e frutta"],
     ["Radicchio", 1.4, 23, "un piatto ≈ 150 g", "Verdura e frutta"],
     ["Birra", 0.5, 43, "1 birra ≈ 330 ml", "Bevande"],
     ["Vino rosso", 0, 85, "1 calice ≈ 125 ml", "Bevande"],
@@ -2068,6 +2123,10 @@ const DATA = {
     ["Nutella", 6, 540, "1 cucchiaio raso ≈ 20 g", "Dolci"],
 
     ["Torta salata (ricotta e spinaci)", 8, 230, "una fetta ≈ 150 g", "Piatti pronti"],
+    ["Lasagna", 10, 230, "una porzione ≈ 300 g", "Piatti pronti"],
+    ["Hamburger (panino)", 12, 260, "un panino ≈ 200 g", "Piatti pronti"],
+    ["Patatine fritte", 4, 310, "una porzione ≈ 150 g", "Piatti pronti"],
+    ["Vellutata di verdura e patate", 2, 55, "un piatto ≈ 300 g", "Piatti pronti"],
     ["Polpette di carne", 18, 230, "3 polpette ≈ 150 g", "Piatti pronti"],
     ["Polpette di patate e sgombro", 9, 170, "3 polpette ≈ 150 g", "Piatti pronti"],
     ["Polpette di legumi", 8, 180, "3 polpette ≈ 150 g", "Piatti pronti"],
@@ -2507,208 +2566,199 @@ const dietTarget = () => {
 /* ogni voce: [nome nell'elenco alimenti, grammi, come si legge a occhio] */
 const DIET = [
   { meal:"Colazione", key:"colazione", time:"7:30", combos:[
-    { letter:"A", name:"Uova e pane", items:[
-      ["Uova (1 ≈ 55 g)",165,"3 uova"],
-      ["Pane",50,"2 fette di pane"],
-      ["Grana / parmigiano",20,"una fetta di grana"],
-      ["Olio d'oliva",10,"1 cucchiaio d'olio"],
-      ["Latte",200,"un bicchiere di latte"]
-    ]},
-    { letter:"B", name:"Pane e burro d'arachidi", items:[
-      ["Pane",80,"3 fette di pane"],
-      ["Burro d'arachidi",25,"1 cucchiaio colmo"],
-      ["Banana",120,"una banana"],
-      ["Latte scremato",300,"un bicchiere abbondante"],
-      ["Grana / parmigiano",20,"una fetta di grana"]
-    ]},
-    { letter:"C", name:"Porridge e fiocchi di latte", items:[
-      ["Avena",60,"4 cucchiai colmi di avena"],
-      ["Latte",250,"un bicchiere di latte"],
-      ["Fiocchi di latte",150,"un vasetto e mezzo"],
-      ["Mandorle",15,"un pugno di mandorle"],
-      ["Banana",120,"una banana"]
-    ]},
-    { letter:"D", name:"Cornetto al bar", items:[
-      ["Cornetto (crema o nutella)",55,"un cornetto"],
-      ["Latte",250,"un bicchiere di latte"],
-      ["Arancia",200,"un'arancia"],
-      ["Grana / parmigiano",20,"una fetta di grana"],
-      ["Mandorle",20,"un pugno di mandorle"]
-    ]},
-    { letter:"E", name:"Yogurt e avena", items:[
-      ["Yogurt greco 0%",300,"un barattolo e mezzo"],
-      ["Avena",50,"3 cucchiai colmi di avena"],
-      ["Mandorle",20,"un pugno di mandorle"],
-      ["Miele",10,"mezzo cucchiaio di miele"],
-      ["Banana",120,"una banana"]
-    ]}
-  ]},
-  { meal:"Pranzo", key:"pranzo", time:"12:30", combos:[
-    { letter:"A", name:"Mensa: pasta e pollo", items:[
-      ["Pasta cruda",90,"un piatto fondo di pasta"],
-      ["Pomodorini aglio, olio e peperoncino",200,"pomodorini saltati"],
-      ["Petto di pollo",130,"un palmo di pollo alla piastra"],
-      ["Insalata",100,"una ciotola di insalata"],
-      ["Olio d'oliva",10,"1 cucchiaio d'olio"],
-      ["Grana / parmigiano",15,"una spolverata di grana"]
-    ]},
-    { letter:"B", name:"Mensa: pasta e merluzzo", items:[
-      ["Pasta cruda",90,"un piatto fondo di pasta"],
-      ["Merluzzo / platessa",200,"un filetto grande al forno"],
-      ["Patate",250,"2 patate al forno"],
-      ["Olio d'oliva",10,"1 cucchiaio d'olio"],
-      ["Grana / parmigiano",15,"una spolverata di grana"]
-    ]},
-    { letter:"C", name:"Mensa: pasta e frittata", items:[
-      ["Pasta cruda",90,"un piatto fondo di pasta"],
-      ["Frittata (da mensa)",180,"un pezzo di frittata"],
-      ["Insalata",150,"una ciotola di insalata"],
-      ["Olio d'oliva",10,"1 cucchiaio d'olio"],
-      ["Grana / parmigiano",20,"una fetta di grana"]
-    ]},
-    { letter:"D", name:"Mensa: polpette di legumi", items:[
-      ["Pasta cruda",90,"un piatto fondo di pasta"],
-      ["Polpette di legumi",200,"4 polpette di legumi"],
-      ["Pomodori",200,"2 pomodori"],
-      ["Olio d'oliva",10,"1 cucchiaio d'olio"],
-      ["Grana / parmigiano",20,"una fetta di grana"]
-    ]},
-    { letter:"E", name:"Riso e tonno", items:[
-      ["Riso crudo",100,"un piatto di riso"],
-      ["Tonno sgocciolato",80,"1 scatoletta di tonno"],
-      ["Pomodorini aglio, olio e peperoncino",200,"pomodorini saltati"],
-      ["Olio d'oliva",10,"1 cucchiaio d'olio"],
-      ["Grana / parmigiano",20,"una fetta di grana"],
-      ["Pane",30,"una fetta di pane"]
-    ]},
-    { letter:"F", name:"Pasta al ragù", items:[
-      ["Pasta cruda",100,"un piatto fondo di pasta"],
-      ["Macinato magro",120,"un mestolo di ragù"],
-      ["Pomodori",200,"2 pomodori"],
-      ["Olio d'oliva",10,"1 cucchiaio d'olio"],
-      ["Grana / parmigiano",20,"una fetta di grana"],
-      ["Pane",50,"2 fette di pane"]
-    ]},
-    { letter:"G", name:"Pizza al trancio", items:[
-      ["Pizza margherita",200,"due tranci al taglio"],
-      ["Prosciutto crudo",60,"2 fette di crudo"],
-      ["Insalata",150,"una ciotola di insalata"],
-      ["Grana / parmigiano",20,"una fetta di grana"]
-    ]},
-    { letter:"H", name:"Piadina", items:[
-      ["Piadina",100,"una piadina"],
-      ["Prosciutto cotto",100,"3 fette di prosciutto cotto"],
-      ["Mozzarella",60,"mezzo panetto di mozzarella"],
-      ["Insalata",100,"una ciotola di insalata"],
-      ["Olio d'oliva",10,"1 cucchiaio d'olio"]
-    ]},
-    { letter:"I", name:"Insalata di ceci", items:[
-      ["Ceci cotti",250,"2 mestoli di ceci"],
-      ["Tonno sgocciolato",80,"1 scatoletta di tonno"],
-      ["Pomodorini aglio, olio e peperoncino",200,"pomodorini saltati"],
-      ["Olio d'oliva",15,"un cucchiaio e mezzo d'olio"],
-      ["Pane",30,"una fetta di pane"],
-      ["Grana / parmigiano",20,"una fetta di grana"]
-    ]}
-  ]},
-  { meal:"Spuntino", key:"spuntino", time:"16:30", combos:[
-    { letter:"A", name:"Pane e bresaola", items:[
-      ["Pane",50,"2 fette di pane"],
-      ["Bresaola",50,"4 fette di bresaola"],
-      ["Pomodorini aglio, olio e peperoncino",100,"una manciata di pomodorini"]
-    ]},
-    { letter:"B", name:"Panino e crudo", items:[
+    { letter:"A", name:"Latte e cereali", items:[
+      ["Latte",200,"un bicchiere di latte"],
+      ["Cereali (frumento e cioccolato)",60,"una scodella colma di cereali"],
       ["Pane",60,"3 fette di pane"],
-      ["Prosciutto crudo",60,"2 fette di crudo"],
-      ["Carote",100,"una carota"]
+      ["Burro d'arachidi",25,"un cucchiaio abbondante di burro d'arachidi"]
     ]},
-    { letter:"C", name:"Fiocchi di latte e noci", items:[
-      ["Fiocchi di latte",200,"un vasetto di fiocchi di latte"],
-      ["Noci",20,"un pugno di noci"],
+    { letter:"B", name:"Uova e pane", items:[
+      ["Uova (1 ≈ 55 g)",165,"3 uova"],
+      ["Pane",80,"3 fette di pane"],
+      ["Olio d'oliva",5,"mezzo cucchiaio d'olio"],
+      ["Succo d'arancia",200,"un bicchiere di succo"],
+      ["Mandorle",15,"un pugno di mandorle"]
+    ]},
+    { letter:"C", name:"Yogurt, avena e cioccolato", items:[
+      ["Yogurt greco 0%",200,"un vasetto di yogurt greco"],
+      ["Avena",50,"3 cucchiai colmi di avena"],
+      ["Banana",120,"una banana"],
+      ["Cioccolato fondente",15,"2-3 quadretti di fondente"],
+      ["Mandorle",15,"un pugno di mandorle"],
       ["Miele",10,"mezzo cucchiaio di miele"]
     ]},
-    { letter:"D", name:"Yogurt e mandorle", items:[
-      ["Yogurt proteico",150,"un vasetto di yogurt proteico"],
-      ["Mandorle",20,"un pugno di mandorle"]
-    ]},
-    { letter:"E", name:"Frutta e grana", items:[
-      ["Banana",120,"una banana"],
-      ["Grana / parmigiano",40,"una fetta spessa di grana"],
-      ["Pane",50,"2 fette di pane"]
+    { letter:"D", name:"Colazione salata", items:[
+      ["Pancarré",80,"4 fette di pancarré"],
+      ["Prosciutto cotto",80,"due fette e mezza di prosciutto cotto"],
+      ["Sottiletta",40,"2 sottilette"],
+      ["Succo d'arancia",200,"un bicchiere di succo"],
+      ["Mandorle",15,"un pugno di mandorle"]
     ]}
   ]},
-  { meal:"Cena", key:"cena", time:"20:00", combos:[
-    { letter:"A", name:"Salmone e patate", items:[
-      ["Salmone",150,"un trancio di salmone"],
-      ["Patate",300,"2 patate medie"],
-      ["Verza",200,"un piatto di verza"],
-      ["Olio d'oliva",20,"2 cucchiai d'olio"],
-      ["Pane",30,"una fetta di pane"]
+
+  { meal:"Pranzo", key:"pranzo", time:"12:30", combos:[
+    { letter:"A", name:"Mensa: carne e patate", items:[
+      ["Pasta cruda",80,"un piatto di pasta"],
+      ["Spezzatino di manzo",120,"un mestolo di spezzatino o goulash"],
+      ["Patate",150,"una patata e mezza al forno"],
+      ["Insalata",100,"una ciotola di insalata"],
+      ["Olio d'oliva",10,"un cucchiaio d'olio"],
+      ["Pane",30,"una fetta di pane"],
+      ["Grana / parmigiano",10,"una spolverata di grana"]
     ]},
-    { letter:"B", name:"Uova e pasta", items:[
-      ["Uova (1 ≈ 55 g)",165,"3 uova"],
-      ["Pasta cruda",110,"un piatto fondo di pasta"],
-      ["Grana / parmigiano",25,"una fetta di grana"],
-      ["Zucchine",200,"una porzione di zucchine"],
-      ["Olio d'oliva",15,"un cucchiaio e mezzo d'olio"]
-    ]},
-    { letter:"C", name:"Pizza e insalata", items:[
-      ["Pizza margherita",350,"una margherita intera"],
+    { letter:"B", name:"Mensa: frittata e verdure", items:[
+      ["Pasta cruda",80,"un piatto di pasta"],
+      ["Frittata (da mensa)",180,"un pezzo di frittata"],
       ["Insalata",150,"una ciotola di insalata"],
-      ["Grana / parmigiano",20,"una fetta di grana"]
+      ["Olio d'oliva",10,"un cucchiaio d'olio"],
+      ["Pane",30,"una fetta di pane"],
+      ["Grana / parmigiano",10,"una spolverata di grana"]
     ]},
-    { letter:"D", name:"Pollo e riso", items:[
+    { letter:"C", name:"Mensa: pesce e ceci", items:[
+      ["Pasta cruda",80,"un piatto di pasta"],
+      ["Merluzzo / platessa",150,"un filetto di merluzzo o orata"],
+      ["Ceci cotti",100,"un mestolo di ceci in insalata"],
+      ["Insalata",100,"una ciotola di insalata"],
+      ["Olio d'oliva",10,"un cucchiaio d'olio"],
+      ["Pane",30,"una fetta di pane"],
+      ["Grana / parmigiano",10,"una spolverata di grana"]
+    ]},
+    { letter:"D", name:"Riso, tonno e ceci", items:[
+      ["Riso crudo",100,"un piatto di riso"],
+      ["Tonno sgocciolato",80,"una scatoletta di tonno"],
+      ["Ceci cotti",150,"due mestoli di ceci"],
+      ["Pomodorini aglio, olio e peperoncino",200,"pomodorini saltati"],
+      ["Olio d'oliva",10,"un cucchiaio d'olio"]
+    ]},
+    { letter:"E", name:"Pasta, verdure e tonno", items:[
+      ["Pasta cruda",110,"un piatto di pasta"],
+      ["Broccoli",250,"un piatto di broccoli"],
+      ["Tonno sgocciolato",80,"una scatoletta di tonno"],
+      ["Olio d'oliva",12,"un cucchiaio d'olio"]
+    ]},
+    { letter:"F", name:"Riso venere, ceci e salmone", items:[
+      ["Riso venere",90,"un piatto di riso venere"],
+      ["Ceci cotti",100,"un mestolo di ceci"],
+      ["Salmone affumicato",100,"5-6 fette di salmone affumicato"],
+      ["Zucchine",200,"una porzione di zucchine"],
+      ["Olio d'oliva",10,"un cucchiaio d'olio"]
+    ]},
+    { letter:"G", name:"Merluzzo e patate", items:[
+      ["Merluzzo / platessa",250,"2 filetti di merluzzo"],
+      ["Patate",300,"2 patate al forno"],
+      ["Insalata",150,"una ciotola di insalata"],
+      ["Olio d'oliva",10,"un cucchiaio d'olio"],
+      ["Pane",50,"2 fette di pane"]
+    ]},
+    { letter:"H", name:"Pane, affettato e formaggio", items:[
+      ["Pane",120,"5 fette di pane"],
+      ["Prosciutto crudo",80,"4 fette di crudo"],
+      ["Mozzarella",80,"mezza mozzarella"],
+      ["Pomodori",200,"2 pomodori"],
+      ["Olio d'oliva",10,"un cucchiaio d'olio"]
+    ]},
+    { letter:"I", name:"Panino con pollo", items:[
+      ["Pane",100,"4 fette di pane"],
+      ["Petto di pollo",150,"un palmo di pollo"],
+      ["Insalata",100,"una ciotola di insalata"],
+      ["Pomodori",150,"un pomodoro e mezzo"],
+      ["Mozzarella",50,"un quarto di mozzarella"],
+      ["Olio d'oliva",10,"un cucchiaio d'olio"]
+    ]}
+  ]},
+
+  { meal:"Spuntino", key:"spuntino", time:"16:30", combos:[
+    { letter:"A", name:"Toast cotto e sottiletta", items:[
+      ["Pancarré",80,"4 fette di pancarré"],
+      ["Prosciutto cotto",50,"2 fette di prosciutto cotto"],
+      ["Sottiletta",40,"2 sottilette"]
+    ]},
+    { letter:"B", name:"Yogurt e mandorle", items:[
+      ["Yogurt greco 0%",200,"un vasetto di yogurt greco"],
+      ["Mandorle",20,"un pugno di mandorle"]
+    ]},
+    { letter:"C", name:"Carote e hummus", items:[
+      ["Carote",200,"due carote e mezza"],
+      ["Hummus",100,"due cucchiai colmi di hummus"]
+    ]},
+    { letter:"D", name:"Uova sode e pane", items:[
+      ["Uova (1 ≈ 55 g)",110,"2 uova sode"],
+      ["Pane",60,"3 fette di pane"],
+      ["Pomodori",150,"un pomodoro e mezzo"]
+    ]}
+  ]},
+  
+{ meal:"Cena", key:"cena", time:"20:00", combos:[
+    { letter:"A", name:"Pollo al forno con verdure e patate", items:[
+      ["Petto di pollo",200,"un palmo abbondante di pollo"],
+      ["Patate",250,"2 patate al forno"],
+      ["Broccoli",250,"un piatto di broccoli, spinaci o fagiolini"],
+      ["Olio d'oliva",15,"un cucchiaio e mezzo d'olio"],
+      ["Pane",40,"una fetta di pane"]
+    ]},
+    { letter:"B", name:"Merluzzo, ceci e fagiolini", items:[
+      ["Merluzzo / platessa",250,"2 filetti di merluzzo"],
+      ["Ceci cotti",200,"due mestoli di ceci"],
+      ["Fagiolini",150,"un piatto di fagiolini"],
+      ["Olio d'oliva",15,"un cucchiaio e mezzo d'olio"],
+      ["Pane",50,"2 fette di pane"]
+    ]},
+    { letter:"C", name:"Polpette al sugo e patate", items:[
+      ["Macinato magro",200,"4 polpette fatte in casa"],
+      ["Pomodori",300,"mezzo barattolo di passata"],
+      ["Patate",300,"2 patate medie"],
+      ["Olio d'oliva",15,"un cucchiaio e mezzo d'olio"],
+      ["Pane",40,"una fetta di pane"]
+    ]},
+    { letter:"D", name:"Frittata di pasta e verdure", items:[
+      ["Pasta cruda",90,"un piatto di pasta"],
+      ["Uova (1 ≈ 55 g)",165,"3 uova"],
+      ["Mozzarella",80,"mezza mozzarella"],
+      ["Zucchine",200,"una porzione di zucchine"],
+      ["Olio d'oliva",10,"un cucchiaio d'olio"]
+    ]},
+    { letter:"E", name:"Pollo allo zenzero con riso", items:[
       ["Petto di pollo",200,"un palmo abbondante di pollo"],
       ["Riso crudo",90,"un piatto di riso"],
-      ["Broccoli",250,"un piatto di broccoli"],
-      ["Olio d'oliva",15,"un cucchiaio e mezzo d'olio"],
-      ["Pane",40,"una fetta di pane"]
+      ["Broccoli",200,"un piatto di broccoli"],
+      ["Zenzero fresco",15,"un pezzetto di zenzero"],
+      ["Salsa di soia",20,"un cucchiaio di soia"],
+      ["Sesamo",10,"un cucchiaio di sesamo"],
+      ["Olio d'oliva",10,"un cucchiaio d'olio"]
     ]},
-    { letter:"E", name:"Merluzzo e verdure", items:[
-      ["Merluzzo / platessa",250,"2 filetti di merluzzo"],
-      ["Patate",300,"2 patate medie"],
-      ["Fagiolini",200,"un piatto di fagiolini"],
-      ["Olio d'oliva",20,"2 cucchiai d'olio"],
+    { letter:"F", name:"Risotto e seitan", items:[
+      ["Risotto alle verdure",300,"un piatto di risotto"],
+      ["Seitan",180,"due fette spesse di seitan"],
+      ["Insalata",100,"una ciotola di insalata"],
+      ["Olio d'oliva",10,"un cucchiaio d'olio"]
+    ]},
+    { letter:"G", name:"Orata al forno con patate", items:[
+      ["Orata / branzino",200,"un'orata"],
+      ["Patate",300,"2 patate al forno"],
+      ["Insalata",100,"una ciotola di insalata"],
+      ["Olio d'oliva",15,"un cucchiaio e mezzo d'olio"],
       ["Pane",50,"2 fette di pane"]
     ]},
-    { letter:"F", name:"Polpette e patate", items:[
-      ["Polpette di carne",200,"3 polpette"],
-      ["Patate",250,"2 patate medie"],
+    { letter:"H", name:"Bistecca, fagioli e insalata", items:[
+      ["Bistecca di manzo",180,"una bistecca"],
+      ["Fagioli in scatola",200,"due mestoli di fagioli"],
       ["Insalata",150,"una ciotola di insalata"],
       ["Olio d'oliva",15,"un cucchiaio e mezzo d'olio"],
-      ["Pane",40,"una fetta di pane"]
-    ]},
-    { letter:"G", name:"Pasta e vongole", items:[
-      ["Pasta cruda",100,"un piatto fondo di pasta"],
-      ["Vongole",200,"una porzione di vongole"],
-      ["Pomodorini aglio, olio e peperoncino",200,"pomodorini saltati"],
-      ["Olio d'oliva",20,"2 cucchiai d'olio"],
       ["Pane",50,"2 fette di pane"]
     ]},
-    { letter:"H", name:"Frittata e patate", items:[
-      ["Frittata (da mensa)",150,"un pezzo di frittata"],
-      ["Patate",250,"2 patate medie"],
-      ["Pomodori",200,"2 pomodori"],
-      ["Olio d'oliva",10,"1 cucchiaio d'olio"],
-      ["Pane",50,"2 fette di pane"],
-      ["Grana / parmigiano",20,"una fetta di grana"]
-    ]},
-    { letter:"I", name:"Tagliere", items:[
-      ["Bresaola",80,"5 fette di bresaola"],
-      ["Mozzarella",80,"mezzo panetto di mozzarella"],
-      ["Pane",100,"4 fette di pane"],
-      ["Pomodori",200,"2 pomodori"],
-      ["Olio d'oliva",15,"un cucchiaio e mezzo d'olio"],
-      ["Grana / parmigiano",20,"una fetta di grana"]
+    { letter:"I", name:"Cotoletta alla milanese e insalata", items:[
+      ["Vitello",150,"una fettina di vitello"],
+      ["Pane grattugiato",30,"due cucchiai di pane grattugiato"],
+      ["Uova (1 ≈ 55 g)",55,"un uovo"],
+      ["Insalata",200,"una ciotola abbondante di insalata"],
+      ["Olio d'oliva",20,"due cucchiai d'olio per la padella"],
+      ["Pane",60,"3 fette di pane"]
     ]}
   ]}
 ];
-
 /* gli spunti: quello che aggiungi quando manca poco, e le eccezioni da vedere */
 const DIET_EXTRAS = [
   { id:"yogurt",   grp:"poco",      n:"Yogurt greco 0%", g:200, t:"200 g di yogurt greco" },
-  { id:"grana",    grp:"poco",      n:"Grana / parmigiano", g:30, t:"30 g di grana" },
-  { id:"bresaola", grp:"poco",      n:"Bresaola", g:50, t:"50 g di bresaola" },
   { id:"pane",     grp:"poco",      n:"Pane", g:50, t:"2 fette di pane" },
   { id:"mandorle", grp:"poco",      n:"Mandorle", g:15, t:"un pugno di mandorle" },
   { id:"whey",     grp:"poco",      n:"Proteine in polvere", g:30, t:"30 g di proteine in polvere" },
@@ -2721,7 +2771,9 @@ const DIET_EXTRAS = [
   { id:"spritz",   grp:"eccezioni", n:"Spritz / cocktail", g:200, t:"uno spritz" },
   { id:"coca",     grp:"eccezioni", n:"Coca-Cola", g:330, t:"una coca-cola" },
   { id:"cornetto", grp:"eccezioni", n:"Cornetto (crema o nutella)", g:55, t:"un cornetto" },
-  { id:"gelato",   grp:"eccezioni", n:"Gelato", g:100, t:"2 palline di gelato" }
+  { id:"gelato",   grp:"eccezioni", n:"Gelato", g:100, t:"2 palline di gelato" },
+  { id:"burger",   grp:"eccezioni", n:"Hamburger (panino)", g:200, t:"un hamburger" },
+  { id:"patatine", grp:"eccezioni", n:"Patatine fritte", g:150, t:"una porzione di patatine" }
 ];
 const EXTRA_GROUPS = [
   { key:"poco", label:"Se manca poco" },
@@ -2738,11 +2790,17 @@ const extraVal = e => foodVal(e.n, e.g);
 
 function dietPick(){
   if(!state.diet || !state.diet.pick) state.diet = { pick:{}, extras:[], target:2600 };
+  /* una tantum: la scelta singola diventa una lista, e si riparte da zero */
+  if(state.diet.multi !== 2){
+    state.diet.pick = {};
+    state.diet.multi = 2;
+    save();
+  }
   const pick = state.diet.pick;
   DIET.forEach(m => {
-    const i = pick[m.key];
-    if(i === -1) return;
-    if(!(i >= 0 && i < m.combos.length)) pick[m.key] = 0;
+    const idx = Array.isArray(pick[m.key]) ? pick[m.key]
+      : (typeof pick[m.key] === 'number' && pick[m.key] >= 0 ? [pick[m.key]] : []);
+    pick[m.key] = idx.filter(i => i >= 0 && i < m.combos.length);
   });
   return pick;
 }
@@ -2758,9 +2816,11 @@ function dietDay(){
   const pick = dietPick();
   let p = 0, k = 0;
   DIET.forEach(m => {
-    const c = m.combos[pick[m.key]];
-    if(!c) return;
-    const v = comboVal(c); p += v.p; k += v.k;
+    (pick[m.key] || []).forEach(i => {
+      const c = m.combos[i];
+      if(!c) return;
+      const v = comboVal(c); p += v.p; k += v.k;
+    });
   });
   dietExtras().forEach(e => { const v = extraVal(e); p += v.p; k += v.k; });
   return { p: Math.round(p), k: Math.round(k) };
@@ -2787,17 +2847,21 @@ function dietAdvice(d){
     return `Sei <b>${fmtK(-gk)} kcal</b> sopra il bersaglio${gp < -10 ? ' e anche le proteine sono sopra' : ''}: salta lo spuntino, e se non basta metà del primo.`;
   if(gk <= 150 && Math.abs(gp) <= 12)
     return `Giornata chiusa: <b>${fmtK(d.k)} kcal</b> e <b>${d.p} g</b> di proteine. Così va bene.`;
+  if(gk <= 0 && gp > 12)
+    return `Le calorie sono a posto (<b>${fmtK(d.k)}</b>): mancano <b>${gp} g</b> di proteine. ${fillProtein(gp)}`;
+  if(gk <= 0)
+    return `Ci sei: <b>${fmtK(d.k)} kcal</b> e <b>${d.p} g</b> di proteine${gp < -12 ? ', proteine sopra il bersaglio: meglio così che sotto' : ''}. Non aggiungere altro.`;
   return fillLead(gk, gp) + fillSentence(gk, gp, d.k, d.p, T);
 }
 
 /* ---------- come completare la giornata ---------- */
 const FILL_MEALS = [
   { t:"pasta col tonno", items:[["Pasta cruda",150],["Tonno sgocciolato",120],["Olio d'oliva",10]] },
-  { t:"pasta al ragù", items:[["Pasta cruda",150],["Macinato magro",150],["Olio d'oliva",10]] },
+  { t:"pasta e ceci", items:[["Pasta cruda",120],["Ceci cotti",200],["Olio d'oliva",10]] },
   { t:"riso col pollo", items:[["Riso crudo",170],["Petto di pollo",200],["Olio d'oliva",10]] },
   { t:"uova e patate", items:[["Patate",300],["Uova (1 ≈ 55 g)",165],["Olio d'oliva",10]] },
   { t:"pizza al trancio", items:[["Pizza margherita",300],["Mandorle",20]] },
-  { t:"piadina col tonno", items:[["Piadina",100],["Tonno sgocciolato",120],["Mandorle",15]] },
+  { t:"pane e tonno", items:[["Pane",100],["Tonno sgocciolato",80],["Mandorle",15]] },
   { t:"lenticchie e pane", items:[["Lenticchie cotte",300],["Pane",100],["Olio d'oliva",10]] },
   { t:"merluzzo e patate", items:[["Merluzzo / platessa",200],["Patate",350],["Pane",80]] }
 ];
@@ -2806,13 +2870,13 @@ const FILL_SNACKS = [
   { t:"latte e mandorle", items:[["Latte",300],["Mandorle",30]] },
   { t:"banana e pane", items:[["Banana",120],["Pane",80]] },
   { t:"due uova sode", items:[["Uova (1 ≈ 55 g)",110],["Pane",60]] },
-  { t:"piadina e bresaola", items:[["Piadina",100],["Bresaola",80]] },
+  { t:"pane e cotto", items:[["Pane",100],["Prosciutto cotto",80]] },
   { t:"tonno e pane", items:[["Tonno sgocciolato",80],["Pane",80]] }
 ];
 const FILL_PROT = [
   { t:"una scatoletta di tonno", items:[["Tonno sgocciolato",80]] },
   { t:"due uova", items:[["Uova (1 ≈ 55 g)",110]] },
-  { t:"la bresaola", items:[["Bresaola",100]] },
+  { t:"lo yogurt greco", items:[["Yogurt greco 0%",200]] },
   { t:"il pollo", items:[["Petto di pollo",150]] }
 ];
 const FILL_NAME = {
@@ -2860,6 +2924,15 @@ function fillSentence(gk, gp, curK, curP, T){
       : (left > 250 ? ` Restano <b>${fmtK(left)} kcal</b>: chiudile con uno spuntino più tardi.` : ''));
 }
 
+/* calorie a posto, proteine no */
+function fillProtein(gp){
+  const best = FILL_PROT
+    .map(b => ({ b, v: fillSum(b.items) }))
+    .sort((a, b) => Math.abs(a.v.p - gp) - Math.abs(b.v.p - gp))[0];
+  if(!best) return '';
+  return `<b>${fillList(best.b.items)}</b>: ${Math.round(best.v.p)} g di proteine e ${fmtK(best.v.k)} kcal.`;
+}
+
 /* cosa manca, detto una volta sola */
 function fillLead(gk, gp){
   const parts = [];
@@ -2873,15 +2946,22 @@ function paintDiet(){
   const T = dietTarget();
   const pick = dietPick();
   dietEl.querySelectorAll('.card').forEach(b => {
-    b.setAttribute('aria-pressed', String(+b.dataset.i === pick[b.dataset.meal]));
+    const arr = pick[b.dataset.meal] || [];
+    b.setAttribute('aria-pressed', String(arr.indexOf(+b.dataset.i) >= 0));
   });
   DIET.forEach(m => {
-    const c = m.combos[pick[m.key]];
+    const arr = pick[m.key] || [];
     const el = dietEl.querySelector(`.msum[data-sum="${m.key}"]`);
     if(!el) return;
-    if(!c){ el.innerHTML = 'vuoto'; return; }
-    const v = comboVal(c);
-    el.innerHTML = `${fmtK(v.k)} kcal · <b>${Math.round(v.p)} g</b>`;
+    if(!arr.length){ el.innerHTML = 'vuoto'; return; }
+    const tot = arr.reduce((t, i) => {
+      const c = m.combos[i];
+      if(!c) return t;
+      const v = comboVal(c);
+      t.k += v.k; t.p += v.p; return t;
+    }, { p:0, k:0 });
+    el.innerHTML = `${fmtK(tot.k)} kcal · <b>${Math.round(tot.p)} g</b>`
+      + (arr.length > 1 ? ` <em>×${arr.length}</em>` : '');
   });
   extrasEl.querySelectorAll('.extra').forEach(b => {
     b.setAttribute('aria-pressed', String(state.diet.extras.indexOf(b.dataset.extra) >= 0));
@@ -2905,6 +2985,80 @@ function paintDiet(){
   laser.classList.toggle('over', d.p > T.p + 10);
   document.getElementById('dietHint').innerHTML = dietAdvice(d);
   document.getElementById('dLeft').innerHTML = dietLeft(d);
+  paintSpesa();
+}
+
+/* ---------- la spesa: somma gli ingredienti dei pasti scelti ---------- */
+const SPESA_ALIAS = { "Pomodorini aglio, olio e peperoncino":"pomodorini" };
+const spesaName = n => SPESA_ALIAS[n] || (FILL_NAME[n] || String(n).split('(')[0].split('/')[0].trim()).toLowerCase();
+const SPESA_ORDER = ["Carne","Pesce","Uova e latticini","Legumi e soia","Verdura e frutta","Carboidrati",
+  "Frutta secca e grassi","Piatti pronti","Dolci","Bevande","Altro"];
+
+function measText(measure, g){
+  const m = /^([\d.,]+)\s+(.+?)\s*≈\s*(\d+)\s*(?:g|ml)/.exec(measure || '');
+  if(!m) return '';
+  const q = parseFloat(m[1].replace(',', '.'));
+  const base = parseInt(m[3], 10);
+  if(!(q >= 2) || !base) return '';
+  const n = q * g / base;
+  if(n < 2) return '';
+  const r = String(Math.round(n));
+  return '≈ ' + r + ' ' + m[2];
+}
+
+function spesaGroups(){
+  const pick = dietPick();
+  const acc = [];
+  const add = (n, g) => {
+    const at = acc.find(x => x.n === n);
+    if(at) at.g += g; else acc.push({ n, g });
+  };
+  DIET.forEach(m => {
+    (pick[m.key] || []).forEach(i => {
+      const c = m.combos[i];
+      if(c) c.items.forEach(it => add(it[0], it[1]));
+    });
+  });
+  dietExtras().forEach(e => add(e.n, e.g));
+  const groups = [];
+  acc.forEach(it => {
+    const f = fByName(it.n);
+    if(!f) return;
+    const cat = f[4] || 'Altro';
+    let g = groups.find(x => x.cat === cat);
+    if(!g) groups.push(g = { cat, items: [] });
+    g.items.push({ n: it.n, g: it.g, measure: f[3] });
+  });
+  const days = state.diet.days === 2 ? 2 : 1;
+  groups.forEach(g => {
+    g.items.forEach(it => { it.g *= days; });
+    g.items.sort((a, b) => b.g - a.g);
+  });
+  groups.sort((a, b) => {
+    const ia = SPESA_ORDER.indexOf(a.cat), ib = SPESA_ORDER.indexOf(b.cat);
+    return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+  });
+  return groups;
+}
+
+function paintSpesa(){
+  const list = document.getElementById('spesaList');
+  const note = document.getElementById('spesaNote');
+  if(!list || !note) return;
+  const groups = spesaGroups();
+  const n = groups.reduce((t, g) => t + g.items.length, 0);
+  note.textContent = n ? n + (n === 1 ? ' cosa' : ' cose') : 'niente selezionato';
+  const daysEl = document.getElementById('spesaDays');
+  if(daysEl) [...daysEl.querySelectorAll('button')].forEach(b =>
+    b.setAttribute('aria-pressed', String(+b.dataset.days === (state.diet.days === 2 ? 2 : 1))));
+  list.innerHTML = n ? groups.map(g => `<div class="sgroup">
+      <span class="scat">${g.cat}</span>
+      <p class="sitems">${g.items.map(it => {
+        const mt = measText(it.measure, it.g);
+        return `<b>${spesaName(it.n)}</b> ${it.g} g${mt ? ' <em>' + mt + '</em>' : ''}`;
+      }).join(' · ')}</p>
+    </div>`).join('')
+    : `<p class="sitems">Scegli i pasti qui sopra: la lista si somma da sola.</p>`;
 }
 
 function renderDiet(){
@@ -2939,7 +3093,9 @@ function renderDiet(){
 
   dietEl.querySelectorAll('.card').forEach(b => b.addEventListener('click', () => {
     const m = b.dataset.meal, i = +b.dataset.i;
-    state.diet.pick[m] = state.diet.pick[m] === i ? -1 : i;
+    const arr = Array.isArray(state.diet.pick[m]) ? state.diet.pick[m] : (state.diet.pick[m] = []);
+    const at = arr.indexOf(i);
+    if(at >= 0) arr.splice(at, 1); else arr.push(i);
     save(); paintDiet();
   }));
   extrasEl.querySelectorAll('.extra').forEach(b => b.addEventListener('click', () => {
@@ -2957,8 +3113,13 @@ document.querySelectorAll('#tgt button').forEach(b => b.addEventListener('click'
   save(); paintDiet(); updateCalcTotal();
 }));
 
+document.querySelectorAll('#spesaDays button').forEach(b => b.addEventListener('click', () => {
+  state.diet.days = +b.dataset.days;
+  save(); paintDiet();
+}));
+
 document.getElementById('dietClear').addEventListener('click', () => {
-  DIET.forEach(m => { state.diet.pick[m.key] = -1; });
+  DIET.forEach(m => { state.diet.pick[m.key] = []; });
   state.diet.extras = [];
   save(); paintDiet();
 });
@@ -2967,8 +3128,10 @@ document.getElementById('dietToOggi').addEventListener('click', () => {
   const pick = dietPick();
   const rows = [];
   DIET.forEach(m => {
-    const c = m.combos[pick[m.key]];
-    if(c) c.items.forEach(it => rows.push({ n:it[0], g:String(it[1]) }));
+    (pick[m.key] || []).forEach(i => {
+      const c = m.combos[i];
+      if(c) c.items.forEach(it => rows.push({ n:it[0], g:String(it[1]) }));
+    });
   });
   dietExtras().forEach(e => rows.push({ n:e.n, g:String(e.g) }));
   state.calc = rows.length ? rows : [{ n:"", g:"" }];
@@ -3183,6 +3346,10 @@ function updateCalcTotal(){
     hint = `Sei <b>${fmtK(-gk)} kcal</b> sopra il bersaglio${gp < -10 ? ' e anche le proteine sono sopra' : ''}: salta lo spuntino, e se non basta metà del primo.`;
   else if(gk <= 150 && Math.abs(gp) <= 12)
     hint = `I conti tornano: <b>${fmtK(kTot)} kcal</b> e <b>${t} g</b> di proteine. Non aggiungere altro.`;
+  else if(gk <= 0 && gp > 12)
+    hint = `Le calorie sono a posto (<b>${fmtK(kTot)}</b>): mancano <b>${gp} g</b> di proteine. ${fillProtein(gp)}`;
+  else if(gk <= 0)
+    hint = `Ci sei: <b>${fmtK(kTot)} kcal</b> e <b>${t} g</b> di proteine${gp < -12 ? ', proteine sopra il bersaglio: meglio così che sotto' : ''}. Non aggiungere altro.`;
   else hint = fillLead(gk, gp) + fillSentence(gk, gp, kTot, t, T);
   document.getElementById('calcHint').innerHTML = hint;
 }
