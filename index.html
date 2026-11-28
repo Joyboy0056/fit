@@ -1707,7 +1707,20 @@ const DATA = {
       prog:"7,5 kg per 20 ripetizioni.",
       regr:"Un manubrio da 2 kg, un braccio per volta."
     },
-    { id:"laterali", nome:"Alzate laterali",
+    
+      { id:"kbpress", nome:"Kettlebell overhead press",
+      what:"Kettlebell in una mano, la spingi sopra la testa fino a braccio disteso, poi scendi controllato. Un braccio per volta: ogni serie è per singolo braccio (1 braccio).",
+      m:"deltoide anteriore · tricipite · core anti-rotazione", grp:"spalle",
+      steps:[
+        "Kettlebell in una mano (8 kg), pugno che avvolge la maniglia, polso neutro: la palla finisce dietro il polso.",
+        "Gomito a 90°, avambraccio verticale, spalla scesa (non verso l'orecchio). Stringi il gluteo per non inarcare la schiena.",
+        "Spingi sopra la testa fino a braccio disteso, senza toccare la testa, senza iperestendere il gomito.",
+        "Scendi controllato in 2-3 secondi. Una serie per singolo braccio; cambia braccio. Busto fermo, niente dondolio."
+      ],
+      err:["Inarcare la schiena per alzare più peso.","Spalla alle orecchie.","Spingere con lo slancio del busto.","Gomito iperesteso in cima."],
+      var:["Con 4 kg o elastico se 8 kg è troppo.","Semplice con manubrio, ma la kettlebell richiede più controllo del polso."],
+      minVer:true },
+      { id:"laterali", nome:"Alzate laterali",
       what:"Braccia tese che salgono di lato fino all'altezza delle spalle, gomiti appena piegati.", m:"deltoide laterale", grp:"spalle",
       steps:[
         "Kettlebell da 4 kg in una mano (o due manubri), gomito leggermente piegato, busto fermo.",
@@ -2298,6 +2311,7 @@ const DATA = {
         { id:"laterali", s:"3", r:"15-20", kg:"4+4 kg", rec:"in superserie" },
         { id:"alzatepost", s:"3", r:"15", kg:"4+4 kg", rec:"60 s" },
         { id:"facepull", s:"3", r:"15", kg:"elastico corto", rec:"45 s", minVer:true },
+        { id:"kbpress", s:"3", r:"10-12", kg:"8 kg", rec:"60 s", minVer:true, perBraccio:true },
         { id:"hollow", s:"2", r:"20-30 s", kg:"corpo", rec:"45 s", minVer:true }
       ]},
     { key:"D", nome:"Solo corpo, in giro", focus:"petto · gambe · addome · solo corpo, niente attrezzi",
@@ -2670,7 +2684,7 @@ function renderSession(){
             <button class="name" aria-expanded="false" data-target="d-${s.key}-${m.id}">
               <span class="txt">${ex.nome}${m.minVer ? '<span class="min-flag">minimo</span>' : ''}${m.opt ? '<span class="opt-flag">facoltativo</span>' : ''}</span><span class="arw" aria-hidden="true">›</span>
             </button>
-            <span class="presc"><b>${m.s}×${m.r}</b><span class="load">${m.kg}</span></span>
+            <span class="presc"><b>${m.s}×${m.r}</b><span class="load">${m.kg}${m.perBraccio ? " · 1 braccio" : ""}</span></span>
             <span class="rec">${m.rec}</span>
             <span class="muscle">${ex.m}<button class="rowplay" data-speak="${m.id}" aria-pressed="false" aria-label="Ascolta ${esc(ex.nome)}" title="Ascolta"><span class="gl" aria-hidden="true">▷</span></button></span>
             <div class="detail" id="d-${s.key}-${m.id}">${detailHTML(ex, true)}</div>
@@ -4920,7 +4934,7 @@ function renderDiary(){
     const hint = hintFor(m, last);
     return `<div class="drow" data-ex="${m.id}">
       <span class="idx">${String(i+1).padStart(2,'0')}</span>
-      <span class="dn">${ex.nome}${m.opt ? ' · facoltativo' : ''}<small>${m.s}×${m.r}${m.kg ? ' · ' + m.kg : ''}</small>${hint ? `<em>${hint}</em>` : ''}</span>
+      <span class="dn">${ex.nome}${m.opt ? ' · facoltativo' : ''}<small>${m.s}×${m.r}${m.kg ? ' · ' + m.kg : ''}${m.perBraccio ? ' · 1 braccio' : ''}</small>${hint ? `<em>${hint}</em>` : ''}</span>
       <span class="dlast">${lastTxt}${last ? `<button type="button" class="x dx" data-ex="${m.id}" aria-label="Rimuovi ultimo registro ${ex.nome}">×</button>` : ''}</span>
       <span class="din"><input class="dkg" inputmode="decimal" placeholder="kg" aria-label="carico ${ex.nome}"><input class="drp" inputmode="numeric" placeholder="rip" aria-label="ripetizioni ${ex.nome}"><button type="button" class="dok" aria-label="salva ${ex.nome}">ok</button></span>
     </div>`;
