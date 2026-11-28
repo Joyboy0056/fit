@@ -1178,7 +1178,7 @@ h2{color:var(--pal-orange)}
 
     <div class="warm">
       <div class="blockhead">
-        <h3>Riscaldamento</h3>
+        <h3>Heat up</h3>
         <span class="dur">5 min</span>
       </div>
       <p class="sub">Cinque esercizi, cinque minuti, sempre gli stessi. Non è allenamento: se ti stanca hai esagerato.
@@ -1190,7 +1190,7 @@ h2{color:var(--pal-orange)}
 
     <div class="mob">
       <div class="blockhead">
-        <h3>Mobilità</h3>
+        <h3>Mobility</h3>
         <span class="dur">8 min</span>
       </div>
       <p class="sub">In quest'ordine, senza forzare e senza rimbalzare. Tocca un esercizio per i passaggi, il <strong>▷</strong> per fartelo leggere.</p>
@@ -1204,7 +1204,7 @@ h2{color:var(--pal-orange)}
   </section>
 
   <section id="p-all" role="tabpanel" aria-labelledby="tab-all">
-    <h2>Tre sedute, più quella da viaggio</h2>
+    <h2>3-in-door sessions & 1-out-door sync</h2>
     <p class="sub">Full body, 2-3 volte a settimana, mai due giorni di fila.
     <em>4×8-10</em> sono quattro serie da 8-10 ripetizioni; <strong>10+10 kg</strong> è un manubrio per mano.
     La <strong>D</strong> è solo corpo libero.</p>
@@ -1215,7 +1215,7 @@ h2{color:var(--pal-orange)}
 
   
 <section id="p-ex" role="tabpanel" aria-labelledby="tab-ex" hidden>
-    <h2>Come si eseguono</h2>
+    <h2>How-to-do SPECs</h2>
     <p class="sub">Tecnica, errori da evitare, varianti facili e difficili. Tocca un esercizio per aprire la scheda,
     o il <strong>▷</strong> per ascoltarla: funziona anche senza connessione.</p>
     <div class="filters" id="filters" role="group" aria-label="Filtra per gruppo"></div>
@@ -1236,7 +1236,7 @@ h2{color:var(--pal-orange)}
   </section>
 
   <section id="p-food" role="tabpanel" aria-labelledby="tab-food" hidden>
-    <h2>Cibo</h2>
+    <h2>Ingestion</h2>
 
     <div class="seg" id="segFood" role="group" aria-label="Cosa vuoi fare">
       <button type="button" data-fv="traccia" aria-current="true">Baseline</button>
@@ -1302,13 +1302,13 @@ h2{color:var(--pal-orange)}
 
     <div class="fview" id="f-alimenti" hidden>
     <div class="viewhead">
-      <h3>Alimenti</h3>
+      <h3>Cookies</h3>
       <span class="viewacts">
-        <button class="ghost" id="calcGen" type="button">genera</button>
-        <button class="ghost" id="calcFill" type="button">completa</button>
+        <button class="ghost" id="calcGen" type="button">generate</button>
+        <button class="ghost" id="calcFill" type="button">complete</button>
       </span>
     </div>
-    <p class="calchint">genera rifà la giornata, completa riempie solo i pasti vuoti.</p>
+    <p class="calchint">`generete` rifà la giornata, `complete` riempie solo i pasti vuoti.</p>
     <div class="dcount" id="calcBar">
       <div class="dmnums">
         <span class="dmval"><b id="pTotal">0</b><i>/ 145 g</i></span>
@@ -1321,9 +1321,9 @@ h2{color:var(--pal-orange)}
     </div>
 
     <div class="calcacts">
-      <span class="actslbl">La giornata</span>
-      <button class="ghost" id="calcUndo" type="button" disabled>annulla</button>
-      <button class="ghost" id="calcClear" type="button" aria-label="Svuota la giornata">svuota</button>
+      <span class="actslbl">Daily</span>
+      <button class="ghost" id="calcUndo" type="button" disabled>undo</button>
+      <button class="ghost" id="calcClear" type="button" aria-label="Svuota la giornata">empty</button>
     </div>
 
     <div class="calc" id="calcRows"></div>
@@ -1349,7 +1349,7 @@ h2{color:var(--pal-orange)}
             <button type="button" class="ghost" data-fp="reset">ripristina</button>
           </span>
         </div>
-        <p class="fpnote">Genera e completa usano solo gli alimenti accesi.</p>
+        <p class="fpnote">`Generate` e `complete` usano solo gli alimenti (cookies) accesi.</p>
         <div id="foodPickList"></div>
       </div>
     </div>
@@ -1365,7 +1365,7 @@ h2{color:var(--pal-orange)}
 
     <div class="seg" id="segLogs" role="tablist" aria-label="Scegli il registro">
       <button type="button" role="tab" data-lp="workout" aria-selected="true" aria-current="true">Workout</button>
-      <button type="button" role="tab" data-lp="food" aria-selected="false" aria-current="false">Cibo</button>
+      <button type="button" role="tab" data-lp="food" aria-selected="false" aria-current="false">Feeding</button>
     </div>
 
     <div id="lp-workout" class="lp" role="tabpanel" aria-label="Registro allenamento">
@@ -1373,13 +1373,13 @@ h2{color:var(--pal-orange)}
       migliore di oggi: alla prossima sai da dove ripartire.</p>
 
       <div class="blockhead">
-        <h3>Registro dei carichi</h3>
+        <h3>Loads registry</h3>
       </div>
       <div class="seg" id="segDiary" role="group" aria-label="Scegli la seduta da annotare"></div>
       <div id="diary"></div>
 
       <div class="blockhead" style="margin-top:44px">
-        <h3>Check-in ogni due settimane</h3>
+        <h3>Check-in 2-weeks</h3>
       </div>
       <p class="sub">Peso e vita al mattino appena sveglio, pull e push come serie massima con tecnica pulita.
       Conta la tendenza, non il singolo giorno.</p>
@@ -1401,7 +1401,7 @@ h2{color:var(--pal-orange)}
           <label for="fPush">push max</label>
           <input id="fPush" name="push" type="number" step="1" inputmode="numeric" placeholder="push max">
         </div>
-        <button class="ghost" type="submit">Registra</button>
+        <button class="ghost" type="submit">SET</button>
       </form>
 
       <div class="verdict" id="verdict" hidden></div>
@@ -1411,7 +1411,7 @@ h2{color:var(--pal-orange)}
 
     <div id="lp-food" class="lp" role="tabpanel" aria-label="Registro cibo" hidden>
       <div class="blockhead">
-        <h3>Cibo salvato</h3>
+        <h3>Dumped feeds</h3>
       </div>
       <p class="sub">Da Routine, il pulsante <strong>dump</strong> sotto <strong>cena</strong> salva qui la giornata:
       kcal, proteine e righe. Una X rimuove un registro.</p>
